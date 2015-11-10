@@ -1,0 +1,25 @@
+<html>
+<head>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'PodCasts/podcast-style.css' %}" >
+<script type="text/javascript" src="{% static 'PodCasts/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'PodCasts/script.js' %}"></script>
+</head>
+<body>
+    <div class = "view-frame">
+        <div class="header">
+        {% include 'ClimbingApp/header.html' %}
+        </div>
+        <div class="content">
+          <div class="left-content">
+          {% block content %}
+          Missing Content
+          {% endblock %}
+          </div>
+          <div class="right-content">
+          {% include 'ClimbingApp/right-content.html' %}
+          </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 # Django settings for conf project.
+from secret_settings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
