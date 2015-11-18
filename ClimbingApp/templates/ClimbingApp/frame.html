@@ -1,25 +1,33 @@
+<!DOCTYPE html>
 <html>
 <head>
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'PodCasts/podcast-style.css' %}" >
-<script type="text/javascript" src="{% static 'PodCasts/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'PodCasts/script.js' %}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href='{% static 'css/bootstrap.min.css' %}' rel='stylesheet'>
+  <link href='{% static 'ClimbingApp/style.css' %}' rel='stylesheet'>
+  <script src='{% static 'jquery-1.11.3.min.js' %}'></script>
+  <script src='{% static 'js/bootstrap.min.js' %}'></script>
 </head>
 <body>
-    <div class = "view-frame">
-        <div class="header">
-        {% include 'ClimbingApp/header.html' %}
-        </div>
-        <div class="content">
-          <div class="left-content">
-          {% block content %}
-          Missing Content
-          {% endblock %}
-          </div>
-          <div class="right-content">
-          {% include 'ClimbingApp/right-content.html' %}
-          </div>
-        </div>
-    </div>
+<div class="container-fluid">
+  {% include 'ClimbingApp/header.html' %}
+  {% if gym or wall or route %}
+  {# Looking for some way to factor this out... #}
+  <ol class="breadcrumb">
+    {% if gym %}
+    <li><a href='{% url 'viewGym' gym.id %}'>{{gym}}</a></li>
+    {% endif %}
+    {% if wall %}
+    <li><a href='{% url 'viewWall' wall.id %}'>{{wall}}</a></li>
+    {% endif %}
+    {% if route %}
+    <li><a href='{% url 'viewRoute' route.id %}'>{{route}}</a></li>
+    {% endif %}
+  </ol>
+  {% endif %}
+  {% block content %}
+  Missing Content
+  {% endblock %}
+</div>
 </body>
 </html>

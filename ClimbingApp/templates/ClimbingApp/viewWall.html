@@ -2,5 +2,8 @@
 {% load staticfiles %}
 
 {% block content %}
-Content!!
+{% for route in routes %}
+<a href={% url 'viewRoute' route.id %}>{{route}}</a>
+{% endfor %}
+
 {% endblock %}
