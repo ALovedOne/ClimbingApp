@@ -1,0 +1,16 @@
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  <input 
+    type="text" 
+    class="form-control" 
+    name="{{ field.html_name }}" 
+    placeholder="{{ field.label }}" 
+    {% if field.value %}value="{{ field.value }}"{%endif%}
+  >
+ {% if field.errors %}
+   {% for error in field.errors %}
+     <div class="help-block">{{ error }}</div>
+   {% endfor %}
+ {% endif %}
+</div>
+
+{{ field.input_type }}

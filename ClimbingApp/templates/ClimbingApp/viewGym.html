@@ -3,7 +3,11 @@
 
 {% block content %}
 {% for wall in walls %}
+<div>
 <a href={% url 'viewWall' wall.id %}>{{wall.name}}</a>
+</div>
 {% endfor %}
-
+<div>
+<a class="btn btn-primary" href="{% url "addWall" gym.id %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add</a>
+</div>
 {% endblock %}

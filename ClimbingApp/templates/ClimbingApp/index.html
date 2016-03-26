@@ -2,5 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
-Content!!
+
+{% for gym in gyms %}
+<div>
+  <a href="{% url "viewGym" gym.id %}">{{ gym }}</a>
+</div>
+{% endfor %}
 {% endblock %}
