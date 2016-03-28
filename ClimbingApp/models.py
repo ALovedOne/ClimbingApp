@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.contrib.auth.models import User, Group, Permission
+
 # Create your models here.
 
 class Color(models.Model):
@@ -50,7 +52,7 @@ class Route(models.Model):
 
 class Ascent(models.Model):
   route = models.ForeignKey(Route)
-  # TODO User
+  user = models.ForeignKey(User)
   date  = models.DateField(auto_now_add = True)
   comments = models.TextField()
   outcome = models.ForeignKey(AscentOutcome)
