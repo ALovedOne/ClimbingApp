@@ -17,7 +17,7 @@ class Difficulty(models.Model):
   def __str__(self):
     return self.name
 
-class AscentOutcomes(models.Model):
+class AscentOutcome(models.Model):
   name = models.CharField(max_length = 32)
 
   def __str__(self):
@@ -33,7 +33,7 @@ class Gym(models.Model):
 
 class Wall(models.Model):
   name = models.CharField(max_length = 32)
-  gym  = models.ForeignKey(Gym)
+  gym  = models.ForeignKey(Gym, related_name="walls")
 
   def __str__(self):
     return self.name
@@ -48,12 +48,12 @@ class Route(models.Model):
   def __str__(self):
     return str(self.color)
 
-class Assent(models.Model):
+class Ascent(models.Model):
   route = models.ForeignKey(Route)
   # TODO User
   date  = models.DateField(auto_now_add = True)
   comments = models.TextField()
-
+  outcome = models.ForeignKey(AscentOutcome)
 
   def __str__(self):
     return "{0} - {1}".format(self.route, date)

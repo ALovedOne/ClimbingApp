@@ -1,15 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
 
-from rest_framework import generics
-
 from .models import *
-from .serializers import *
-
-class GymList(generics.ListCreateAPIView):
-  queryset = Gym.objects.all()
-  serializer_class = GymSerializer
-
 
 def home(request):
   gymObjects = Gym.objects.all()
