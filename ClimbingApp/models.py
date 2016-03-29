@@ -48,7 +48,7 @@ class Route(models.Model):
   removeDate = models.DateField()
 
   def __str__(self):
-    return str(self.color)
+    return "{} - {}".format(str(self.color) , str(self.difficulty))
 
 class Ascent(models.Model):
   route = models.ForeignKey(Route)

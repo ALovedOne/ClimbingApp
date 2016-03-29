@@ -123,8 +123,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'ClimbingApp',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'tastypie',
 )
 
 LOGIN_REDIRECT_URL = '/index'
@@ -157,11 +156,3 @@ LOGGING = {
         },
     }
 }
-
-REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework.authentication.TokenAuthentication',
-  )
-}
-
-APPEND_SLASH = False
