@@ -1,0 +1,16 @@
+<md-list>
+  <md-list-item ng-repeat="ascent in ascentList">
+    <img ng-src="/static/images/icon_20.png" class="md-avatar" alt="{{ ascent.asdf }}"></img>
+    <div class="md-list-item-text" layout="column">
+      {{ ascent.date }}<br/>
+      {{ ascent.userId }}<br/>
+      {{ ascent.comments }}<br/>
+    </div>
+  </md-list-item>
+</md-list>
+
+<div class="fixed-bottom-right">
+  <md-button class="md-fab md-mini" ng-click="addAscent($event)">
+    <md-icon md-icon-set="material-icons">add</md-icon>
+  </md-button>
+</div>

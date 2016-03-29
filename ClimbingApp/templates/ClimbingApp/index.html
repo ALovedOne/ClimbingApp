@@ -1,11 +1,16 @@
-{% extends "ClimbingApp/frame.html" %}
-{% load staticfiles %}
+<!doctype html>
+<html ng-app="ClimbingApp">
+<head>
+  {% load staticfiles %}
+  <script data-main="{% static 'ClimbingApp/javascript/main' %}" src="{% static 'bower_components/requirejs/require.js' %}"></script>
 
-{% block content %}
+  <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
+  <link rel="stylesheet" href="{% static 'ClimbingApp/main.css' %}" />
 
-{% for gym in gyms %}
-<div>
-  <a href="{% url "viewGym" gym.id %}">{{ gym }}</a>
-</div>
-{% endfor %}
-{% endblock %}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+</head>
+<body ui-view>
+</body>
+</html>

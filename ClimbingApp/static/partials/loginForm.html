@@ -1,0 +1,32 @@
+<md-dialog aria-label="Wall Form" ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Login</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <form layout="column" class="dialog-form">
+      <md-input-container>
+        <input type="text"     class="form-control" placeholder="Username"     ng-model="username"/>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="password" class="form-control" placeholder="Password"     ng-model="password"/>
+      </md-input-container>
+
+      <ng-messages for="errors" role="alert">
+        <ng-message when="invalid user">Invalid User</ng-message>
+      </ng-messages>
+    </form>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <md-button ng-click="acceptDialog($event)" class="md-button">
+      Login
+    </md-button>
+    <md-button ng-click="cancelDialog($event)" class="md-button">
+      Cancel
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

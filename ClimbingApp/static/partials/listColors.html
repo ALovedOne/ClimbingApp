@@ -1,0 +1,21 @@
+<div class="col s12 m6">
+  <div class="card" ng-repeat="obj in objList" ng-click="viewObj($event,obj)">
+    <div class="card-content">
+      <span class="card-title">{{ obj.name }}</span>
+      <p>
+        {{ obj.description }}
+      </p>
+    </div>
+    <div class="card-action">
+      <span>&nbsp;</span>
+      <span class="material-icons right" ng-click="editObj($event,obj)">mode_edit</span>
+      <span class="material-icons right" ng-click="deleteObj($event,obj)">delete</span>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px">
+  <a class="btn-floating btn-large waves-effect waves-light red" ng-click="addObj($event)">
+    <i class="material-icons">add</i>
+  </a>
+</div>

@@ -1,0 +1,34 @@
+<md-dialog aria-label="Ascent Form" ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Edit Ascent</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <form layout="column" class="dialog-form">
+      <!-- Comments -->
+      <md-input-container>
+        <label>Comments</label>
+        <textarea ng-model="ascent.comments" md-maxlength="300" rows="5"></textarea>
+      </md-input-container>
+      
+      <md-input-container>
+        <label>Climber</label>
+        <md-select ng-model="ascent.user" md-on-open="loadUsers()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="user" ng-repeat="user in users">
+            {{ user.username }}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </form>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <md-button ng-click="acceptDialog()" class="md-button">
+      Accept
+    </md-button>
+    <md-button ng-click="cancelDialog()" class="md-button">
+      Cancel
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

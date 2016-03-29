@@ -1,0 +1,49 @@
+<md-dialog aria-label="Route Form" ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Edit Route</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <form layout="column" class="dialog-form">
+      <md-input-container>
+        <label>Difficulty</label>
+        <md-select ng-model="route.difficulty" md-on-open="loadDifficulties()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="diff" ng-repeat="diff in difficulties">{{ diff.name }}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Color</label>
+        <md-select ng-model="route.color" md-on-open="loadColors()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="color" ng-repeat="color in colors">
+            <div class="colorOption" ng-init="colorStyle = { 'background-color': color.hexValue() }">
+              <div class="colorSplot" ng-style="colorStyle">
+              </div>
+              <div class="colorName">
+                {{ color.name }}
+              </div>
+            </div>
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <label>Set Date</label>
+      <md-datepicker ng-model="setDateObj" md-placeholder="Set date"></md-datepicker>
+
+      <label>Remove Date</label>
+      <md-datepicker ng-model="removeDateObj" md-placeholder="Remove date"></md-datepicker>
+
+    </form>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <md-button ng-click="acceptDialog()" class="md-button">
+      Accept
+    </md-button>
+    <md-button ng-click="cancelDialog()" class="md-button">
+      Cancel
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

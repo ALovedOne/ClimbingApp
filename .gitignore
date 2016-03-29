@@ -58,3 +58,5 @@ target/
 
 *.sqlite3
 *secret_settings.py
+
+bower_components

@@ -1,0 +1,55 @@
+.navbar-brand > img {
+  display: inline-block;
+}
+
+.dialog-form {
+  padding: 18px;
+}
+
+.md-avatar {
+  border-radius: 50%;
+  border-width: 1px;
+  height: 40px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+}
+
+.md-avatar .md-avatar-inner {
+  margin: auto;
+  text-align: center;
+}
+
+.md-avatar .md-avatar-text {
+  line-height: 40px;
+  text-align: center;
+  cursor: default;
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 1em;
+}
+
+.colorOption {
+
+}
+
+.colorOption div {
+  display: inline-block;
+}
+
+.colorOption .colorSplot {
+  height: 1.25em;
+  width: 1.25em;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.colorOption .colorName {
+
+}

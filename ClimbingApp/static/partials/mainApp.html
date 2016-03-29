@@ -1,0 +1,19 @@
+<div layout="column">
+  <md-toolbar class="md-primary" ui-view="header">
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon md-svg-icon="/static/images/favicon.svg"></md-icon>
+      </md-button>
+      <h2>
+        <span>Climbing Log</span>
+      </h2>
+      <span flex></span>
+      {{ AuthService.LoggedInUser.username }}
+      <md-button ng-if="AuthService.canLogoff()"   ng-click="logout($event)"   class="md-raised">Logout</md-button>
+      <md-button ng-if="AuthService.canLogin()"    ng-click="login($event)"    class="md-raised">Login</md-button>
+      <md-button ng-if="AuthService.canRegister()" ng-click="register($event)" class="md-raised">Register</md-button>
+    </div>
+  </md-toolbar>
+  <md-content flex ui-view="body">
+  </md-content>
+</div>

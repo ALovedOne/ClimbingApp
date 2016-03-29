@@ -1,0 +1,27 @@
+<md-card ng-repeat="gym in gymList" ui-sref="^.gym.listWalls({ gymId: gym.id })" ng-click="$event.stopPropagation()">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">
+        {{ gym.name }}
+      </span>
+    </md-card-title-text>
+  </md-card-title>
+  
+  <md-card-content>
+    Content goes here...
+  </md-card-content>
+  <md-card-action layout="row" layout-align="end center">
+    <md-button class="md-icon-button" ui-sref="^.gym.editGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">
+      <span class="material-icons right">mode_edit</span>
+    </md-button>
+    <md-button class="md-icon-button">
+      <span class="material-icons right" ng-click="deleteObj($event,gym)">delete</span>
+    </md-button>
+  </md-card-action>
+</md-card>
+
+<div class="fixed-bottom-right">
+  <md-button class="md-fab md-mini" ng-click="addObj($event)">
+    <md-icon md-font-set="material-icons">add</md-icon>
+  </md-button>
+</div>
