@@ -29,4 +29,22 @@ class AscentResource(ModelResource):
     resource_name = "ascents"
 api.register(AscentResource())
 
+class ColorResource(ModelResource):
+  class Meta:
+    queryset = Color.objects.all()
+    resource_name = "colors"
+api.register(ColorResource())
+
+class DifficultyResource(ModelResource):
+  class Meta:
+    queryset = Difficulty.objects.all()
+    resource_name = "difficulties"
+api.register(DifficultyResource())
+
+class AscentOutcomeResource(ModelResource):
+  class Meta:
+    queryset = AscentOutcome.objects.all()
+    resource_name = "ascent_outcomes"
+api.register(AscentOutcomeResource())
+
 apiUrls = api.urls

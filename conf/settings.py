@@ -156,3 +156,6 @@ LOGGING = {
         },
     }
 }
+
+APPEND_SLASH = False
+TASTYPIE_ALLOW_MISSING_SLASH = True

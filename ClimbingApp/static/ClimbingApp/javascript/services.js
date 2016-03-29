@@ -1,9 +1,5 @@
-define(['app', 'restangular'], function(app) {
+define(['app'], function(app) {
   'use strict';
-
-  app.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('/api');
-  });
 
   app.value('AnonymousUser', {
     name: "Anonymous"
@@ -126,7 +122,7 @@ define(['app', 'restangular'], function(app) {
   }
   
   app.factory(
-    'GymResource', ['Restangular', 'AuthService', function(Restangular, AuthService) {
+    'GymResource', ['$tastypieProvider', 'AuthService', function($tastypieProvider, AuthService) {
       Restangular.extendModel("routes", function(model) {
         if (model.color) {
           addColorToHex(model.color);
@@ -145,6 +141,7 @@ define(['app', 'restangular'], function(app) {
       return Restangular.service('gyms');
   }]);
   
+  /*
   app.factory(
     'ColorResource', ['Restangular', function(Restangular) {
       Restangular.extendModel("colors", function(model) {
@@ -163,4 +160,5 @@ define(['app', 'restangular'], function(app) {
     'UserResource', ['Restangular', function(Restangular) {
       return Restangular.service('users');
   }]);
+  */
 });
