@@ -16,8 +16,6 @@ class AscentOutcomeSerializer(serializers.ModelSerializer):
     model = AscentOutcome
 
 class GymSerializer(serializers.ModelSerializer):
-  walls = serializers.PrimaryKeyRelatedField(many = True, queryset = Wall.objects.all())
-
   class Meta:
     model = Gym
 

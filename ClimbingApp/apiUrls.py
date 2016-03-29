@@ -4,16 +4,16 @@ from rest_framework_nested import routers
 
 from .viewSets import *
 
-router = routers.SimpleRouter()
+router = routers.SimpleRouter(trailing_slash = False)
 router.register(r'gyms', GymList)
 
-gym_router = routers.NestedSimpleRouter(router, r'gyms', lookup='gym')
+gym_router = routers.NestedSimpleRouter(router, r'gyms', lookup='gym', trailing_slash = False)
 gym_router.register(r'walls', GymWallList, base_name = "wall")
 
-gym_wall_router = routers.NestedSimpleRouter(gym_router, r'walls', lookup='wall')
+gym_wall_router = routers.NestedSimpleRouter(gym_router, r'walls', lookup='wall', trailing_slash = False)
 gym_wall_router.register(r'routes', GymWallRouteViewSet, base_name = "route")
 
-gym_wall_route_router = routers.NestedSimpleRouter(gym_wall_router, r'routes', lookup='route')
+gym_wall_route_router = routers.NestedSimpleRouter(gym_wall_router, r'routes', lookup='route', trailing_slash = False)
 gym_wall_route_router.register(r'ascents', GymWallRouteAscentList, base_name = "ascent")
 
 router.register(r'walls', WallList)
