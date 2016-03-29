@@ -21,7 +21,7 @@ class GymWallList(viewsets.ModelViewSet):
     gymId = self.kwargs['gym_pk']
     return Wall.objects.filter(gym_id = gymId)
 
-class GymWallRouteList(viewsets.ModelViewSet):
+class GymWallRouteViewSet(viewsets.ModelViewSet):
   serializer_class = RouteSerializer
 
   def get_queryset(self):

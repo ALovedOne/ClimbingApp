@@ -28,6 +28,7 @@ class WallSerializer(serializers.ModelSerializer):
 class RouteSerializer(serializers.ModelSerializer):
   class Meta:
     model = Route
+    depth = 1
 
 class AscentSerializer(serializers.ModelSerializer):
   class Meta:
