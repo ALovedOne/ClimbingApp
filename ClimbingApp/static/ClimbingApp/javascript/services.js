@@ -45,7 +45,7 @@ define(['app', 'restangular'], function(app) {
 
         return $q(function(resolve, reject) {
           $http.post('/api/token', { 
-            email: username,
+            username: username,
             password: password
           }).then(function(response) {
             // Login successful
@@ -136,7 +136,7 @@ define(['app', 'restangular'], function(app) {
       });
       Restangular.addFullRequestInterceptor(function(element, operation, what, url) {
         var ret = {};
-        if (AuthService.LoggedInUserToken !== '') {
+        if (AuthService.LoggedInUserToken) {
           ret['headers'] = ret['headers'] || {};
           ret['headers']['Authorization'] = 'Token ' + AuthService.LoggedInUserToken;
         }

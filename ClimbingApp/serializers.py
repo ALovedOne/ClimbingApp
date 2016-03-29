@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
+
 from .models import *
 
 class ColorSerializer(serializers.ModelSerializer):
@@ -30,3 +32,7 @@ class RouteSerializer(serializers.ModelSerializer):
 class AscentSerializer(serializers.ModelSerializer):
   class Meta:
     model = Ascent
+
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User

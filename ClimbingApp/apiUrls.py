@@ -23,4 +23,7 @@ router.register(r'colors', ColorList)
 router.register(r'difficulties', DifficultyList)
 router.register(r'ascentOutcomes', AscentOutcomeList)
 
-urlpatterns = router.urls + gym_router.urls + gym_wall_router.urls + gym_wall_route_router.urls
+urlpatterns = [
+  url(r'^user$', get_user),
+]
+urlpatterns += router.urls + gym_router.urls + gym_wall_router.urls + gym_wall_route_router.urls

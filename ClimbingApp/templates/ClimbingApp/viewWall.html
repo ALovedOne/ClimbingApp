@@ -1,9 +1,0 @@
-{% extends "ClimbingApp/frame.html" %}
-{% load staticfiles %}
-
-{% block content %}
-{% for route in routes %}
-<a href={% url 'viewRoute' route.id %}>{{route}}</a>
-{% endfor %}
-
-{% endblock %}

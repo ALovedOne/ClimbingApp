@@ -1,5 +1,7 @@
 # Create your views here.
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .models import *
 from .serializers import *
@@ -55,3 +57,7 @@ class DifficultyList(viewsets.ModelViewSet):
 class AscentOutcomeList(viewsets.ModelViewSet):
   queryset = AscentOutcome.objects.all()
   serializer_class = AscentOutcomeSerializer
+
+@api_view()
+def get_user(request):
+  return Response(UserSerializer(request.user).data)

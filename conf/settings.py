@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'ClimbingApp',
     'rest_framework',
+    'rest_framework.authtoken',
 )
 
 LOGIN_REDIRECT_URL = '/index'
@@ -155,4 +156,10 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.TokenAuthentication',
+  )
 }
