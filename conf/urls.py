@@ -1,7 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-from rest_framework.authtoken import views
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -18,5 +16,4 @@ urlpatterns = (
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^', include('ClimbingApp.urls')), 
-    url(r'^api/token', views.obtain_auth_token)
 )

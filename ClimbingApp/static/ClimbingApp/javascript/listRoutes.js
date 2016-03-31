@@ -4,7 +4,7 @@ function(app) {
 
   var controller = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'GymResource', 
   function($scope, $mdDialog, routes, wall, gym, GymResource) {
-    $scope.routeList = routes;
+    $scope.routeList = routes.objects;
     $scope.wall = wall;
     $scope.gym = gym;
 

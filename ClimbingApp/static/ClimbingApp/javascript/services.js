@@ -5,6 +5,7 @@ define(['app'], function(app) {
     name: "Anonymous"
   });
   
+  /*
   app.service('AuthService', ['$http', '$q',  '$window', '$rootScope', '$localStorage', 'AnonymousUser',
     function($http, $q, $window, $rootScope, $localStorage, AnonymousUser) {
       var storage = $localStorage;
@@ -60,7 +61,7 @@ define(['app'], function(app) {
         console.assert(this.canLogin(), "Verify Token over existing session");
 
         return $q(function(resolve, reject) {
-          $http.get('/api/user',{
+          $http.get('/api/v1/users/me',{
             headers: {
               'Authorization': 'Token ' + userToken
             }
@@ -106,6 +107,7 @@ define(['app'], function(app) {
       }
 
   }]);
+  */
 
   function addColorToHex(color) {
     color.hexValue = function() {
@@ -120,45 +122,27 @@ define(['app'], function(app) {
       return (r + g + b) > 104? "black": "white";
     };
   }
-  
-  app.factory(
-    'GymResource', ['$tastypieProvider', 'AuthService', function($tastypieProvider, AuthService) {
-      Restangular.extendModel("routes", function(model) {
-        if (model.color) {
-          addColorToHex(model.color);
-        }
 
-        return model;
-      });
-      Restangular.addFullRequestInterceptor(function(element, operation, what, url) {
-        var ret = {};
-        if (AuthService.LoggedInUserToken) {
-          ret['headers'] = ret['headers'] || {};
-          ret['headers']['Authorization'] = 'Token ' + AuthService.LoggedInUserToken;
-        }
-        return ret;
-      });
-      return Restangular.service('gyms');
+  app.config(['$tastypieProvider', function($tastypieProvider) {
+    $tastypieProvider.setResourceUrl('https://climbingapp.from-ring-zero.com/api/v1/');
+    $tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
   }]);
   
-  /*
+  app.factory(
+    'GymResource', ['$tastypieResource', function($tastypieResource) {
+      return new $tastypieResource('gyms');
+  }]);
   app.factory(
     'ColorResource', ['Restangular', function(Restangular) {
-      Restangular.extendModel("colors", function(model) {
-        addColorToHex(model); 
-        return model;
-      });
-      return Restangular.service('colors');
+      return new $tastypieResource('colors');
   }]);
-  
   app.factory(
     'DifficultyResource', ['Restangular', function(Restangular) {
-      return Restangular.service('difficulties');
+      return new $tastypieResource('difficulty');
   }]);
   
   app.factory(
-    'UserResource', ['Restangular', function(Restangular) {
-      return Restangular.service('users');
+    'UserResource', ['$tastypieResource', function($tastypieResource) {
+      return new $tastypieResource('users');
   }]);
-  */
 });

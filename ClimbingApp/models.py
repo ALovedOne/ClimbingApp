@@ -41,7 +41,7 @@ class Wall(models.Model):
     return self.name
 
 class Route(models.Model):
-  wall = models.ForeignKey(Wall)
+  wall = models.ForeignKey(Wall, related_name="routes")
   color = models.ForeignKey(Color)
   difficulty = models.ForeignKey(Difficulty)
   setDate = models.DateField(auto_now_add = True)

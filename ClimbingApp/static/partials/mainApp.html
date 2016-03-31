@@ -8,10 +8,7 @@
         <span>Climbing Log</span>
       </h2>
       <span flex></span>
-      {{ AuthService.LoggedInUser.username }}
-      <md-button ng-if="AuthService.canLogoff()"   ng-click="logout($event)"   class="md-raised">Logout</md-button>
-      <md-button ng-if="AuthService.canLogin()"    ng-click="login($event)"    class="md-raised">Login</md-button>
-      <md-button ng-if="AuthService.canRegister()" ng-click="register($event)" class="md-raised">Register</md-button>
+      {{ LoggedInUser.username }}
     </div>
   </md-toolbar>
   <md-content flex ui-view="body">

@@ -129,11 +129,16 @@ function(angular) {
           controller:  'ClimbingAppMainApp',
         },
       },
+      resolve: {
+        user: ['UserResource', function(UserResource) {
+          return UserResource.objects.$get({id: 'me'});
+        }],
+      },
     })
 
     .state('mainApp.listGyms', stateResolver.resolve('listGyms', '/gyms', {
       gyms: ['GymResource', function(GymResource) {
-        return GymResource.getList()
+        return GymResource.objects.$find();
       }]
     }))
 
@@ -141,24 +146,21 @@ function(angular) {
     .state('mainApp.gym', stateResolver.resolveAbstract('gym', '/gyms/:gymId', {
       gym: function(GymResource, $stateParams) {
         var gymId = $stateParams.gymId;
-        return GymResource.one(gymId).get();
+        return GymResource.objects.$get({id: gymId});
       }      
     }))
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
     .state('mainApp.gym.listWalls', stateResolver.resolve('listWalls', '/walls', {
-      walls: function(GymResource, $stateParams) {
-        var gymId  = $stateParams.gymId;
-        return GymResource.one(gymId).getList('walls');
-      },
+      walls: ['gym', function(gym) {
+        return gym.walls;
+      }],
     }))
 
     /*  */
     .state('mainApp.gym.wall', stateResolver.resolveAbstract('wall', '/walls/:wallId', {
-      wall: function(GymResource, $stateParams) {
-        var wallId = $stateParams.wallId;
-        var gymId = $stateParams.gymId;
-        return GymResource.one(gymId).one("walls", wallId).get(); 
-      },
+      wall: ['gym', function(gym) {
+        return []
+      }],
     }))
     .state('mainApp.gym.wall.editWall',   stateResolver.resolveModal('editWall', '/edit', '^.^.listWalls', ['gym', 'wall']))
     .state('mainApp.gym.wall.listRoutes', stateResolver.resolve('listRoutes', '/routes', {

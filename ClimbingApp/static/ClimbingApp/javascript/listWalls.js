@@ -5,7 +5,7 @@ function(app) {
   var controller = ['$scope', '$state', '$stateParams', '$mdDialog', 'GymResource', 'gym', 'walls',
   function($scope, $state, $stateParams, $mdDialog, GymResource, gym, walls) {
     var gymId = $stateParams.gymId;
-    $scope.wallList = walls;
+    $scope.wallList = walls.objects;
     $scope.gym = gym;
 
     function editWall($event, wall) {

@@ -4,7 +4,7 @@ function(app) {
 
   var controller = ['$scope', '$state', '$mdDialog', 'GymResource', 'gyms', 
   function($scope, $state, $mdDialog, GymResource, gyms) {
-    $scope.gymList = gyms;
+    $scope.gymList = gyms.objects;
 
     function editGym($event, gym) {
       var childScope = $scope.$new();
