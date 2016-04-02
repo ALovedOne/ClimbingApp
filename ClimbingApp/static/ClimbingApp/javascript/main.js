@@ -41,7 +41,7 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = 'NG_DEFER_BOOTSTRAP!';
 
-define('app', ['angular', 'stateRouter', 'ngAria', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngResource', 'ngStorage', 'ngTastypie'],
+define('app', ['angular', 'stateRouter', 'ngAria', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngResource', 'ngStorage', 'ngTastypie', 'underscore'],
 function(angular) {
   'use strict';
   var myApp = angular.module('ClimbingApp', 
@@ -63,7 +63,7 @@ function(angular) {
         resolve:    resolves,
         views: {
           'body@mainApp': {
-            templateUrl: 'static/partials/' + name + '.html',
+            templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
             controller: 'ClimbingApp' + capitalName,
           },
         }
@@ -85,7 +85,7 @@ function(angular) {
             }
 
             $mdDialog.show({
-              templateUrl: 'static/partials/' + name + '.html',
+              templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
               controller:  'ClimbingApp' + capitalName,
               locals: locals,
             }).then(function() {
@@ -106,7 +106,7 @@ function(angular) {
         resolve: resolve,
         views: {
           'header@mainApp': {
-            templateUrl: 'static/partials/header' + capitalName + '.html',
+            templateUrl: 'static/ClimbingApp/partials/header' + capitalName + '.html',
             controller:  'ClimbingApp' + capitalName + 'Header'
           },
         }
@@ -125,7 +125,7 @@ function(angular) {
     .state('mainApp', {
       views: {
         '': {
-          templateUrl: 'static/partials/mainApp.html',
+          templateUrl: 'static/ClimbingApp/partials/mainApp.html',
           controller:  'ClimbingAppMainApp',
         },
       },
@@ -144,59 +144,53 @@ function(angular) {
 
     /*  */
     .state('mainApp.gym', stateResolver.resolveAbstract('gym', '/gyms/:gymId', {
-      gym: function(GymResource, $stateParams) {
+      gym: ['$stateParams', 'GymResource', function($stateParams, GymResource) {
         var gymId = $stateParams.gymId;
         return GymResource.objects.$get({id: gymId});
-      }      
+      }],
     }))
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
     .state('mainApp.gym.listWalls', stateResolver.resolve('listWalls', '/walls', {
-      walls: ['gym', function(gym) {
-        return gym.walls;
+      walls: ['gym', 'WallResource', function(gym, WallResource) {
+        return WallResource.objects.$find({gym: gym.id});
       }],
     }))
 
     /*  */
     .state('mainApp.gym.wall', stateResolver.resolveAbstract('wall', '/walls/:wallId', {
-      wall: ['gym', function(gym) {
-        return []
+      wall: ['$stateParams', 'WallResource', function($stateParams, WallResource) {
+        var wallId = $stateParams.wallId;
+        return WallResource.objects.$get({'id': wallId});
       }],
     }))
     .state('mainApp.gym.wall.editWall',   stateResolver.resolveModal('editWall', '/edit', '^.^.listWalls', ['gym', 'wall']))
     .state('mainApp.gym.wall.listRoutes', stateResolver.resolve('listRoutes', '/routes', {
-      routes: function(GymResource, $stateParams) {
-        var wallId = $stateParams.wallId;
-        var gymId = $stateParams.gymId;
-        return GymResource.one(gymId).one("walls", wallId).getList('routes');
-      },
+      routes: ['wall', 'RouteResource', function(wall, RouteResource) {
+        return RouteResource.objects.$find({wall: wall.id});
+      }],
     }))
 
     /*  */
     .state('mainApp.gym.wall.route', stateResolver.resolveAbstract('route', '/routes/:routeId', {
-      route: function(GymResource, $stateParams) {
+      route: ['$stateParams', 'RouteResource', function($stateParams, RouteResource) {
         var routeId = $stateParams.routeId;
-        var wallId  = $stateParams.wallId;
-        var gymId   = $stateParams.gymId;
-        return GymResource.one(gymId).one("walls", wallId).one('routes', routeId).get();
-      },
+        return RouteResource.objects.$get({'id': routeId});
+      }],
     }))
     .state('mainApp.gym.wall.route.editRoute',   stateResolver.resolveModal('editRoute', '/edit', '^.^.listRoutes', ['gym', 'wall', 'route']))
     .state('mainApp.gym.wall.route.listAscents', stateResolver.resolve('listAscents', '/ascents', {
-      ascents: function(GymResource, $stateParams) {
-        var routeId = $stateParams.routeId;
-        var wallId  = $stateParams.wallId;
-        var gymId   = $stateParams.gymId;
-        return GymResource.one(gymId).one("walls", wallId).one('routes', routeId).getList('ascents');
-      },
+      ascents: ['route', 'AscentResource', function(route, AscentResource) {
+        return AscentResource.objects.$find({route: route.id});
+      }],
     }))
 
     .state('mainApp.colors', {
-      templateUrl: 'static/partials/listColors.html',
+      templateUrl: 'static/ClimbingApp/partials/listColors.html',
       controller: 'ClimbingAppViewColors',
       resolve: {
-        colors: function(ColorResource) {
-          return ColorResource.getList();
-        }
+        colors: ['ColorResource', function(ColorResource) {
+          return ColorResource.objects.$find();
+        }],
       },
       url: '/admin/colors',
     })

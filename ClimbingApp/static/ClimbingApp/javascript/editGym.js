@@ -7,7 +7,7 @@ function(app) {
     $scope.gym = gym;
 
     $scope.acceptDialog = function($event) {
-      gym.save().then(function(newGym) {
+      gym.$save().then(function(newGym) {
         $mdDialog.hide(newGym)
       });
     }

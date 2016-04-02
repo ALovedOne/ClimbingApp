@@ -2,8 +2,8 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controller = ['$scope', '$state', '$stateParams', '$mdDialog', 'GymResource', 'gym', 'walls',
-  function($scope, $state, $stateParams, $mdDialog, GymResource, gym, walls) {
+  var controller = ['$scope', '$state', '$stateParams', '$mdDialog', 'WallResource', 'gym', 'walls',
+  function($scope, $state, $stateParams, $mdDialog, WallResource, gym, walls) {
     var gymId = $stateParams.gymId;
     $scope.wallList = walls.objects;
     $scope.gym = gym;
@@ -11,7 +11,7 @@ function(app) {
     function editWall($event, wall) {
 
       return $mdDialog.show({
-        templateUrl: '/static/partials/editWall.html',
+        templateUrl: '/static/ClimbingApp/partials/editWall.html',
         controller: 'ClimbingAppEditWall',
         locals: {
           wall: wall,
@@ -30,7 +30,7 @@ function(app) {
         .cancel("Don't do it");
 
       $mdDialog.show(confirm).then(function() {
-        wall.remove().then(function() {
+        wall.$delete().then(function() {
           $scope.wallList = _.without($scope.wallList, wall);
         });
       });
@@ -38,18 +38,11 @@ function(app) {
 
     $scope.addWall = function($event) {
       $event.originalEvent.cancelBubble = true;
-      var blankWall = gym.one('walls');
-      blankWall.gymId = gymId;
+      var blankWall = WallResource.objects.$create();
+      blankWall.gym = gym.resource_uri;
+
       editWall($event, blankWall).then(function(newWall) {
         $scope.wallList.push(newWall);
-      });
-    }
-
-    $scope.editWall = function($event, wall) {
-      $event.originalEvent.cancelBubble = true;
-      editWall($event, wall.clone()).then(function(newWall) {
-        var idx = _.findIndex($scope.wallList, function(wall) { return wall.id == newWall.id });
-        $scope.wallList[idx] = newWall;
       });
     }
     }];

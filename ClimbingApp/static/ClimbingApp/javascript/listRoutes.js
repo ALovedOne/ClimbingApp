@@ -2,8 +2,8 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'GymResource', 
-  function($scope, $mdDialog, routes, wall, gym, GymResource) {
+  var controller = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'RouteResource', 
+  function($scope, $mdDialog, routes, wall, gym, RouteResource) {
     $scope.routeList = routes.objects;
     $scope.wall = wall;
     $scope.gym = gym;
@@ -11,7 +11,7 @@ function(app) {
     function editRoute($event, route) {
       var childScope = $scope.$new();
       return $mdDialog.show({
-        templateUrl: '/static/partials/editRoute.html',
+        templateUrl: '/static/ClimbingApp/partials/editRoute.html',
         locals: {
           route: route,
           wall: wall,
@@ -28,16 +28,11 @@ function(app) {
 
     $scope.addRoute = function($event) {
       $event.cancelBubble = true;
-      editRoute($event, wall.one('routes')).then(function(newRoute) {
-        $scope.routeList.push(newRoute);
-      });
-    }
+      var newRoute = RouteResource.objects.$create();
+      newRoute.wall = wall.resource_uri;
 
-    $scope.editRoute = function($event, route) {
-      $event.cancelBubble = true;
-      editRoute($event, route.clone()).then(function(newRoute) {
-        var idx = _.findIndex($scope.routeList, function(route) { return route.id == newRoute.id });
-        $scope.routeList[idx] = newRoute;
+      editRoute($event, newRoute).then(function(newRoute) {
+        $scope.routeList.push(newRoute);
       });
     }
 
@@ -50,7 +45,7 @@ function(app) {
         .cancel("Don't do it");
 
       $mdDialog.show(confirm).then(function() {
-        route.remove().then(function() {
+        route.$delete().then(function() {
           $scope.routeList = _.without($scope.routeList, route);
         });
       });

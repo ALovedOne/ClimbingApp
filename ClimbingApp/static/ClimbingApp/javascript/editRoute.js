@@ -11,7 +11,6 @@ function(app) {
     $scope.difficulties = [route.difficulty];
     $scope.colors =       [route.color];
     
-    
     function date2Object(date) {
       if (date) {
         return new Date(date);
@@ -20,16 +19,15 @@ function(app) {
       }
     }
 
-
     $scope.acceptDialog = function($event) {
-      route.name         = "Some Name";
-      route.wallId       = wall.id;
-      route.colorId      = $scope.route.color.id;
-      route.difficultyId = $scope.route.difficulty.id;
-      route.setDate      = $scope.setDateObj.toISOString().split("T")[0];
-      route.removeDate   = $scope.removeDateObj.toISOString().split("T")[0];
+      route.name       = "Some Name";
+      route.wall       = wall.resource_uri;
+      route.color      = $scope.route.color.resource_uri;
+      route.difficulty = $scope.route.difficulty.resource_uri;
+      route.setDate    = $scope.setDateObj.toISOString().split("T")[0];
+      route.removeDate = $scope.removeDateObj.toISOString().split("T")[0];
       
-      route.save().then(function(newRoute) {
+      route.$save().then(function(newRoute) {
         newRoute.color = $scope.route.color;
         newRoute.difficulty = $scope.route.difficulty;
         $mdDialog.hide(newRoute);
@@ -44,8 +42,8 @@ function(app) {
       if ($scope.difficulties.length != 1) {
         return $scope.difficulties;
       } else {
-       return DifficultyResource.getList().then(function(difficultyList) {
-          $scope.difficulties = difficultyList;
+       return DifficultyResource.objects.$find().then(function(difficultyList) {
+          $scope.difficulties = difficultyList.objects;
         });
       }
     }
@@ -54,8 +52,8 @@ function(app) {
       if ($scope.colors.length != 1) {
         return $scope.colors;
       } else {
-        return ColorResource.getList().then(function(colorList) {
-          $scope.colors = colorList;
+        return ColorResource.objects.$find().then(function(colorList) {
+          $scope.colors = colorList.objects;
         });
       }
     }

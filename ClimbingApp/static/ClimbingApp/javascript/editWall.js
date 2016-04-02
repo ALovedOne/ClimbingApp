@@ -7,7 +7,7 @@ function(app) {
     $scope.wall = wall;
 
     $scope.acceptDialog = function($event) {
-      wall.save().then(function(newWall) {
+      wall.$save().then(function(newWall) {
         $mdDialog.hide(newWall)
       });
     }
@@ -20,6 +20,10 @@ function(app) {
       $scope.gyms = GymResource.query();
       return $scope.gyms;
     }
+
+    $scope.$on('$stateChangeStart', function($event, toState, toStateArgs, fromState, fromStateArgs) {
+      $event.preventDefault();
+    });
   }];
     
   app.controller('ClimbingAppEditWall', controller);

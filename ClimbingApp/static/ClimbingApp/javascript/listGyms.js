@@ -21,7 +21,7 @@ function(app) {
       }
     
       return $mdDialog.show({
-        templateUrl: '/static/partials/editGym.html',
+        templateUrl: '/static/ClimbingApp/partials/editGym.html',
         controller: 'ClimbingAppEditGym',
         locals: {
           gym: gym,
@@ -36,16 +36,8 @@ function(app) {
     
     $scope.addObj = function($event) {
       $event.originalEvent.cancelBubble = true;
-      editGym($event, GymResource.one()).then(function(newGym) {
+      editGym($event, GymResource.objects.$create()).then(function(newGym) {
         $scope.gymList.push(newGym);
-      });
-    }
-
-    $scope.editObj = function($event, gym) {
-      $event.originalEvent.cancelBubble = true;
-      editGym($event, gym.clone()).then(function(newGym){
-        var idx = _.findIndex($scope.gymList, function(gym) { return gym.id == newGym.id });
-        $scope.gymList[idx] = newGym; 
       });
     }
 
@@ -58,7 +50,7 @@ function(app) {
         .cancel("Don't do it");
 
       $mdDialog.show(confirm).then(function() {
-        gym.remove().then(function() {
+        gym.$delete().then(function() {
           $scope.gymList = _.without($scope.gymList, gym);
         });
       });

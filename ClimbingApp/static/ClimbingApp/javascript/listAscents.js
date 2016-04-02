@@ -2,8 +2,8 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'ascents', 'route', 'wall', 'gym', 'GymResource', 
-  function($scope, $mdDialog, ascents, route, wall, gym, GymResource) {
+  var controller = ['$scope', '$mdDialog', 'ascents', 'route', 'wall', 'gym', 'AscentResource', 
+  function($scope, $mdDialog, ascents, route, wall, gym, AscentResource) {
     $scope.ascentList = ascents.objects;
     $scope.route = route
     $scope.wall = wall;
@@ -12,7 +12,7 @@ function(app) {
     function editAscent($event, ascent) {
       var childScope = $scope.$new();
       return $mdDialog.show({
-        templateUrl: '/static/partials/editAscent.html',
+        templateUrl: '/static/ClimbingApp/partials/editAscent.html',
         locals: {
           ascent: ascent,
           route: route,
@@ -30,7 +30,10 @@ function(app) {
 
     $scope.addAscent = function($event) {
       $event.cancelBubble = true;
-      editAscent($event, route.one('ascents')).then(function(newAscent) {
+      var newAscent = AscentResource.objects.$create();
+      newAscent.gym = gym.resource_uri;
+
+      editAscent($event, newAscent).then(function(newAscent) {
         $scope.ascentList.push(newAscent);
       });
     }
@@ -52,7 +55,7 @@ function(app) {
         .cancel("Don't do it");
 
       $mdDialog.show(confirm).then(function() {
-        ascent.remove().then(function() {
+        ascent.$delete().then(function() {
           $scope.ascentList = _.without($scope.ascentList, route);
         });
       });

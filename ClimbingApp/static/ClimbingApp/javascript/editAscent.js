@@ -22,7 +22,7 @@ function(app) {
       ascent.date        = new Date().toISOString().split("T")[0];
       ascent.outcome_id  = 1;
       
-      ascent.save().then(function(newAscent) {
+      ascent.$update().then(function(newAscent) {
         $mdDialog.hide(newAscent);
       });
     }
