@@ -26,6 +26,15 @@ function(app) {
       });
     }
 
+    $scope.contrastColorValue = function(color) {
+      var x = color.r_inner * 0.299 + color.g_inner * 0.587 + color.b_inner * 0.114;
+      if (x < 186) {
+        return 'white';
+      } else {
+        return 'black';
+      }
+    }
+
     $scope.addRoute = function($event) {
       $event.cancelBubble = true;
       var newRoute = RouteResource.objects.$create();

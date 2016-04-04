@@ -33,15 +33,15 @@ class Color(models.Model):
     with wand.drawing.Drawing() as draw:
       with wand.color.Color('rgb(%i,%i,%i)' % (self.r_inner, self.g_inner, self.b_inner)) as inner:
         draw.fill_color = inner
-        draw.rectangle(left = 0, right = 23, top = 0, bottom = 23)
+        draw.rectangle(left = 0, right = 39, top = 0, bottom = 39)
 
       if self.r_outer:
         with wand.color.Color('rgb(%i,%i,%i)' % (self.r_outer, self.g_outer, self.b_outer)) as outer:
           draw.fill_color = outer 
-          draw.rectangle(left = 0, right = 23, top = 0, bottom = 6)
-          draw.rectangle(left = 0, right = 23, top = 17, bottom = 23)
+          draw.rectangle(left = 0, right = 39, top = 0, bottom = 11)
+          draw.rectangle(left = 0, right = 39, top = 27, bottom = 39)
 
-      with wand.image.Image(width = 24, height = 24) as im:
+      with wand.image.Image(width = 40, height = 40) as im:
         draw(im)
         return im.make_blob(format = 'png')
 
