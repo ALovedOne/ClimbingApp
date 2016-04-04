@@ -1,0 +1,24 @@
+[{"model": "ClimbingApp.color", "pk": 1, 
+  "fields": 
+    { "name": "Red", 
+      "r_inner": 244, 
+      "g_inner": 67, 
+      "b_inner": 54, 
+      "r_outer": null, 
+      "g_outer": null, 
+      "b_outer": null, 
+      "image": "colors/1.png"
+    }
+  }, 
+  {"model": "ClimbingApp.color", "pk": 2,
+    "fields":
+      { "name": "Amber",
+        "r_inner": 255,
+        "g_inner": 193,
+        "b_inner": 7,
+        "r_outer": null,
+        "g_outer": null,
+        "b_outer": null,
+        "image": null
+       }
+  }]
