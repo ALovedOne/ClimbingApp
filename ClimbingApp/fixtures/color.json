@@ -1,24 +1,285 @@
-[{"model": "ClimbingApp.color", "pk": 1, 
-  "fields": 
-    { "name": "Red", 
-      "r_inner": 244, 
-      "g_inner": 67, 
-      "b_inner": 54, 
-      "r_outer": null, 
-      "g_outer": null, 
-      "b_outer": null, 
+[
+  {
+    "model": "ClimbingApp.color",
+    "pk": 1,
+    "fields": {
+      "name": "Red",
+      "r_inner": 244,
+      "g_inner": 67,
+      "b_inner": 54,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
       "image": "colors/1.png"
     }
-  }, 
-  {"model": "ClimbingApp.color", "pk": 2,
-    "fields":
-      { "name": "Amber",
-        "r_inner": 255,
-        "g_inner": 193,
-        "b_inner": 7,
-        "r_outer": null,
-        "g_outer": null,
-        "b_outer": null,
-        "image": null
-       }
-  }]
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 2,
+    "fields": {
+      "name": "Amber",
+      "r_inner": 255,
+      "g_inner": 193,
+      "b_inner": 7,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 3,
+    "fields": {
+      "name": "Blue",
+      "r_inner": 33,
+      "g_inner": 150,
+      "b_inner": 243,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 4,
+    "fields": {
+      "name": "Blue Grey",
+      "r_inner": 96,
+      "g_inner": 125,
+      "b_inner": 139,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 5,
+    "fields": {
+      "name": "Brown",
+      "r_inner": 121,
+      "g_inner": 85,
+      "b_inner": 72,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 6,
+    "fields": {
+      "name": "Cyan",
+      "r_inner": 0,
+      "g_inner": 188,
+      "b_inner": 212,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 7,
+    "fields": {
+      "name": "Deep Orange",
+      "r_inner": 255,
+      "g_inner": 87,
+      "b_inner": 34,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 8,
+    "fields": {
+      "name": "Deep Purple",
+      "r_inner": 103,
+      "g_inner": 58,
+      "b_inner": 183,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 9,
+    "fields": {
+      "name": "Green",
+      "r_inner": 76,
+      "g_inner": 175,
+      "b_inner": 80,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 10,
+    "fields": {
+      "name": "Grey",
+      "r_inner": 158,
+      "g_inner": 158,
+      "b_inner": 158,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 11,
+    "fields": {
+      "name": "Indigo",
+      "r_inner": 63,
+      "g_inner": 81,
+      "b_inner": 181,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 12,
+    "fields": {
+      "name": "Light Blue",
+      "r_inner": 3,
+      "g_inner": 169,
+      "b_inner": 244,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 13,
+    "fields": {
+      "name": "Light Green",
+      "r_inner": 139,
+      "g_inner": 195,
+      "b_inner": 74,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 14,
+    "fields": {
+      "name": "Lime",
+      "r_inner": 205,
+      "g_inner": 220,
+      "b_inner": 57,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 15,
+    "fields": {
+      "name": "Orange",
+      "r_inner": 255,
+      "g_inner": 152,
+      "b_inner": 0,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 16,
+    "fields": {
+      "name": "Pink",
+      "r_inner": 233,
+      "g_inner": 30,
+      "b_inner": 99,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 17,
+    "fields": {
+      "name": "Purple",
+      "r_inner": 156,
+      "g_inner": 39,
+      "b_inner": 176,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 18,
+    "fields": {
+      "name": "Teal",
+      "r_inner": 0,
+      "g_inner": 150,
+      "b_inner": 136,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  },
+  {
+    "model": "ClimbingApp.color",
+    "pk": 19,
+    "fields": {
+      "name": "Yellow",
+      "r_inner": 255,
+      "g_inner": 235,
+      "b_inner": 59,
+      "r_outer": null,
+      "g_outer": null,
+      "b_outer": null,
+      "image": null
+
+    }
+  }
+]
