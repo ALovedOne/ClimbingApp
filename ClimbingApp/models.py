@@ -15,12 +15,12 @@ def color_image_path(instance, filename):
 
 class Color(models.Model):
   name = models.CharField(max_length = 32)
-  r_inner = models.PositiveSmallIntegerField()
-  g_inner = models.PositiveSmallIntegerField()
-  b_inner = models.PositiveSmallIntegerField()
-  r_outer = models.PositiveSmallIntegerField(blank = True, null = True)
-  g_outer = models.PositiveSmallIntegerField(blank = True, null = True)
-  b_outer = models.PositiveSmallIntegerField(blank = True, null = True)
+  inner_r = models.PositiveSmallIntegerField()
+  inner_g = models.PositiveSmallIntegerField()
+  inner_b = models.PositiveSmallIntegerField()
+  outer_r = models.PositiveSmallIntegerField(blank = True, null = True)
+  outer_g = models.PositiveSmallIntegerField(blank = True, null = True)
+  outer_b = models.PositiveSmallIntegerField(blank = True, null = True)
   image = models.ImageField(upload_to=color_image_path, blank = True)
 
   def clean(self):

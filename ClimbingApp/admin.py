@@ -8,8 +8,8 @@ admin.site.register(Route)
 admin.site.register(Ascent)
 
 class ColorAdmin(admin.ModelAdmin):
-  fields = ('name', ('r_inner', 'g_inner', 'b_inner'), ('r_outer', 'g_outer', 'b_outer'))
-  list_display = ('name', 'r_inner', 'g_inner', 'b_inner')
+  fields = ('name', ('inner_r', 'inner_g', 'inner_b'), ('outer_r', 'outer_g', 'outer_b'))
+  list_display = ('name', 'inner_r', 'inner_g', 'inner_b')
 admin.site.register(Color, ColorAdmin)
 
 admin.site.register(Difficulty)
