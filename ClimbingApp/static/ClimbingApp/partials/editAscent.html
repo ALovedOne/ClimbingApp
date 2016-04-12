@@ -11,6 +11,14 @@
         <label>Comments</label>
         <textarea ng-model="ascent.comments" md-maxlength="300" rows="5"></textarea>
       </md-input-container>
+
+      <md-input-container>
+        <label>Outcome</label>
+        <md-select ng-model="ascent.outcome" md-on-open="loadOutcomes()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="outcome" ng-repeat="outcome in outcomes">
+            {{ outcome.name }}
+          </md-option>
+      </md-input-container>
       
       <md-input-container>
         <label>Climber</label>

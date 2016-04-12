@@ -27,7 +27,7 @@ function(app) {
     }
 
     $scope.contrastColorValue = function(color) {
-      var x = color.r_inner * 0.299 + color.g_inner * 0.587 + color.b_inner * 0.114;
+      var x = color.inner_r * 0.299 + color.inner_g * 0.587 + color.inner_b * 0.114;
       if (x < 186) {
         return 'white';
       } else {

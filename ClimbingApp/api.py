@@ -16,6 +16,25 @@ from .models import *
 
 api = Api(api_name = 'v1')
 
+class UserResource(ModelResource):
+  class Meta:
+    queryset = User.objects.all()
+    resource_name = "users"
+    authentication = ApiKeyAuthentication()
+    authorization = Authorization()
+    always_return_data = True
+    excludes = ['email', 'password', 'is_superuser']
+
+  def obj_get(self, bundle, **kwargs):
+    if kwargs['pk'] != 'me':
+      return super(ModelResource, self).obj_get(bundle, **kwargs)
+    if not bundle.request.user.is_authenticated():
+      raise NotFound("User not logged in")
+    return bundle.request.user
+api.register(UserResource())
+
+signals.post_save.connect(create_api_key, sender=User)
+
 # Utility resources
 class ColorResource(ModelResource):
   class Meta:
@@ -46,7 +65,7 @@ api.register(AscentOutcomeResource())
 
 class GymResource(ModelResource):
   class Meta:
-    queryset = Gym.objects.all()
+    queryset = Gym.objects.all().order_by('name')
     resource_name = "gyms"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
@@ -59,7 +78,7 @@ api.register(GymResource())
 
 class WallResource(ModelResource):
   class Meta:
-    queryset = Wall.objects.all()
+    queryset = Wall.objects.all().order_by('name')
     resource_name = "walls"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
@@ -94,26 +113,13 @@ class AscentResource(ModelResource):
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
     always_return_data = True
+    filtering = {
+      'route': 'exact',
+    }
+  route = fields.ForeignKey(RouteResource, 'route')
+  outcome = fields.ForeignKey(AscentOutcomeResource, 'outcome', full = True)
+  user = fields.ForeignKey(UserResource, 'user', full = True)
 api.register(AscentResource())
 
-class UserResource(ModelResource):
-  class Meta:
-    queryset = User.objects.all()
-    resource_name = "users"
-    authentication = ApiKeyAuthentication()
-    authorization = Authorization()
-    always_return_data = True
-    excludes = ['email', 'password', 'is_superuser']
-
-  def obj_get(self, bundle, **kwargs):
-    if kwargs['pk'] != 'me':
-      return super(ModelResource, self).obj_get(bundle, **kwargs)
-    if not bundle.request.user.is_authenticated():
-      raise NotFound("User not logged in")
-    return bundle.request.user
-
-api.register(UserResource())
-
-signals.post_save.connect(create_api_key, sender=User)
 
 apiUrls = api.urls

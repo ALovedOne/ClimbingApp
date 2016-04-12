@@ -24,22 +24,22 @@ class Color(models.Model):
   image = models.ImageField(upload_to=color_image_path, blank = True)
 
   def clean(self):
-    if (self.r_outer is None or self.g_outer is None or self.b_outer is None) and not (self.r_outer is None and self.g_outer is None and self.b_outer is None):
+    if (self.outer_r is None or self.outer_g is None or self.outer_b is None) and not (self.outer_r is None and self.outer_g is None and self.outer_b is None):
       raise ValidationError('All or non of the outer colors must be defined')
 
     self.image.save("filename", ContentFile(self.draw_image()))
 
   def draw_image(self):
     with wand.drawing.Drawing() as draw:
-      with wand.color.Color('rgb(%i,%i,%i)' % (self.r_inner, self.g_inner, self.b_inner)) as inner:
+      with wand.color.Color('rgb(%i,%i,%i)' % (self.inner_r, self.inner_g, self.inner_b)) as inner:
         draw.fill_color = inner
         draw.rectangle(left = 0, right = 39, top = 0, bottom = 39)
 
-      if self.r_outer:
-        with wand.color.Color('rgb(%i,%i,%i)' % (self.r_outer, self.g_outer, self.b_outer)) as outer:
+      if self.outer_r:
+        with wand.color.Color('rgb(%i,%i,%i)' % (self.outer_r, self.outer_g, self.outer_b)) as outer:
           draw.fill_color = outer 
-          draw.rectangle(left = 0, right = 39, top = 0, bottom = 11)
-          draw.rectangle(left = 0, right = 39, top = 27, bottom = 39)
+          draw.rectangle(left = 0, right = 39, top = 0, bottom = 10)
+          draw.rectangle(left = 0, right = 39, top = 28, bottom = 39)
 
       with wand.image.Image(width = 40, height = 40) as im:
         draw(im)
@@ -56,6 +56,7 @@ class Difficulty(models.Model):
 
 class AscentOutcome(models.Model):
   name = models.CharField(max_length = 32)
+  image = models.ImageField(upload_to='ascent_outcome/')
 
   def __str__(self):
     return self.name
@@ -93,4 +94,4 @@ class Ascent(models.Model):
   outcome = models.ForeignKey(AscentOutcome)
 
   def __str__(self):
-    return "{0} - {1}".format(self.route, date)
+    return "{0} - {1}".format(self.route, self.date)

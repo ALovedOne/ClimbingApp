@@ -31,7 +31,7 @@ function(app) {
     $scope.addAscent = function($event) {
       $event.cancelBubble = true;
       var newAscent = AscentResource.objects.$create();
-      newAscent.gym = gym.resource_uri;
+      newAscent.route = route.resource_uri;
 
       editAscent($event, newAscent).then(function(newAscent) {
         $scope.ascentList.push(newAscent);

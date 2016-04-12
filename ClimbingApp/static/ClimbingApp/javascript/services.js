@@ -20,7 +20,7 @@ define(['app'], function(app) {
   }
 
   app.config(['$tastypieProvider', function($tastypieProvider) {
-    $tastypieProvider.setResourceUrl('https://climbingapp.from-ring-zero.com/api/v1/');
+    $tastypieProvider.setResourceUrl('/api/v1/');
     $tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
   }]);
   
@@ -48,7 +48,10 @@ define(['app'], function(app) {
     'DifficultyResource', ['$tastypieResource', function($tastypieResource) {
       return new $tastypieResource('difficulties');
   }]);
-  
+  app.factory(
+    'OutcomeResource', ['$tastypieResource', function($tastypieResource) {
+      return new $tastypieResource('ascent_outcomes');
+  }]);
   app.factory(
     'UserResource', ['$tastypieResource', function($tastypieResource) {
       return new $tastypieResource('users');
