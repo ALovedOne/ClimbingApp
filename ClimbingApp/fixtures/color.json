@@ -4,12 +4,12 @@
     "pk": 1,
     "fields": {
       "name": "Red",
-      "r_inner": 244,
-      "g_inner": 67,
-      "b_inner": 54,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 244,
+      "inner_g": 67,
+      "inner_b": 54,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": "colors/1.png"
     }
   },
@@ -18,12 +18,12 @@
     "pk": 2,
     "fields": {
       "name": "Amber",
-      "r_inner": 255,
-      "g_inner": 193,
-      "b_inner": 7,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 255,
+      "inner_g": 193,
+      "inner_b": 7,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
     }
   },
@@ -32,12 +32,12 @@
     "pk": 3,
     "fields": {
       "name": "Blue",
-      "r_inner": 33,
-      "g_inner": 150,
-      "b_inner": 243,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 33,
+      "inner_g": 150,
+      "inner_b": 243,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -47,12 +47,12 @@
     "pk": 4,
     "fields": {
       "name": "Blue Grey",
-      "r_inner": 96,
-      "g_inner": 125,
-      "b_inner": 139,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 96,
+      "inner_g": 125,
+      "inner_b": 139,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -62,12 +62,12 @@
     "pk": 5,
     "fields": {
       "name": "Brown",
-      "r_inner": 121,
-      "g_inner": 85,
-      "b_inner": 72,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 121,
+      "inner_g": 85,
+      "inner_b": 72,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -77,12 +77,12 @@
     "pk": 6,
     "fields": {
       "name": "Cyan",
-      "r_inner": 0,
-      "g_inner": 188,
-      "b_inner": 212,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 0,
+      "inner_g": 188,
+      "inner_b": 212,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -92,12 +92,12 @@
     "pk": 7,
     "fields": {
       "name": "Deep Orange",
-      "r_inner": 255,
-      "g_inner": 87,
-      "b_inner": 34,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 255,
+      "inner_g": 87,
+      "inner_b": 34,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -107,12 +107,12 @@
     "pk": 8,
     "fields": {
       "name": "Deep Purple",
-      "r_inner": 103,
-      "g_inner": 58,
-      "b_inner": 183,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 103,
+      "inner_g": 58,
+      "inner_b": 183,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -122,12 +122,12 @@
     "pk": 9,
     "fields": {
       "name": "Green",
-      "r_inner": 76,
-      "g_inner": 175,
-      "b_inner": 80,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 76,
+      "inner_g": 175,
+      "inner_b": 80,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -137,12 +137,12 @@
     "pk": 10,
     "fields": {
       "name": "Grey",
-      "r_inner": 158,
-      "g_inner": 158,
-      "b_inner": 158,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 158,
+      "inner_g": 158,
+      "inner_b": 158,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -152,12 +152,12 @@
     "pk": 11,
     "fields": {
       "name": "Indigo",
-      "r_inner": 63,
-      "g_inner": 81,
-      "b_inner": 181,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 63,
+      "inner_g": 81,
+      "inner_b": 181,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -167,12 +167,12 @@
     "pk": 12,
     "fields": {
       "name": "Light Blue",
-      "r_inner": 3,
-      "g_inner": 169,
-      "b_inner": 244,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 3,
+      "inner_g": 169,
+      "inner_b": 244,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -182,12 +182,12 @@
     "pk": 13,
     "fields": {
       "name": "Light Green",
-      "r_inner": 139,
-      "g_inner": 195,
-      "b_inner": 74,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 139,
+      "inner_g": 195,
+      "inner_b": 74,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -197,12 +197,12 @@
     "pk": 14,
     "fields": {
       "name": "Lime",
-      "r_inner": 205,
-      "g_inner": 220,
-      "b_inner": 57,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 205,
+      "inner_g": 220,
+      "inner_b": 57,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -212,12 +212,12 @@
     "pk": 15,
     "fields": {
       "name": "Orange",
-      "r_inner": 255,
-      "g_inner": 152,
-      "b_inner": 0,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 255,
+      "inner_g": 152,
+      "inner_b": 0,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -227,12 +227,12 @@
     "pk": 16,
     "fields": {
       "name": "Pink",
-      "r_inner": 233,
-      "g_inner": 30,
-      "b_inner": 99,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 233,
+      "inner_g": 30,
+      "inner_b": 99,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -242,12 +242,12 @@
     "pk": 17,
     "fields": {
       "name": "Purple",
-      "r_inner": 156,
-      "g_inner": 39,
-      "b_inner": 176,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 156,
+      "inner_g": 39,
+      "inner_b": 176,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -257,12 +257,12 @@
     "pk": 18,
     "fields": {
       "name": "Teal",
-      "r_inner": 0,
-      "g_inner": 150,
-      "b_inner": 136,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 0,
+      "inner_g": 150,
+      "inner_b": 136,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
@@ -272,12 +272,12 @@
     "pk": 19,
     "fields": {
       "name": "Yellow",
-      "r_inner": 255,
-      "g_inner": 235,
-      "b_inner": 59,
-      "r_outer": null,
-      "g_outer": null,
-      "b_outer": null,
+      "inner_r": 255,
+      "inner_g": 235,
+      "inner_b": 59,
+      "outer_r": null,
+      "outer_g": null,
+      "outer_b": null,
       "image": null
 
     }
