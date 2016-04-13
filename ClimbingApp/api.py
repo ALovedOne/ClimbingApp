@@ -93,7 +93,7 @@ api.register(WallResource())
 
 class RouteResource(ModelResource):
   class Meta:
-    queryset = Route.objects.all()
+    queryset = Route.objects.order_by('-setDate')
     resource_name = "routes"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
@@ -104,6 +104,11 @@ class RouteResource(ModelResource):
   wall = fields.ForeignKey(WallResource, 'wall')
   color = fields.ForeignKey(ColorResource, 'color', full = True)
   difficulty = fields.ForeignKey(DifficultyResource, 'difficulty', full = True)
+
+  #def get_list(self):
+  #  print("HI")
+  #  qs = super(ModelResource, self).obj_get_list(bundle, **kwargs)
+  #  return qs.filter(Q(removeDate__gt = date.today()) | Q(removeDate__isnull=True))
 api.register(RouteResource())
 
 class AscentResource(ModelResource):

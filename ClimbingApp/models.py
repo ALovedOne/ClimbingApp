@@ -1,10 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-import wand.image
-import wand.drawing
-import wand.color
+from datetime import date
+
 import io
+import wand.color
+import wand.drawing
+import wand.image
 
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User, Group, Permission
@@ -80,8 +82,14 @@ class Route(models.Model):
   wall = models.ForeignKey(Wall, related_name="routes")
   color = models.ForeignKey(Color)
   difficulty = models.ForeignKey(Difficulty)
-  setDate = models.DateField(auto_now_add = True)
-  removeDate = models.DateField()
+  setDate = models.DateField(default = date.today)
+  removeDate = models.DateField(null = True)
+  #TODO - setDate__lte = start, removeDate__gt = start
+
+  def clean(self):
+    if self.setDate >= self.removeDate:
+      raise ValidationError("setDate must be after the removeDate")
+
 
   def __str__(self):
     return "{} - {}".format(str(self.color) , str(self.difficulty))
@@ -89,7 +97,7 @@ class Route(models.Model):
 class Ascent(models.Model):
   route = models.ForeignKey(Route)
   user = models.ForeignKey(User)
-  date  = models.DateField(auto_now_add = True)
+  date  = models.DateField(default = date.today)
   comments = models.TextField()
   outcome = models.ForeignKey(AscentOutcome)
 

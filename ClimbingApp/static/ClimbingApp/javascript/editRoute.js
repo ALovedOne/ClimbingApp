@@ -58,8 +58,11 @@ function(app) {
       }
     }
 
+    $scope.hexValue = function editRoute$hexValue(color) {
+      return 'rgb(' + color.inner_r + ',' + color.inner_g + ',' + color.inner_b + ')';
+    }
   }];
-    
+
   app.controller('ClimbingAppEditRoute', controller);
   return controller;
 });

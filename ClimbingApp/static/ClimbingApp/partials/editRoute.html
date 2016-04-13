@@ -18,7 +18,7 @@
         <label>Color</label>
         <md-select ng-model="route.color" md-on-open="loadColors()" ng-model-option="{trackBy: '$value.id'}">
           <md-option ng-value="color" ng-repeat="color in colors">
-            <div class="colorOption" ng-init="colorStyle = { 'background-color': color.hexValue() }">
+            <div class="colorOption" ng-init="colorStyle = { 'background-color': hexValue(color) }">
               <div class="colorSplot" ng-style="colorStyle">
               </div>
               <div class="colorName">
