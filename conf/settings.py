@@ -15,7 +15,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'climbingapp_django',
         # The following settings are not used with sqlite3:
-        'USER': '',
+        #'USER': 'climbingapp_django',
+        #'PASSWORD': 'Eequueshuel6ietahjah6fooCheezo',
+        'USER': 'mike',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',

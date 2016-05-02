@@ -65,7 +65,7 @@ api.register(AscentOutcomeResource())
 
 class GymResource(ModelResource):
   class Meta:
-    queryset = Gym.objects.all().order_by('name')
+    queryset = Gym.objects.all().order_by('sort_name')
     resource_name = "gyms"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
@@ -78,7 +78,7 @@ api.register(GymResource())
 
 class WallResource(ModelResource):
   class Meta:
-    queryset = Wall.objects.all().order_by('name')
+    queryset = Wall.objects.all().order_by('sort_name')
     resource_name = "walls"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
@@ -104,11 +104,6 @@ class RouteResource(ModelResource):
   wall = fields.ForeignKey(WallResource, 'wall')
   color = fields.ForeignKey(ColorResource, 'color', full = True)
   difficulty = fields.ForeignKey(DifficultyResource, 'difficulty', full = True)
-
-  #def get_list(self):
-  #  print("HI")
-  #  qs = super(ModelResource, self).obj_get_list(bundle, **kwargs)
-  #  return qs.filter(Q(removeDate__gt = date.today()) | Q(removeDate__isnull=True))
 api.register(RouteResource())
 
 class AscentResource(ModelResource):

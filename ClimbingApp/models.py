@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.text import slugify
 
 from datetime import date
 
@@ -17,12 +18,15 @@ def color_image_path(instance, filename):
 
 class Color(models.Model):
   name = models.CharField(max_length = 32)
+  
   inner_r = models.PositiveSmallIntegerField()
   inner_g = models.PositiveSmallIntegerField()
   inner_b = models.PositiveSmallIntegerField()
+
   outer_r = models.PositiveSmallIntegerField(blank = True, null = True)
   outer_g = models.PositiveSmallIntegerField(blank = True, null = True)
   outer_b = models.PositiveSmallIntegerField(blank = True, null = True)
+
   image = models.ImageField(upload_to=color_image_path, blank = True)
 
   def clean(self):
@@ -52,6 +56,7 @@ class Color(models.Model):
 
 class Difficulty(models.Model):
   name = models.CharField(max_length = 32)
+  sort_name = models.SlugField(max_length = 32)
 
   def __str__(self):
     return self.name
@@ -67,13 +72,19 @@ class AscentOutcome(models.Model):
 ######################
 class Gym(models.Model):
   name = models.CharField(max_length = 32)
+  sort_name = models.SlugField(max_length = 32)
 
   def __str__(self):
     return self.name
 
 class Wall(models.Model):
   name = models.CharField(max_length = 32)
+  sort_name = models.SlugField(max_length = 32)
   gym  = models.ForeignKey(Gym, related_name="walls")
+
+  def clean(self):
+    if self.sort_name == '':
+      self.sort_name = slugify(self.name)
 
   def __str__(self):
     return self.name

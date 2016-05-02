@@ -1,1 +1,1 @@
-[{"model": "ClimbingApp.gym", "pk": 1, "fields": {"name": "Boulders"}}, {"model": "ClimbingApp.gym", "pk": 2, "fields": {"name": "Gym 2"}}]
+[{"model": "ClimbingApp.gym", "pk": 1, "fields": {"name": "Boulders", "sort_name": "Boulders"}}, {"model": "ClimbingApp.gym", "pk": 2, "fields": {"name": "Gym 2", "sort_name": "Gym_2"}}]
