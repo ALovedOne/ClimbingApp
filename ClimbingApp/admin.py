@@ -10,7 +10,15 @@ class WallAdmin(admin.ModelAdmin):
   list_filter = ('gym', )
 admin.site.register(Wall, WallAdmin)
 
-admin.site.register(Route)
+class RouteAdmin(admin.ModelAdmin):
+  list_display = ('route_name', 'wall', 'setDate', 'removeDate')
+  ordering = ('wall', '-removeDate', '-setDate')
+  list_filter = ('wall__gym', 'wall')
+
+  def route_name(self, obj):
+    return str(obj)
+admin.site.register(Route, RouteAdmin)
+
 admin.site.register(Ascent)
 
 class ColorAdmin(admin.ModelAdmin):
