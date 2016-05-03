@@ -21,7 +21,7 @@ define(['app'], function(app) {
 
   app.config(['$tastypieProvider', function($tastypieProvider) {
     $tastypieProvider.setResourceUrl('/api/v1/');
-    $tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
+    //$tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
   }]);
   
   app.factory(

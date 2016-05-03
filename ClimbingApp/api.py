@@ -1,20 +1,65 @@
 from tastypie import fields
 from tastypie.api import Api
-from tastypie.authentication import ApiKeyAuthentication
+from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication, BasicAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.exceptions import NotFound
-from tastypie.models import create_api_key
+from tastypie.http import HttpUnauthorized, HttpForbidden
+from tastypie.models import create_api_key, ApiKey
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.db.models import signals
 
 from .models import *
 
 api = Api(api_name = 'v1')
+
+class LoginCanEditAuth(Authorization):
+  def read_list(self, obj_list, bundle):
+    return obj_list
+
+  def read_detail(self, obj_list, bundle):
+    return True
+
+  def create_list(self, obj_list, bundle):
+    return obj_list
+
+  def create_detail(self, obj_list, bundle):
+    return bundle.obj.user.isAuthenticated()
+
+  def update_list(self, obj_list, bundle):
+    return obj_list
+
+  def update_detail(self, obj_list, bundle):
+    return bundle.obj.user.isAuthenticated()
+
+  def delete_list(self, obj_list, bundle):
+    return obj_list
+
+  def delete_detail(self, obj_list, bundle):
+    return bundle.obj.user.isAuthenticated()
+    
+class TokenAuthentication(Authentication):
+  def _unauthorized(self):
+    return HttpUnauthorized()
+
+  def is_authenticated(self, request, **kwargs):
+    try:
+      token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
+      user = User.objects.get(api_key__key = token)
+      request.user = user
+      
+    except Exception as e:
+      request.user = AnonymousUser
+    
+    return True
+
+  def get_identifier(self, request):
+    return "HI"
 
 class UserResource(ModelResource):
   class Meta:
@@ -31,7 +76,41 @@ class UserResource(ModelResource):
     if not bundle.request.user.is_authenticated():
       raise NotFound("User not logged in")
     return bundle.request.user
+
+  def login(self, request, **kwargs):
+    self.method_check(request, allowed = ['post'])
+
+    data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+    username = data.get('username', '')
+    password = data.get('password', '')
+
+    user = authenticate(username=username, password=password)
+    if user:
+      apiKey = self.get_or_create_apikey(user)
+      return self.create_response(request , {
+        'success': True,
+        'apiKey': apiKey.key,
+        'username': user.username,
+      })
+    return self.create_response(request, {
+      'success': False
+    }, HttpUnauthorized)
+
+
+  def get_or_create_apikey(self, userInstance):
+    key = ApiKey.objects.get(user = userInstance)
+    if key:
+      return key
+    else:
+      return ApiKey.objects.create(user = userInstance)
+
+  def prepend_urls(self):
+    return [
+      url(r"^(?P<resource_name>%s)/login/$" % self._meta.resource_name, self.wrap_view('login')),
+    ]
 api.register(UserResource())
+
 
 signals.post_save.connect(create_api_key, sender=User)
 
@@ -42,6 +121,8 @@ class ColorResource(ModelResource):
     resource_name = "colors"
     authentication = ApiKeyAuthentication()
     authorization = Authorization()
+    #authentication = TokenAuthentication()
+    #authorization = LoginCanEditAuth()
     always_return_data = True
 api.register(ColorResource())
 

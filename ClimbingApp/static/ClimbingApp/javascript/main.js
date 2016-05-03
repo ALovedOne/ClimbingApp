@@ -117,10 +117,36 @@ function(angular) {
       return this;
     }    
   }]);
+
+  myApp.run(['$rootScope', '$state', function($rootScope, $state) {
+    $rootScope.$on('$stateChangeError', 
+    function(event, toState, toParams, fromState, fromParams, error){ 
+      if (error.status == 401) {
+        $state.go('login', {
+          nextState: toState,
+          nextStateParams: toParams
+        });
+      }
+    });
+  }]);
   
   myApp.config(['$stateProvider', '$urlRouterProvider', 'stateResolverProvider', function($stateProvider, $urlRouterProvider, stateResolver) {
 
     $stateProvider
+
+    .state('login', {
+      views: {
+        '': {
+          templateUrl: 'static/ClimbingApp/partials/login.html',
+          controller:  'ClimbingAppLogin',
+        },
+      },
+      url: '/login',
+      params: {
+        nextState: null,
+        nextStateParams: null,
+      },
+    })
     
     .state('mainApp', {
       views: {

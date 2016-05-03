@@ -1,0 +1,37 @@
+<div layout="column">
+  <md-toolbar class="md-primary" ui-view="header">
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon md-svg-icon="/static/images/favicon.svg"></md-icon>
+      </md-button>
+      <h2>
+        <span>Climbing Log</span>
+      </h2>
+      <span flex></span>
+      {{ LoggedInUser.username }}
+    </div>
+  </md-toolbar>
+  <md-content flex>
+    <md-dialog-content>
+      <form layout="column">
+        <md-input-container>
+          <input type="text"     class="form-control" placeholder="Username"     ng-model="username"/>
+        </md-input-container>
+     
+        <md-input-container>
+          <input type="password" class="form-control" placeholder="Password"     ng-model="password"/>
+        </md-input-container>
+     
+        <ng-messages for="errors" role="alert">
+          <ng-message when="invalid user">Invalid User</ng-message>
+        </ng-messages>
+      </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="login($event)" class="md-button">
+        Login
+      </md-button>
+    </md-dialog-actions>
+  </md-content>
+</div>

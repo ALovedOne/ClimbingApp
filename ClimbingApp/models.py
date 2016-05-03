@@ -94,11 +94,11 @@ class Route(models.Model):
   color = models.ForeignKey(Color)
   difficulty = models.ForeignKey(Difficulty)
   setDate = models.DateField(default = date.today)
-  removeDate = models.DateField(null = True)
+  removeDate = models.DateField(null = True, blank = True)
   #TODO - setDate__lte = start, removeDate__gt = start
 
   def clean(self):
-    if self.setDate >= self.removeDate:
+    if self.removeDate and self.setDate >= self.removeDate:
       raise ValidationError("setDate must be after the removeDate")
 
 

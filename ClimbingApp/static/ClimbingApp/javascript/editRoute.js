@@ -5,27 +5,40 @@ function(app) {
   var controller = ['$scope', '$state', '$mdDialog', 'GymResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route',
   function($scope, $state, $mdDialog, GymResource, DifficultyResource, ColorResource, gym, wall, route) {
     $scope.route = route;
-    $scope.setDateObj =    date2Object(route.setDate);
+    $scope.setDateObj =    date2Object(route.setDate, true);
     $scope.removeDateObj = date2Object(route.removeDate);
 
-    $scope.difficulties = [route.difficulty];
-    $scope.colors =       [route.color];
+    if (route.difficulty) {
+      $scope.difficulties = [route.difficulty];
+    }
+    if (route.color) {
+      $scope.colors =       [route.color];
+    }
     
-    function date2Object(date) {
+    function date2Object(date, defaultToday) {
       if (date) {
         return new Date(date);
-      } else {
+      } else if (defaultToday) {
         return new Date();
+      } else {
+        return null;
+      }
+    }
+
+    function obj2Date(date) {
+      if (date == null) {
+        return null;
+      } else {
+        return date.toISOString().split("T")[0];
       }
     }
 
     $scope.acceptDialog = function($event) {
-      route.name       = "Some Name";
       route.wall       = wall.resource_uri;
       route.color      = $scope.route.color.resource_uri;
       route.difficulty = $scope.route.difficulty.resource_uri;
-      route.setDate    = $scope.setDateObj.toISOString().split("T")[0];
-      route.removeDate = $scope.removeDateObj.toISOString().split("T")[0];
+      route.setDate    = obj2Date($scope.setDateObj);
+      route.removeDate = obj2Date($scope.removeDateObj);
       
       route.$save().then(function(newRoute) {
         newRoute.color = $scope.route.color;
@@ -39,7 +52,7 @@ function(app) {
     }
 
     $scope.loadDifficulties = function() {
-      if ($scope.difficulties.length != 1) {
+      if ($scope.difficulties && $scope.difficulties.length != 1) {
         return $scope.difficulties;
       } else {
        return DifficultyResource.objects.$find().then(function(difficultyList) {
@@ -49,7 +62,7 @@ function(app) {
     }
 
     $scope.loadColors = function() {
-      if ($scope.colors.length != 1) {
+      if ($scope.colors && $scope.colors.length != 1) {
         return $scope.colors;
       } else {
         return ColorResource.objects.$find().then(function(colorList) {
