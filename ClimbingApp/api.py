@@ -196,10 +196,14 @@ class AscentResource(ModelResource):
     always_return_data = True
     filtering = {
       'route': 'exact',
+      'user': 'exact',
+      'route': 'exact',
+      'outcome': ALL, 
+      'date': ALL
     }
   route = fields.ForeignKey(RouteResource, 'route')
   outcome = fields.ForeignKey(AscentOutcomeResource, 'outcome', full = True)
-  user = fields.ForeignKey(UserResource, 'user', full = True)
+  user = fields.ForeignKey(UserResource, 'user')
 api.register(AscentResource())
 
 
