@@ -1,18 +1,19 @@
 from tastypie import fields
 from tastypie.api import Api
-from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication, BasicAuthentication
+from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
-from tastypie.exceptions import NotFound
-from tastypie.http import HttpUnauthorized, HttpForbidden
+from tastypie.exceptions import *
+from tastypie import http 
 from tastypie.models import create_api_key, ApiKey
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import signals
+from django.db.models import Count
 
 from .models import *
 
@@ -43,29 +44,12 @@ class LoginCanEditAuth(Authorization):
   def delete_detail(self, obj_list, bundle):
     return bundle.obj.user.isAuthenticated()
     
-class TokenAuthentication(Authentication):
-  def _unauthorized(self):
-    return HttpUnauthorized()
-
-  def is_authenticated(self, request, **kwargs):
-    try:
-      token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
-      user = User.objects.get(api_key__key = token)
-      request.user = user
-      
-    except Exception as e:
-      request.user = AnonymousUser
-    
-    return True
-
-  def get_identifier(self, request):
-    return "HI"
-
 class UserResource(ModelResource):
   class Meta:
     queryset = User.objects.all()
     resource_name = "users"
-    authentication = ApiKeyAuthentication()
+    #authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
     excludes = ['email', 'password', 'is_superuser']
@@ -74,7 +58,7 @@ class UserResource(ModelResource):
     if kwargs['pk'] != 'me':
       return super(ModelResource, self).obj_get(bundle, **kwargs)
     if not bundle.request.user.is_authenticated():
-      raise NotFound("User not logged in")
+      raise ImmediateHttpResponse(response = http.HttpUnauthorized("User not logged in"))
     return bundle.request.user
 
   def login(self, request, **kwargs):
@@ -95,7 +79,7 @@ class UserResource(ModelResource):
       })
     return self.create_response(request, {
       'success': False
-    }, HttpUnauthorized)
+    }, http.HttpUnauthorized)
 
 
   def get_or_create_apikey(self, userInstance):
@@ -119,10 +103,8 @@ class ColorResource(ModelResource):
   class Meta:
     queryset = Color.objects.all()
     resource_name = "colors"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
-    #authentication = TokenAuthentication()
-    #authorization = LoginCanEditAuth()
     always_return_data = True
 api.register(ColorResource())
 
@@ -130,7 +112,7 @@ class DifficultyResource(ModelResource):
   class Meta:
     queryset = Difficulty.objects.all()
     resource_name = "difficulties"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
 api.register(DifficultyResource())
@@ -139,7 +121,7 @@ class AscentOutcomeResource(ModelResource):
   class Meta:
     queryset = AscentOutcome.objects.all()
     resource_name = "ascent_outcomes"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
 api.register(AscentOutcomeResource())
@@ -148,7 +130,7 @@ class GymResource(ModelResource):
   class Meta:
     queryset = Gym.objects.all().order_by('sort_name')
     resource_name = "gyms"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
     filtering = {
@@ -161,7 +143,7 @@ class WallResource(ModelResource):
   class Meta:
     queryset = Wall.objects.all().order_by('sort_name')
     resource_name = "walls"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
     filtering = {
@@ -176,7 +158,7 @@ class RouteResource(ModelResource):
   class Meta:
     queryset = Route.objects.order_by('-setDate')
     resource_name = "routes"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
     filtering = {
@@ -191,7 +173,7 @@ class AscentResource(ModelResource):
   class Meta:
     queryset = Ascent.objects.all()
     resource_name = "ascents"
-    authentication = ApiKeyAuthentication()
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
     always_return_data = True
     filtering = {
@@ -206,5 +188,47 @@ class AscentResource(ModelResource):
   user = fields.ForeignKey(UserResource, 'user')
 api.register(AscentResource())
 
+
+class StatObject:
+  def __init__(self, gym, stats):
+    self.pk = gym.id 
+    self.gym = gym
+    self.data = []
+
+    inDict = {}
+
+    for x in stats:
+      outcome = x['outcome']
+      if not outcome in inDict:
+        inDict[outcome] = len(self.data)
+        self.data.append({
+          "key": outcome,
+          "values": []
+        })
+      self.data[inDict[outcome]]["values"].append(x)
+
+    test = map(lambda array: set(map(lambda v: v['date'], array['values'])), self.data)
+    test = list(test)
+    
+    for testArrayA in test:
+      for testArrayB in test:
+        print(testArrayA - testArrayB)
+
+class UserAscentStatisticsResource(Resource):
+  gym  = fields.ForeignKey(GymResource, 'gym')
+  data = fields.DictField()
+  class Meta:
+    resource_name = 'ascent_summary'
+    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
+    allowed_methods = ['get']
+
+  def obj_get(self, bundle, **kwargs):
+    gym  = Gym.objects.get(id = kwargs['pk'])
+    data = Ascent.objects.filter(user = bundle.request.user, route__wall__gym = gym).values('date', 'user', 'outcome', 'route__difficulty').annotate(Count("id"))
+    return StatObject(gym, data)
+
+  def dehydrate_data(self, bundle):
+    return bundle.obj.data 
+api.register(UserAscentStatisticsResource())
 
 apiUrls = api.urls

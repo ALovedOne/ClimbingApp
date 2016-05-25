@@ -13,7 +13,9 @@ require.config({
     stateRouter:  '/static/bower_components/angular-ui-router/release/angular-ui-router',
     stateHelper:  '/static/bower_components/angular-ui-router.stateHelper/statehelper',
 
-    highcharts:   '/static/bower_components/highcharts-ng/dist/highcharts-ng',
+    ngNvd3:       '/static/bower_components/angular-nvd3/dist/angular-nvd3',
+    nvd3:         '/static/bower_components/nvd3/build/nv.d3',
+    d3:           '/static/bower_components/d3/d3',
     },
   
   //Dependencies defined below
@@ -30,7 +32,8 @@ require.config({
     'ngMessages':   ['angular'],
     'ngResource':   ['angular'],
     'ngTastypie':   ['angular', 'ngResource'],
-    'highcharts':   ['angular'],
+    'ngNvd3':       ['angular', 'nvd3'],
+    'nvd3':         ['d3'],
   },
   //Not sure about the significance of this piece below
   priority: [
@@ -51,7 +54,8 @@ function(angular) {
       'ngMessages',
       'ui.router',
       'ui.router.stateHelper',
-      'ngResourceTastypie'
+      'ngResourceTastypie',
+      'nvd3',
     ]);
 
   myApp.provider('stateResolver', [function() {
@@ -118,7 +122,7 @@ function(angular) {
     }    
   }]);
 
-  myApp.run(['$rootScope', '$state', function($rootScope, $state) {
+  myApp.run(['$rootScope', '$state', '$localStorage', '$tastypie', function($rootScope, $state, $localStorage, $tastypie) {
     $rootScope.$on('$stateChangeError', 
     function(event, toState, toParams, fromState, fromParams, error){ 
       if (error.status == 401) {
@@ -128,6 +132,10 @@ function(angular) {
         });
       }
     });
+
+    if ($localStorage.apiKey) {
+      $tastypie.setAuth($localStorage.username, $localStorage.apiKey);
+    }
   }]);
   
   myApp.config(['$stateProvider', '$urlRouterProvider', 'stateResolverProvider', function($stateProvider, $urlRouterProvider, stateResolver) {
@@ -254,7 +262,7 @@ function(angular) {
   return myApp;
 });
 
-require(['angular', 'app', 'services', 'mainApp', 
+require(['angular', 'app', 'services', 'mainApp', 'ngNvd3',
       'listGyms',    'editGym',
       'listWalls',   'editWall',
       'listRoutes',  'editRoute',

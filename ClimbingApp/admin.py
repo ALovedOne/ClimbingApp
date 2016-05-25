@@ -5,7 +5,7 @@ from .models import *
 admin.site.register(Gym)
 
 class WallAdmin(admin.ModelAdmin):
-  list_display = ('name', 'gym')
+  list_display = ('name', 'gym', 'sort_name')
   ordering = ('sort_name', )
   list_filter = ('gym', )
 admin.site.register(Wall, WallAdmin)
@@ -27,7 +27,7 @@ class ColorAdmin(admin.ModelAdmin):
 admin.site.register(Color, ColorAdmin)
 
 class DifficultyAdmin(admin.ModelAdmin):
-  list_display = ('name', )
+  list_display = ('name', 'sort_name')
   ordering = ('sort_name', )
 admin.site.register(Difficulty, DifficultyAdmin)
 
