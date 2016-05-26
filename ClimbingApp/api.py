@@ -1,3 +1,5 @@
+import datetime
+
 from tastypie import fields
 from tastypie.api import Api
 from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication
@@ -12,8 +14,7 @@ from tastypie.utils import trailing_slash
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from django.db.models import signals
-from django.db.models import Count
+from django.db.models import signals, Count, Q
 
 from .models import *
 
@@ -162,11 +163,43 @@ class RouteResource(ModelResource):
     authorization = Authorization()
     always_return_data = True
     filtering = {
-      'wall': 'exact',
+      'wall':  'exact',
+      'gym':   'exact',
+      'active':'exact',
     }
   wall = fields.ForeignKey(WallResource, 'wall')
   color = fields.ForeignKey(ColorResource, 'color', full = True)
   difficulty = fields.ForeignKey(DifficultyResource, 'difficulty', full = True)
+
+  def apply_filters(self, request, filters, **kwargs):
+    active = True
+
+    if 'active' in filters:
+      active = filters.pop('active')
+
+    qs = super(RouteResource, self).apply_filters(request, filters, **kwargs)
+
+    if active: 
+      today = datetime.date.today()
+      qs = qs.filter(Q(removeDate__gt = today) | Q(removeDate = None))
+
+    return qs
+
+  def build_filters(self, filters = None, **kwargs):
+    if filters is None:
+      filters = {}
+
+    orm_filters = super(RouteResource, self).build_filters(filters, **kwargs)
+
+    if 'gym' in filters:
+      orm_filters['wall__gym_id'] = filters.get('gym')
+
+    if 'active' in filters:
+      if filters['active'] == 'false':
+        orm_filters['active'] = False
+
+    return orm_filters
+
 api.register(RouteResource())
 
 class AscentResource(ModelResource):
@@ -179,7 +212,6 @@ class AscentResource(ModelResource):
     filtering = {
       'route': 'exact',
       'user': 'exact',
-      'route': 'exact',
       'outcome': ALL, 
       'date': ALL
     }
