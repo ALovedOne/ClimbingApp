@@ -102,7 +102,7 @@ signals.post_save.connect(create_api_key, sender=User)
 # Utility resources
 class ColorResource(ModelResource):
   class Meta:
-    queryset = Color.objects.all()
+    queryset = Color.objects.all().order_by('name')
     resource_name = "colors"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
@@ -215,11 +215,39 @@ class AscentResource(ModelResource):
       'outcome': ALL, 
       'date': ALL
     }
-  route = fields.ForeignKey(RouteResource, 'route')
+  route = fields.ForeignKey(RouteResource, 'route', full = True)
   outcome = fields.ForeignKey(AscentOutcomeResource, 'outcome', full = True)
-  user = fields.ForeignKey(UserResource, 'user')
-api.register(AscentResource())
+  user = fields.ForeignKey(UserResource, 'user', full = True)
 
+  def apply_filters(self, request, filters, **kwargs):
+    mine = True
+
+    if 'mine' in filters:
+      mine = filters.pop('mine')
+
+    qs = super(AscentResource, self).apply_filters(request, filters, **kwargs)
+
+    if mine:
+      qs = qs.filter(user_id = request.user.id)
+
+    return qs
+
+  def build_filters(self, filters = None, **kwargs):
+    if filters is None:
+      filters = {}
+
+    orm_filters = super(AscentResource, self).build_filters(filters, **kwargs)
+
+    if 'gym' in filters:
+      orm_filters['route__wall__gym_id'] = filters.get('gym')
+
+    if 'mine' in filters:
+      if filters['mine'] == 'false':
+        orm_filters['mine'] = False
+
+    return orm_filters
+
+api.register(AscentResource())
 
 class StatObject:
   def __init__(self, gym, stats):

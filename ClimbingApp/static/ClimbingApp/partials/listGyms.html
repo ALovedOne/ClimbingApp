@@ -1,3 +1,5 @@
+<nvd3 options='options' data='data'></nvd3>
+
 <md-card ng-repeat="gym in gymList" ui-sref="^.gym.listWalls({ gymId: gym.id })" ng-click="$event.stopPropagation()">
   <md-card-title>
     <md-card-title-text>
@@ -8,7 +10,8 @@
   </md-card-title>
   
   <md-card-content>
-    Content goes here...
+<!--    <nvd3 options='options' data='data'></nvd3>
+-->
   </md-card-content>
   <md-card-action layout="row" layout-align="end center">
     <md-button class="md-icon-button" ui-sref="^.gym.editGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">

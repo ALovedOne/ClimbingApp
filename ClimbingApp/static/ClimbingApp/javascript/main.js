@@ -190,6 +190,13 @@ function(angular) {
       }],
     }))
 
+    .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {
+      ascents: ['gym', 'AscentResource', function(gym, AscentResource) {
+        return AscentResource.objects.$find({gym: gym.id});
+      }],
+    }))
+
+
     /*  */
     .state('mainApp.gym.wall', stateResolver.resolveAbstract('wall', '/walls/:wallId', {
       wall: ['$stateParams', 'WallResource', function($stateParams, WallResource) {
@@ -200,7 +207,7 @@ function(angular) {
     .state('mainApp.gym.wall.editWall',   stateResolver.resolveModal('editWall', '/edit', '^.^.listWalls', ['gym', 'wall']))
     .state('mainApp.gym.wall.listRoutes', stateResolver.resolve('listRoutes', '/routes', {
       routes: ['wall', 'RouteResource', function(wall, RouteResource) {
-        return RouteResource.objects.$find({wall: wall.id});
+        return RouteResource.objects.$find({wall: wall.id, active: true});
       }],
     }))
 
@@ -266,7 +273,8 @@ require(['angular', 'app', 'services', 'mainApp', 'ngNvd3',
       'listGyms',    'editGym',
       'listWalls',   'editWall',
       'listRoutes',  'editRoute',
-      'listAscents', 'editAscent'], 
+      'listAscents', 'editAscent',
+      'climbing'], 
 function(angular, app) {
   'use strict';
   

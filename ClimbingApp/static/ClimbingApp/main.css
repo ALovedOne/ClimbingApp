@@ -1,3 +1,17 @@
+body {
+  height: 100%;
+}
+
+#body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.body-content {
+  flex-grow: 1;
+}
+
 .navbar-brand > img {
   display: inline-block;
 }

@@ -28,6 +28,15 @@
           </md-option>
         </md-select>
       </md-input-container>
+
+      <md-input-container>
+        <label>Route</label>
+        <md-select ng-model="ascent.route" md-on-open="editAscent.loadRoutes()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="route" ng-repeat="route in routes">
+            {{ route.color.name }} {{ route.difficulty.name }}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </form>
   </md-dialog-content>
 

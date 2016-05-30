@@ -2,10 +2,16 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'ascent', 'route', 'wall', 'gym',
-  function($scope, $mdDialog, UserResource, OutcomeResource, ascent, route, wall, gym) {
+  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) {
     $scope.users =       [ascent.user];
     $scope.outcomes =    [ascent.outcome];
+
+    this.RouteResource = RouteResource;
+
+    this.ascent = ascent;
+    this.route  = route;
+    this.wall   = wall;
+    this.gym    = gym;
 
     function date2Object(date) {
       if (date) {
@@ -52,7 +58,19 @@ function(app) {
         });
       }
     }
-  }];
+  }; 
+  controllerFn.prototype = {
+    allowPickRoute: function() {
+      return route == null;
+    },
+
+    loadRoutes: function() {
+      return this.RouteResource.objects.$find({
+        'gym': this.gym.id});
+    },
+  };
+
+  var controller = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'RouteResource', 'ascent', 'route', 'wall', 'gym', controllerFn];
 
   app.controller('ClimbingAppEditAscent', controller);
   return controller;

@@ -56,4 +56,8 @@ define(['app'], function(app) {
     'UserResource', ['$tastypieResource', function($tastypieResource) {
       return new $tastypieResource('users');
   }]);
+  app.factory(
+    'UserGymStatsResource', ['$tastypieResource', function($tastypieResource) {
+      return new $tastypieResource('ascent_summary');
+  }]);
 });

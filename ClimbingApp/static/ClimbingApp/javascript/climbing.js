@@ -2,12 +2,11 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'ascents', 'route', 'wall', 'gym', 'AscentResource', 
-  function($scope, $mdDialog, ascents, route, wall, gym, AscentResource) {
+  var controller = ['$scope', '$mdDialog', 'ascents', 'gym', 'user', 'AscentResource',
+  function($scope, $mdDialog, ascents, gym, user, AscentResource) {
     $scope.ascentList = ascents.objects;
-    $scope.route = route
-    $scope.wall = wall;
     $scope.gym = gym;
+
 
     function editAscent($event, ascent) {
       var childScope = $scope.$new();
@@ -15,8 +14,8 @@ function(app) {
         templateUrl: '/static/ClimbingApp/partials/editAscent.html',
         locals: {
           ascent: ascent,
-          route: route,
-          wall: wall,
+          route: null,
+          wall: null,
           gym: gym
         },
         controller: 'ClimbingAppEditAscent as editAscent',
@@ -31,7 +30,8 @@ function(app) {
     $scope.addAscent = function($event) {
       $event.cancelBubble = true;
       var newAscent = AscentResource.objects.$create();
-      newAscent.route = route.resource_uri;
+      newAscent.route = null;
+      newAscent.user = user;
 
       editAscent($event, newAscent).then(function(newAscent) {
         $scope.ascentList.push(newAscent);
@@ -60,9 +60,8 @@ function(app) {
         });
       });
     }
-
   }];
 
-  app.controller('ClimbingAppListAscents', controller);
+  app.controller('ClimbingAppClimbing', controller);
   return controller;
-})
+});
