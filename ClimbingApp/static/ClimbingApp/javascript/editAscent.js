@@ -21,6 +21,14 @@ function(app) {
       }
     }
 
+    function object2Date(dateObj) {
+      if (dateObj) {
+        return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+      } else {
+        return '';
+      }
+    }
+
     $scope.ascent = ascent;
 
     $scope.acceptDialog = function($event) {
@@ -28,7 +36,7 @@ function(app) {
       ascent.user        = $scope.ascent.user.resource_uri;
       ascent.outcome     = $scope.ascent.outcome.resource_uri;
 
-      ascent.date        = new Date().toISOString().split("T")[0];
+      ascent.date        = object2Date(new Date());
 
       ascent.$save().then(function(newAscent) {
         $mdDialog.hide(newAscent);
