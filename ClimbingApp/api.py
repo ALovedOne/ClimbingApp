@@ -223,7 +223,7 @@ class AscentResource(ModelResource):
     mine = True
 
     if 'mine' in filters:
-      mine = filters.pop('mine')
+      mine = filters.pop('mine') == 'true'
 
     qs = super(AscentResource, self).apply_filters(request, filters, **kwargs)
 

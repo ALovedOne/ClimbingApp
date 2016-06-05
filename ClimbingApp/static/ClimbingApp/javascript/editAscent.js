@@ -2,80 +2,92 @@ define(['app'],
 function(app) {
   'use strict';
 
-  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) {
-    $scope.users =       [ascent.user];
-    $scope.outcomes =    [ascent.outcome];
+  function date2Object(date) {
+    if (date) {
+      return new Date(date);
+    } else {
+      return new Date();
+    }
+  }
 
+  function object2Date(dateObj) {
+    if (dateObj) {
+      return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+    } else {
+      return '';
+    }
+  }
+
+  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) {
+    this.$scope    = $scope;
+    this.$mdDialog = $mdDialog;
+
+    this.users =       [ascent.user];
+    this.outcomes =    [ascent.outcome];
+    this.route    =    [ascent.route];
+
+    this.OutcomeResource = OutcomeResource;
     this.RouteResource = RouteResource;
+    this.UserResource  = UserResource;
 
     this.ascent = ascent;
     this.route  = route;
     this.wall   = wall;
     this.gym    = gym;
-
-    function date2Object(date) {
-      if (date) {
-        return new Date(date);
-      } else {
-        return new Date();
-      }
-    }
-
-    function object2Date(dateObj) {
-      if (dateObj) {
-        return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-      } else {
-        return '';
-      }
-    }
-
-    $scope.ascent = ascent;
-
-    $scope.acceptDialog = function($event) {
-      ascent.route       = route.resource_uri;
-      ascent.user        = $scope.ascent.user.resource_uri;
-      ascent.outcome     = $scope.ascent.outcome.resource_uri;
-
-      ascent.date        = object2Date(new Date());
-
-      ascent.$save().then(function(newAscent) {
-        $mdDialog.hide(newAscent);
-      });
-    }
-
-    $scope.cancelDialog = function($event) {
-      $mdDialog.cancel(false);
-    }
-
-    $scope.loadUsers = function editAscents$loadUsers() {
-      if ($scope.users.length != 1) {
-        return $scope.users;
-      } else {
-        return UserResource.objects.$find().then(function(userList) {
-          $scope.users = userList.objects;
-        });
-      }
-    };
-
-    $scope.loadOutcomes = function editAscent$loadOutcomes() {
-      if ($scope.outcomes.length != 1) {
-        return $scope.outcomes;
-      } else {
-        return OutcomeResource.objects.$find().then(function(outcomeList) {
-          $scope.outcomes = outcomeList.objects;
-        });
-      }
-    }
   }; 
+
   controllerFn.prototype = {
-    allowPickRoute: function() {
-      return route == null;
+    acceptDialog: function ClimbingApp$EditAscent$AcceptDialog($event) {
+      if (this.showRouteSelection()) {
+        this.ascent.route       = this.ascent.route.resource_uri;
+      }
+
+      this.ascent.user        = this.ascent.user.resource_uri;
+      this.ascent.outcome     = this.ascent.outcome.resource_uri;
+    
+      this.ascent.date        = object2Date(new Date());
+
+      this.ascent.$save().then(function(newAscent) {
+        this.$mdDialog.hide(newAscent);
+      }.bind(this));
+    },
+
+    cancelDialog: function ClimbingApp$EditAscent$CancelDialog($event) {
+      this.$mdDialog.cancel(false);
+    },
+
+    showRouteSelection: function() {
+      return this.route == null;
+    },
+
+    loadOutcomes: function ClimbingApp$EditAscent$loadOutcomes() {
+      if (this.outcomes.length != 1) {
+        return this.outcomes;
+      } else {
+        return this.OutcomeResource.objects.$find().then(function(outcomeList) {
+          this.outcomes = outcomeList.objects;
+        }.bind(this));
+      }
+    },
+
+    loadUsers: function ClimbingApp$EditAscent$loadUsers() {
+      if (this.users.length != 1) {
+        return this.users;
+      } else {
+        return this.UserResource.objects.$find().then(function(userList) {
+          this.users = userList.objects;
+        }.bind(this));
+      }
     },
 
     loadRoutes: function() {
       return this.RouteResource.objects.$find({
-        'gym': this.gym.id});
+        'gym': this.gym.id,
+        'active': true}).then(function(routes) {
+          this.routes = routes.objects; 
+        }.bind(this));
     },
+
   };
 
   var controller = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'RouteResource', 'ascent', 'route', 'wall', 'gym', controllerFn];

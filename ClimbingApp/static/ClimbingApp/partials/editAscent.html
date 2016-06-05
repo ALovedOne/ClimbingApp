@@ -9,30 +9,30 @@
       <!-- Comments -->
       <md-input-container>
         <label>Comments</label>
-        <textarea ng-model="ascent.comments" md-maxlength="300" rows="5"></textarea>
+        <textarea ng-model="editAscent.ascent.comments" md-maxlength="300" rows="5"></textarea>
       </md-input-container>
 
       <md-input-container>
         <label>Outcome</label>
-        <md-select ng-model="ascent.outcome" md-on-open="loadOutcomes()" ng-model-option="{trackBy: '$value.id'}">
-          <md-option ng-value="outcome" ng-repeat="outcome in outcomes">
+        <md-select ng-model="editAscent.ascent.outcome" md-on-open="editAscent.loadOutcomes()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="outcome" ng-repeat="outcome in editAscent.outcomes">
             {{ outcome.name }}
           </md-option>
       </md-input-container>
       
       <md-input-container>
         <label>Climber</label>
-        <md-select ng-model="ascent.user" md-on-open="loadUsers()" ng-model-option="{trackBy: '$value.id'}">
-          <md-option ng-value="user" ng-repeat="user in users">
+        <md-select ng-model="editAscent.ascent.user" md-on-open="editAscent.loadUsers()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="user" ng-repeat="user in editAscent.users">
             {{ user.username }}
           </md-option>
         </md-select>
       </md-input-container>
 
-      <md-input-container>
+      <md-input-container ng-if="editAscent.showRouteSelection()">
         <label>Route</label>
-        <md-select ng-model="ascent.route" md-on-open="editAscent.loadRoutes()" ng-model-option="{trackBy: '$value.id'}">
-          <md-option ng-value="route" ng-repeat="route in routes">
+        <md-select ng-model="editAscent.ascent.route" md-on-open="editAscent.loadRoutes()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="route" ng-repeat="route in editAscent.routes">
             {{ route.color.name }} {{ route.difficulty.name }}
           </md-option>
         </md-select>
@@ -41,10 +41,10 @@
   </md-dialog-content>
 
   <md-dialog-actions layout="row">
-    <md-button ng-click="acceptDialog()" class="md-button">
+    <md-button ng-click="editAscent.acceptDialog()" class="md-button">
       Accept
     </md-button>
-    <md-button ng-click="cancelDialog()" class="md-button">
+    <md-button ng-click="editAscent.cancelDialog()" class="md-button">
       Cancel
     </md-button>
   </md-dialog-actions>

@@ -1,11 +1,11 @@
 require.config({
   paths: {
-    angular:      '/static/bower_components/angular/angular',
-    jquery:       '/static/bower_components/jquery/dist/jquery',
+    angular:      '/static/bower_components/angular/angular.min',
+    jquery:       '/static/bower_components/jquery/dist/jquery.min',
     underscore:   '/static/bower_components/underscore/underscore',
     ngAria:       '/static/bower_components/angular-aria/angular-aria',
     ngAnimate:    '/static/bower_components/angular-animate/angular-animate',
-    ngMaterial:   '/static/bower_components/angular-material/angular-material',
+    ngMaterial:   '/static/bower_components/angular-material/angular-material.min',
     ngMessages:   '/static/bower_components/angular-messages/angular-messages',
     ngStorage:    '/static/bower_components/ngstorage/ngStorage',
     ngResource:   '/static/bower_components/angular-resource/angular-resource',
@@ -69,6 +69,7 @@ function(angular) {
           'body@mainApp': {
             templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
             controller: 'ClimbingApp' + capitalName,
+            controllerAs: 'ctrl'
           },
         }
       }
@@ -91,6 +92,7 @@ function(angular) {
             $mdDialog.show({
               templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
               controller:  'ClimbingApp' + capitalName,
+              controllerAs: 'ctrl',
               locals: locals,
             }).then(function() {
               $state.go(returnState);
@@ -190,11 +192,7 @@ function(angular) {
       }],
     }))
 
-    .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {
-      ascents: ['gym', 'AscentResource', function(gym, AscentResource) {
-        return AscentResource.objects.$find({gym: gym.id});
-      }],
-    }))
+    .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {}))
 
 
     /*  */
