@@ -9,16 +9,16 @@
     <form layout="column" class="dialog-form">
       <md-input-container>
         <label>Difficulty</label>
-        <md-select ng-model="route.difficulty" md-on-open="loadDifficulties()" ng-model-option="{trackBy: '$value.id'}">
-          <md-option ng-value="diff" ng-repeat="diff in difficulties">{{ diff.name }}</md-option>
+        <md-select ng-model="ctrl.route.difficulty" md-on-open="ctrl.loadDifficulties()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="diff" ng-repeat="diff in ctrl.difficulties">{{ diff.name }}</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label>Color</label>
-        <md-select ng-model="route.color" md-on-open="loadColors()" ng-model-option="{trackBy: '$value.id'}">
-          <md-option ng-value="color" ng-repeat="color in colors">
-            <div class="colorOption" ng-init="colorStyle = { 'background-color': hexValue(color) }">
+        <md-select ng-model="ctrl.route.color" md-on-open="ctrl.loadColors()" ng-model-option="{trackBy: '$value.id'}">
+          <md-option ng-value="color" ng-repeat="color in ctrl.colors">
+            <div class="colorOption" ng-init="colorStyle = { 'background-color': ctrl.hexValue(color) }">
               <div class="colorSplot" ng-style="colorStyle">
               </div>
               <div class="colorName">
@@ -30,19 +30,19 @@
       </md-input-container>
 
       <label>Set Date</label>
-      <md-datepicker ng-model="setDateObj" md-placeholder="Set date"></md-datepicker>
+      <md-datepicker ng-model="ctrl.setDateObj" md-placeholder="Set date"></md-datepicker>
 
       <label>Remove Date</label>
-      <md-datepicker ng-model="removeDateObj" md-placeholder="Remove date"></md-datepicker>
+      <md-datepicker ng-model="ctrl.removeDateObj" md-placeholder="Remove date"></md-datepicker>
 
     </form>
   </md-dialog-content>
 
   <md-dialog-actions layout="row">
-    <md-button ng-click="acceptDialog()" class="md-button">
+    <md-button ng-click="ctrl.acceptDialog()" class="md-button">
       Accept
     </md-button>
-    <md-button ng-click="cancelDialog()" class="md-button">
+    <md-button ng-click="ctrl.cancelDialog()" class="md-button">
       Cancel
     </md-button>
   </md-dialog-actions>
