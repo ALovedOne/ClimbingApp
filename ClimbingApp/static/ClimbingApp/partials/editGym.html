@@ -12,16 +12,16 @@
                 class="form-control" 
                 placeholder="Name"
                 ng-maxlength=24
-                ng-model="gym.name"/>
+                ng-model="ctrl.gym.name"/>
       </md-input-container>
     </form>
   </md-dialog-content>
 
   <md-dialog-actions layout="row">
-    <md-button ng-click="acceptDialog($event)" class="md-button">
+    <md-button ng-click="ctrl.acceptDialog($event)" class="md-button">
       Accept
     </md-button>
-    <md-button ng-click="cancelDialog($event)" class="md-button">
+    <md-button ng-click="ctrl.cancelDialog($event)" class="md-button">
       Cancel
     </md-button>
   </md-dialog-actions>

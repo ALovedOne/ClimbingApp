@@ -1,23 +1,29 @@
-define(['app'],
-function(app) {
+define(['app', 'baseView'],
+function(app, baseView) {
   'use strict';
 
-  var controller = ['$scope', '$state', '$mdDialog', 'GymResource', 'gym', 
-  function($scope, $state, $mdDialog, GymResource, gym) {
-    $scope.gym = gym;
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'gym'];
+  var controllerFn = function($scope, $state, $mdDialog, gym) {
+    baseView.call(this);
 
-    $scope.acceptDialog = function($event) {
-      gym.$save().then(function(newGym) {
-        $mdDialog.hide(newGym)
-      });
-    }
- 
-    $scope.cancelDialog = function($event) {
-      $mdDialog.cancel(false);
-    }
+    this.$mdDialog = $mdDialog;
 
-  }];
-    
+    this.gym = gym;
+  };
+
+  controllerFn.prototype = Object.create(baseView.prototype);
+
+  controllerFn.prototype.acceptDialog = function($event) {
+    this.gym.$save().then(function(newGym) {
+      this.$mdDialog.hide(newGym)
+    }.bind(this));
+  };
+
+  controllerFn.prototype.cancelDialog = function($event) {
+    this.$mdDialog.cancel(false);
+  }
+
+  var controller = controllerParams.concat([controllerFn]);
   app.controller('ClimbingAppEditGym', controller);
   return controller;
 });
