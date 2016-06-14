@@ -1,31 +1,30 @@
-define(['app'],
-function(app) {
+define(['app', 'baseModalView'],
+function(app, baseView) {
   'use strict';
 
-  var controller = ['$scope', '$state', '$mdDialog', 'GymResource', 'gym', 'wall', 
-  function($scope, $state, $mdDialog, GymResource, gym, wall) {
-    $scope.wall = wall;
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'gym', 'wall'];
+  var controllerFn = function($scope, $state, $mdDialog, GymResource, gym, wall) {
+    baseView.call(this, controllerParams, arguments);
+  };
 
-    $scope.acceptDialog = function($event) {
-      wall.$save().then(function(newWall) {
-        $mdDialog.hide(newWall)
-      });
-    }
- 
-    $scope.cancelDialog = function($event) {
-      $mdDialog.cancel(false);
-    }
-    
-    $scope.loadGyms = function() {
-      $scope.gyms = GymResource.query();
-      return $scope.gyms;
-    }
+  controllerFn.prototype = Object.create(baseView);
 
-    $scope.$on('$stateChangeStart', function($event, toState, toStateArgs, fromState, fromStateArgs) {
-      $event.preventDefault();
-    });
-  }];
-    
+  controllerFn.prototype.acceptDialog = function($event) {
+    this.wall.$save().then(function(newWall) {
+      this.$mdDialog.hide(newWall)
+    }.bind(this));
+  }
+
+  controllerFn.prototype.cancelDialog = function($event) {
+    this.$mdDialog.cancel(false);
+  }
+
+  controllerFn.prototype.loadGyms = function() {
+    this.gyms = this.GymResource.query();
+    return $scope.gyms;
+  }
+
+  var controller = controllerParams.concat([controllerFn]);
   app.controller('ClimbingAppEditWall', controller);
   return controller;
 });

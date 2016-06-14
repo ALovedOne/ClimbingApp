@@ -1,10 +1,10 @@
-define(['app', 'baseView'],
+define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
   var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route'];
   var controllerFn = function($scope, $state, $mdDialog, GymResource, DifficultyResource, ColorResource, gym, wall, route) {
-    baseView.call(this);
+    baseView.call(this, controllerParams, arguments);
 
     this.$scope    = $scope;
     this.$mdDialog = $mdDialog;

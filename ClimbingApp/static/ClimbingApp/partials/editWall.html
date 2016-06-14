@@ -8,16 +8,16 @@
   <md-dialog-content>
     <form layout="column" class="dialog-form">
       <md-input-container>
-        <input type="text"     class="form-control" placeholder="Name"     ng-model="wall.name" ng-maxlength=24 />
+        <input type="text"     class="form-control" placeholder="Name"     ng-model="ctrl.wall.name" ng-maxlength=24 />
       </md-input-container>
     </form>
   </md-dialog-content>
 
   <md-dialog-actions layout="row">
-    <md-button ng-click="acceptDialog()" class="md-button">
+    <md-button ng-click="ctrl.acceptDialog()" class="md-button">
       Accept
     </md-button>
-    <md-button ng-click="cancelDialog()" class="md-button">
+    <md-button ng-click="ctrl.cancelDialog()" class="md-button">
       Cancel
     </md-button>
   </md-dialog-actions>

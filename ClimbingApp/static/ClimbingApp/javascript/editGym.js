@@ -1,14 +1,10 @@
-define(['app', 'baseView'],
+define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
   var controllerParams = ['$scope', '$state', '$mdDialog', 'gym'];
   var controllerFn = function($scope, $state, $mdDialog, gym) {
-    baseView.call(this);
-
-    this.$mdDialog = $mdDialog;
-
-    this.gym = gym;
+    baseView.call(this, controllerParams, arguments);
   };
 
   controllerFn.prototype = Object.create(baseView.prototype);

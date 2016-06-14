@@ -1,27 +1,15 @@
-define(['app', 'baseView'],
+define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
   var controllerParams = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'RouteResource', 'ascent', 'route', 'wall', 'gym'];
-  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) 
-  {
-    this.$scope    = $scope;
-    this.$mdDialog = $mdDialog;
+  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) {
+    baseView.call(this, controllerParams, arguments);
 
     this.users =       [ascent.user];
     this.outcomes =    [ascent.outcome];
     this.route    =    [ascent.route];
-
-    this.OutcomeResource = OutcomeResource;
-    this.RouteResource = RouteResource;
-    this.UserResource  = UserResource;
-
-    this.ascent = ascent;
-    this.route  = route;
-    this.wall   = wall;
-    this.gym    = gym;
   }; 
-
   controllerFn.prototype = Object.create(baseView.prototype);
 
   controllerFn.prototype.acceptDialog = function ClimbingApp$EditAscent$AcceptDialog($event) {
