@@ -1,68 +1,71 @@
-define(['app'],
-function(app) {
+define(['app', 'baseListView'],
+function(app, baseView) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'ascents', 'route', 'wall', 'gym', 'AscentResource', 
-  function($scope, $mdDialog, ascents, route, wall, gym, AscentResource) {
-    $scope.ascentList = ascents.objects;
-    $scope.route = route
-    $scope.wall = wall;
-    $scope.gym = gym;
+  var controllerParams = ['$scope', '$mdDialog', 'route', 'wall', 'gym', 'AscentResource'];
+  var controllerFn = function($scope, $mdDialog, route, wall, gym, AscentResource) {
+    baseView.call(this, controllerParams, arguments);
 
-    function editAscent($event, ascent) {
-      var childScope = $scope.$new();
-      return $mdDialog.show({
-        templateUrl: '/static/ClimbingApp/partials/editAscent.html',
-        locals: {
-          ascent: ascent,
-          route: route,
-          wall: wall,
-          gym: gym
-        },
-        controller: 'ClimbingAppEditAscent as editAscent',
-        targetEvent: $event,
-        scope: childScope,
-        onRemoving: function() {
-          childScope.$destroy();
-        }
+    AscentResource.objects.$find({route: route.id}).then(function(ascents) {
+      this.ascentList = ascents.objects;
+    }.bind(this));
+  }
+
+  controllerFn.prototype = Object.create(baseView.prototype);
+
+  controllerFn.prototype.editAscentPriv = function ClimbingApp$EditAscent$editAscent($event, ascent) {
+    var childScope = this.$scope.$new();
+    return this.$mdDialog.show({
+      templateUrl: '/static/ClimbingApp/partials/editAscent.html',
+      locals: {
+        ascent: ascent,
+        route: this.route,
+        wall: this.wall,
+        gym: this.gym
+      },
+      controller: 'ClimbingAppEditAscent as editAscent',
+      targetEvent: $event,
+      scope: childScope,
+      onRemoving: function() {
+        childScope.$destroy();
+      }
+    });
+  }
+
+  controllerFn.prototype.addAscent = function ClimbingApp$EditAscent$addAscent($event) {
+    $event.cancelBubble = true;
+    var newAscent = this.AscentResource.objects.$create();
+    newAscent.route = this.route;
+
+    this.editAscentPriv($event, newAscent).then(function(newAscent) {
+      this.ascentList.push(newAscent);
+    }.bind(this));
+  }
+
+  controllerFn.prototype.editAscent = function ClimbingApp$EditAscent$editAscent($event, ascent) {
+    $event.cancelBubble = true;
+    this.editAscentPriv($event, ascent.clone()).then(function(newAscent) {
+      var idx = _.findIndex(this.ascentList, function(ascent) { return ascent.id == newAscent.id });
+      this.ascentList[idx] = newAscent;
+    }.bind(this));
+  }
+
+  controllerFn.prototype.deleteAscent = function ClimbingApp$EditAscent$deleteAscent($event, ascent) {
+    $event.cancelBubble = true;
+    var confirm = $mdDialog.confirm()
+      .title("Delete this Ascent?")
+      .targetEvent($event)
+      .ok("Delete Ascent")
+      .cancel("Don't do it");
+
+    $mdDialog.show(confirm).then(function() {
+      ascent.$delete().then(function() {
+        this.ascentList = _.without(this.ascentList, route);
       });
-    }
+    });
+  }
 
-    $scope.addAscent = function($event) {
-      $event.cancelBubble = true;
-      var newAscent = AscentResource.objects.$create();
-      newAscent.route = route.resource_uri;
-
-      editAscent($event, newAscent).then(function(newAscent) {
-        $scope.ascentList.push(newAscent);
-      });
-    }
-
-    $scope.editAscent = function($event, ascent) {
-      $event.cancelBubble = true;
-      editAscent($event, ascent.clone()).then(function(newAscent) {
-        var idx = _.findIndex($scope.ascentList, function(ascent) { return ascent.id == newAscent.id });
-        $scope.ascentList[idx] = newAscent;
-      });
-    }
-
-    $scope.deleteAscent = function($event, ascent) {
-      $event.cancelBubble = true;
-      var confirm = $mdDialog.confirm()
-        .title("Delete this Ascent?")
-        .targetEvent($event)
-        .ok("Delete Ascent")
-        .cancel("Don't do it");
-
-      $mdDialog.show(confirm).then(function() {
-        ascent.$delete().then(function() {
-          $scope.ascentList = _.without($scope.ascentList, route);
-        });
-      });
-    }
-
-  }];
-
+  var controller = controllerParams.concat([controllerFn]);
   app.controller('ClimbingAppListAscents', controller);
   return controller;
 })

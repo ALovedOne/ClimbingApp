@@ -1,5 +1,5 @@
 <md-list>
-  <md-list-item ng-repeat="ascent in ascentList" class="md-3-line">
+  <md-list-item ng-repeat="ascent in ctrl.ascentList" class="md-3-line">
     <img ng-src="{{ ascent.outcome.image }}" class="md-avatar" alt="{{ ascent.outcome.name }}"></img>
 
     <div class="md-list-item-text" layout="column">
@@ -12,7 +12,7 @@
 </md-list>
 
 <div class="fixed-bottom-right">
-  <md-button class="md-fab md-mini" ng-click="addAscent($event)">
+  <md-button class="md-fab md-mini" ng-click="ctrl.addAscent($event)">
     <md-icon md-icon-set="material-icons">add</md-icon>
   </md-button>
 </div>

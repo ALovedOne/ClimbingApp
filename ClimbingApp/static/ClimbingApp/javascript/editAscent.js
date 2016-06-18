@@ -17,14 +17,16 @@ function(app, baseView) {
       this.ascent.route       = this.ascent.route.resource_uri;
     }
 
-    this.ascent.user        = this.ascent.user.resource_uri;
-    this.ascent.outcome     = this.ascent.outcome.resource_uri;
-    
-    this.ascent.date        = this.object2Date(new Date());
-
-    this.ascent.$save().then(function(newAscent) {
-      this.$mdDialog.hide(newAscent);
-    }.bind(this));
+    if (this.ascent.user && this.ascent.outcome) {
+      this.ascent.user        = this.ascent.user.resource_uri;
+      this.ascent.outcome     = this.ascent.outcome.resource_uri;
+      
+      this.ascent.date        = this.object2Date(new Date());
+     
+      this.ascent.$save().then(function(newAscent) {
+        this.$mdDialog.hide(newAscent);
+      }.bind(this));
+    }
   };
 
   controllerFn.prototype.cancelDialog = function ClimbingApp$EditAscent$CancelDialog($event) {

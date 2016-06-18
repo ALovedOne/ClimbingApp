@@ -4,18 +4,11 @@ function(app, baseView) {
 
   var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'AscentResource'];
   var controllerFunc = function($scope, $mdDialog, gym, user, AscentResource) {
-    baseView.call(this);
-
-    this.$scope = $scope;
-    this.$mdDialog = $mdDialog;
-
-    this.gym = gym;
-    this.user = user;
-    this.AscentResource = AscentResource;
+    baseView.call(this, controllerParams, arguments);
 
     this.ascentList = [];
-    this.filters = { gym: gym.id }
 
+    this.filters = { gym: gym.id }
     this.loadAscents(this.filters);
   };
 
