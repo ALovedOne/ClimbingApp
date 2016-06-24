@@ -1,11 +1,75 @@
-define(['app'],
-function(app) {
+define(['app', 'baseListView'],
+function(app, baseView) {
   'use strict';
 
-  var controller = ['$scope', '$state', '$mdDialog', 'GymResource', 'UserGymStatsResource', 'gyms', 
-  function($scope, $state, $mdDialog, GymResource, GymStatsResource, gyms) {
-    $scope.gymList = gyms.objects;
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'UserGymStatsResource'];
+  var controllerFn = function($scope, $state, $mdDialog, GymResource, GymStatsResource) {
+    baseView.call(this, controllerParams, arguments);
 
+    GymResource.objects.$find().then(function(gyms) {
+      this.gymList = gyms.objects;
+    }.bind(this));
+  }
+
+  controllerFn.prototype = Object.create(baseView.prototype);
+
+  controllerFn.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
+    var childScope = this.$scope.$new();
+    childScope.gym = gym;
+    
+    childScope.acceptDialog = function($event) {
+      gym.save().then(function(newGym) {
+        $mdDialog.hide(newGym)
+      });
+    }
+ 
+    childScope.cancelDialog = function($event) {
+      $mdDialog.cancel(false);
+    }
+    
+    return this.$mdDialog.show({
+      templateUrl: '/static/ClimbingApp/partials/editGym.html',
+      controller: 'ClimbingAppEditGym',
+      controllerAs: 'ctrl',
+      locals: {
+        gym: gym,
+      },
+      targetEvent: $event,
+      scope: childScope,
+      onRemoving: function() {
+        childScope.$destroy();
+      }
+    });
+  }
+
+  controllerFn.prototype.addGym = function ClimbingApp$listGyms$addGym($event) {
+    $event.originalEvent.cancelBubble = true;
+    this.editGymPriv($event, this.GymResource.objects.$create()).then(function(newGym) {
+      this.gymList.push(newGym);
+    }.bind(this));
+  }
+
+  controllerFn.prototype.deleteGym = function ClimbingApp$listGyms$deleteGym($event, gym) {
+    $event.originalEvent.cancelBubble = true;
+    var confirm = this.$mdDialog.confirm()
+      .title("Delete this Gym?")
+      .targetEvent($event)
+      .ok("Delete it")
+      .cancel("Don't do it");
+
+    this.$mdDialog.show(confirm).then(function() {
+      gym.$delete().then(function() {
+        this.gymList = _.without(this.gymList, gym);
+      }.bind(this));
+    }.bind(this));
+  }
+
+  var controller = controllerParams.concat([controllerFn]);
+  app.controller('ClimbingAppListGyms', controller);
+  return controller;
+});
+
+    /*
     $scope.options = {
       chart: {
         type: 'stackedAreaChart',
@@ -66,7 +130,6 @@ function(app) {
       }
     };
 
-    /*
     $scope.data = [
       {
         "key" : "North America" ,
@@ -133,58 +196,3 @@ function(app) {
       $scope.data = x;
     });
     */
-
-    function editGym($event, gym) {
-      var childScope = $scope.$new();
-      childScope.gym = gym;
-      
-      childScope.acceptDialog = function($event) {
-        gym.save().then(function(newGym) {
-          $mdDialog.hide(newGym)
-        });
-      }
- 
-      childScope.cancelDialog = function($event) {
-        $mdDialog.cancel(false);
-      }
-    
-      return $mdDialog.show({
-        templateUrl: '/static/ClimbingApp/partials/editGym.html',
-        controller: 'ClimbingAppEditGym',
-        controllerAs: 'ctrl',
-        locals: {
-          gym: gym,
-        },
-        targetEvent: $event,
-        scope: childScope,
-        onRemoving: function() {
-          childScope.$destroy();
-        }
-      });
-    }
-    
-    $scope.addObj = function($event) {
-      $event.originalEvent.cancelBubble = true;
-      editGym($event, GymResource.objects.$create()).then(function(newGym) {
-        $scope.gymList.push(newGym);
-      });
-    }
-
-    $scope.deleteObj = function($event, gym) {
-      $event.originalEvent.cancelBubble = true;
-      var confirm = $mdDialog.confirm()
-        .title("Delete this Gym?")
-        .targetEvent($event)
-        .ok("Delete it")
-        .cancel("Don't do it");
-
-      $mdDialog.show(confirm).then(function() {
-        gym.$delete().then(function() {
-          $scope.gymList = _.without($scope.gymList, gym);
-        });
-      });
-    }
-  }];
-  app.controller('ClimbingAppListGyms', controller);
-  return controller;
-});
