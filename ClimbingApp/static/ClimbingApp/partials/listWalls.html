@@ -1,5 +1,5 @@
 <md-list>
-  <md-list-item ng-repeat="wall in ctrl.wallList" ui-sref="^.wall.listRoutes({ gymId: gym.id, wallId: wall.id})" ng-click="$event.stopPropagation()">
+  <md-list-item ng-repeat="wall in ctrl.wallList" ui-sref="^.wall.listRoutes({ gymId: ctrl.gym.id, wallId: wall.id})" ng-click="$event.stopPropagation()">
     <span class="md-headline">{{ wall.name }}</span>
 
     <md-button class="md-icon-button md-secondary" ui-sref="^.wall.editWall({ wallId: wall.id })"  ng-click="$$event.stopPropagation()">
