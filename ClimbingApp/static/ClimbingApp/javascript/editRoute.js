@@ -6,18 +6,8 @@ function(app, baseView) {
   var controllerFn = function($scope, $state, $mdDialog, GymResource, DifficultyResource, ColorResource, gym, wall, route) {
     baseView.call(this, controllerParams, arguments);
 
-    this.$scope    = $scope;
-    this.$mdDialog = $mdDialog;
-
-    this.DifficultyResource = DifficultyResource;
-    this.ColorResource = ColorResource;
-
-    this.gym   = gym;
-    this.wall  = wall;
-    this.route = route;
-
-    this.setDateObj =    this.date2Object(route.setDate, true);
-    this.removeDateObj = this.date2Object(route.removeDate);
+    this.setDateObj =    this.date2Object(route.setDate);
+    this.removeDateObj = this.date2Object(route.removeDate, true);
 
     if (route.difficulty) {
       this.difficulties = [route.difficulty];

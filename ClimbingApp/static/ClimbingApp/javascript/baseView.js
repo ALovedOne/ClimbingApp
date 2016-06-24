@@ -15,9 +15,11 @@ function(app) {
   }
 
   baseView.prototype = {
-    date2Object: function ClimbingApp$BaseView$Date2Object(date) {
+    date2Object: function ClimbingApp$BaseView$Date2Object(date, allowNull) {
       if (date) {
         return new Date(date);
+      } else if (allowNull) {
+        return null;
       } else {
         return new Date();
       }
@@ -27,7 +29,7 @@ function(app) {
       if (dateObj) {
         return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
       } else {
-        return '';
+        return null;
       }
     },
   }

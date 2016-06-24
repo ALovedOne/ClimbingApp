@@ -1,9 +1,9 @@
 <md-list>
-  <md-list-item ng-repeat="route in routeList" 
+  <md-list-item ng-repeat="route in ctrl.routeList" 
                 ng-init="routeStyle = { 'background-image': 'url(' + route.color.image + ')',
-                                        'color': contrastColorValue(route.color),
+                                        'color': ctrl.contrastColorValue(route.color),
                                       }"
-                ui-sref="^.route.listAscents({ gymId: gym.id, wallId: wall.id, routeId: route.id})" ng-click="$event.stopPropagation()" class="md-3-line" >
+                ui-sref="^.route.listAscents({ gymId: ctrl.gym.id, wallId: ctrl.wall.id, routeId: route.id})" ng-click="$event.stopPropagation()" class="md-3-line" >
     <div class="md-avatar" ng-style="routeStyle" >
       <div class="md-avatar-inner">
       <span class="md-avatar-text">
@@ -26,7 +26,7 @@
 </md-list>
 
 <div class="fixed-bottom-right">
-  <md-button class="md-fab md-mini" ng-click="addRoute($event)">
+  <md-button class="md-fab md-mini" ng-click="ctrl.addRoute($event)">
     <md-icon md-font-set="material-icons">add</md-icon>
   </md-button>
 </div>

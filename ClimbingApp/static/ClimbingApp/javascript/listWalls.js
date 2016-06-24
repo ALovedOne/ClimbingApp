@@ -13,6 +13,7 @@ function(app) {
       return $mdDialog.show({
         templateUrl: '/static/ClimbingApp/partials/editWall.html',
         controller: 'ClimbingAppEditWall',
+        controllerAs: 'ctrl',
         locals: {
           wall: wall,
           gym: gym,

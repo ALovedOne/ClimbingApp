@@ -151,6 +151,7 @@ function(app) {
       return $mdDialog.show({
         templateUrl: '/static/ClimbingApp/partials/editGym.html',
         controller: 'ClimbingAppEditGym',
+        controllerAs: 'ctrl',
         locals: {
           gym: gym,
         },

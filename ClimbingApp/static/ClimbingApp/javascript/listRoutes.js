@@ -1,67 +1,72 @@
-define(['app'],
-function(app) {
+define(['app', 'baseListView'],
+function(app, baseView) {
   'use strict';
 
-  var controller = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'RouteResource', 
-  function($scope, $mdDialog, routes, wall, gym, RouteResource) {
-    $scope.routeList = routes.objects;
-    $scope.wall = wall;
-    $scope.gym = gym;
+  var controllerParams = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'RouteResource'];
+  var controllerFn = function($scope, $mdDialog, routes, wall, gym, RouteResource) {
+    baseView.call(this, controllerParams, arguments);
 
-    function editRoute($event, route) {
-      var childScope = $scope.$new();
-      return $mdDialog.show({
-        templateUrl: '/static/ClimbingApp/partials/editRoute.html',
-        locals: {
-          route: route,
-          wall: wall,
-          gym: gym
-        },
-        controller: 'ClimbingAppEditRoute',
-        targetEvent: $event,
-        scope: childScope,
-        onRemoving: function() {
-          childScope.$destroy();
-        }
-      });
-    }
+    RouteResource.objects.$find({wall: wall.id, active: true}).then(function(routes) {
+      this.routeList = routes.objects;
+    }.bind(this));
+  }
 
-    $scope.contrastColorValue = function(color) {
-      var x = color.inner_r * 0.299 + color.inner_g * 0.587 + color.inner_b * 0.114;
-      if (x < 186) {
-        return 'white';
-      } else {
-        return 'black';
+  controllerFn.prototype = Object.create(baseView.prototype);
+
+  controllerFn.prototype.editRoutePriv = function editRoute($event, route, wall, gym) {
+    var childScope = this.$scope.$new();
+    return this.$mdDialog.show({
+      templateUrl: '/static/ClimbingApp/partials/editRoute.html',
+      locals: {
+        route: route,
+        wall: wall,
+        gym: gym
+      },
+      controller: 'ClimbingAppEditRoute',
+      controllerAs: 'ctrl',
+      targetEvent: $event,
+      scope: childScope,
+      onRemoving: function() {
+        childScope.$destroy();
       }
+    });
+  }
+
+  controllerFn.prototype.contrastColorValue = function(color) {
+    var x = color.inner_r * 0.299 + color.inner_g * 0.587 + color.inner_b * 0.114;
+    if (x < 186) {
+      return 'white';
+    } else {
+      return 'black';
     }
+  }
 
-    $scope.addRoute = function($event) {
-      $event.cancelBubble = true;
-      var newRoute = RouteResource.objects.$create();
-      newRoute.wall = wall.resource_uri;
+  controllerFn.prototype.addRoute = function($event) {
+    $event.cancelBubble = true;
+    var newRoute = this.RouteResource.objects.$create();
+    newRoute.wall = this.wall.resource_uri;
 
-      editRoute($event, newRoute).then(function(newRoute) {
-        $scope.routeList.push(newRoute);
+    this.editRoutePriv($event, newRoute, this.wall, this.gym).then(function(newRoute) {
+      this.routeList.push(newRoute);
+    }.bind(this));
+  }
+
+  controllerFn.prototype.deleteRoute = function($event, route) {
+    $event.cancelBubble = true;
+    var confirm = $mdDialog.confirm()
+      .title("Delete this Route?")
+      .targetEvent($event)
+      .ok("Delete Route")
+      .cancel("Don't do it");
+
+    $mdDialog.show(confirm).then(function() {
+      route.$delete().then(function() {
+        $scope.routeList = _.without($scope.routeList, route);
       });
-    }
+    });
+  }
 
-    $scope.deleteRoute = function($event, route) {
-      $event.cancelBubble = true;
-      var confirm = $mdDialog.confirm()
-        .title("Delete this Route?")
-        .targetEvent($event)
-        .ok("Delete Route")
-        .cancel("Don't do it");
-
-      $mdDialog.show(confirm).then(function() {
-        route.$delete().then(function() {
-          $scope.routeList = _.without($scope.routeList, route);
-        });
-      });
-    }
-
-  }];
-
+  var controller = controllerParams.concat([controllerFn]);
   app.controller('ClimbingAppListRoutes', controller);
   return controller;
 })
