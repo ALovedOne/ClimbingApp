@@ -24,10 +24,7 @@ define(['app'], function(app) {
     //$tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
   }]);
   
-  app.factory(
-    'GymResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('gyms');
-  }]);
+
   app.factory(
     'WallResource', ['$tastypieResource', function($tastypieResource) {
       return new $tastypieResource('walls');

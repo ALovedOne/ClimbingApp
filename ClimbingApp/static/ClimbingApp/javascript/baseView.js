@@ -1,5 +1,5 @@
-define(['app'],
-function(app) {
+define(
+function() {
   'option explicit';
 
   var baseView = function ClimbingApp$BaseView(argsNames, args) {

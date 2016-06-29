@@ -124,6 +124,8 @@ function(angular) {
     }    
   }]);
 
+  myApp.value('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
+
   myApp.run(['$rootScope', '$state', '$localStorage', '$tastypie', function($rootScope, $state, $localStorage, $tastypie) {
     $rootScope.$on('$stateChangeError', 
     function(event, toState, toParams, fromState, fromParams, error){ 
@@ -172,17 +174,13 @@ function(angular) {
       },
     })
 
-    .state('mainApp.listGyms', stateResolver.resolve('listGyms', '/gyms', {
-      gyms: ['GymResource', function(GymResource) {
-        return GymResource.objects.$find();
-      }]
-    }))
+    .state('mainApp.listGyms', stateResolver.resolve('listGyms', '/gyms'))
 
     /*  */
     .state('mainApp.gym', stateResolver.resolveAbstract('gym', '/gyms/:gymId', {
       gym: ['$stateParams', 'GymResource', function($stateParams, GymResource) {
         var gymId = $stateParams.gymId;
-        return GymResource.objects.$get({id: gymId});
+        return GymResource.$get(gymId);
       }],
     }))
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
@@ -267,7 +265,7 @@ function(angular) {
   return myApp;
 });
 
-require(['angular', 'app', 'services', 'mainApp', 'ngNvd3',
+require(['angular', 'app', 'services', 'mainApp', 'ngNvd3', 'services/gymService',
       'listGyms',    'editGym',
       'listWalls',   'editWall',
       'listRoutes',  'editRoute',

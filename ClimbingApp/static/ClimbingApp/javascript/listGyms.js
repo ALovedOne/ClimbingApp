@@ -6,8 +6,8 @@ function(app, baseView) {
   var controllerFn = function($scope, $state, $mdDialog, GymResource, GymStatsResource) {
     baseView.call(this, controllerParams, arguments);
 
-    GymResource.objects.$find().then(function(gyms) {
-      this.gymList = gyms.objects;
+    GymResource.$find().then(function(gyms) {
+      this.gymList = gyms;
     }.bind(this));
   }
 
@@ -44,7 +44,7 @@ function(app, baseView) {
 
   controllerFn.prototype.addGym = function ClimbingApp$listGyms$addGym($event) {
     $event.originalEvent.cancelBubble = true;
-    this.editGymPriv($event, this.GymResource.objects.$create()).then(function(newGym) {
+    this.editGymPriv($event, this.GymResource.$create()).then(function(newGym) {
       this.gymList.push(newGym);
     }.bind(this));
   }
@@ -58,7 +58,7 @@ function(app, baseView) {
       .cancel("Don't do it");
 
     this.$mdDialog.show(confirm).then(function() {
-      gym.$delete().then(function() {
+      this.GymResource.$delete(gym).then(function() {
         this.gymList = _.without(this.gymList, gym);
       }.bind(this));
     }.bind(this));

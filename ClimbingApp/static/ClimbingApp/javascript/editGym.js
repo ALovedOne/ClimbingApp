@@ -2,15 +2,15 @@ define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
-  var controllerParams = ['$scope', '$state', '$mdDialog', 'gym'];
-  var controllerFn = function($scope, $state, $mdDialog, gym) {
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'gym', 'GymResource'];
+  var controllerFn = function($scope, $state, $mdDialog, gym, GymResource) {
     baseView.call(this, controllerParams, arguments);
   };
 
   controllerFn.prototype = Object.create(baseView.prototype);
 
   controllerFn.prototype.acceptDialog = function($event) {
-    this.gym.$save().then(function(newGym) {
+    this.GymResource.$save(this.gym).then(function(newGym) {
       this.$mdDialog.hide(newGym)
     }.bind(this));
   };
