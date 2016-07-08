@@ -12,7 +12,6 @@ import wand.image
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User, Group, Permission
 
-# Create your models here.
 def color_image_path(instance, filename):
   return 'colors/%i.png' % (instance.id or 0, )
 
@@ -89,6 +88,14 @@ class Wall(models.Model):
   def __str__(self):
     return self.name
 
+class RouteManager(models.Manager):
+  def get_queryset(self, *args, **kwargs):
+    today = date.today()
+
+    qs = super(RouteManager, self).get_queryset()
+    qs = qs.filter(models.Q(removeDate__gt = today) | models.Q(removeDate = None))
+    return qs
+
 class Route(models.Model):
   wall = models.ForeignKey(Wall, related_name="routes")
   color = models.ForeignKey(Color)
@@ -96,6 +103,9 @@ class Route(models.Model):
   setDate = models.DateField(default = date.today)
   removeDate = models.DateField(null = True, blank = True)
   #TODO - setDate__lte = start, removeDate__gt = start
+
+  objects = models.Manager()
+  activeRoutes = RouteManager()
 
   def clean(self):
     if self.removeDate and self.setDate >= self.removeDate:

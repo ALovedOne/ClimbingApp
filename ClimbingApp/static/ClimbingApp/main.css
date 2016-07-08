@@ -72,3 +72,8 @@ body {
 .colorOption .colorName {
 
 }
+
+/* TODO - Use theme */
+.wallHeader {
+  background-color: rgb(121,134,203);
+}

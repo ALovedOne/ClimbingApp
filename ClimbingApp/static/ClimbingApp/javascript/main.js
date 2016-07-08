@@ -124,7 +124,7 @@ function(angular) {
     }    
   }]);
 
-  myApp.value('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
+  myApp.constant('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
 
   myApp.run(['$rootScope', '$state', '$localStorage', '$tastypie', function($rootScope, $state, $localStorage, $tastypie) {
     $rootScope.$on('$stateChangeError', 
@@ -191,6 +191,7 @@ function(angular) {
     }))
 
     .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {}))
+    .state('mainApp.gym.fullGym',  stateResolver.resolve('fullGym', '/full', {}))
 
 
     /*  */
@@ -270,7 +271,8 @@ require(['angular', 'app', 'services', 'mainApp', 'ngNvd3', 'services/gymService
       'listWalls',   'editWall',
       'listRoutes',  'editRoute',
       'listAscents', 'editAscent',
-      'climbing'], 
+      'climbing', 
+      'fullGym', 'services/fullGymService', 'services/routeService'], 
 function(angular, app) {
   'use strict';
   

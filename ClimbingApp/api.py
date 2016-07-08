@@ -157,7 +157,7 @@ api.register(WallResource())
 
 class RouteResource(ModelResource):
   class Meta:
-    queryset = Route.objects.order_by('-setDate')
+    queryset = Route.activeRoutes.order_by('-setDate')
     resource_name = "routes"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = Authorization()
@@ -199,7 +199,6 @@ class RouteResource(ModelResource):
         orm_filters['active'] = False
 
     return orm_filters
-
 api.register(RouteResource())
 
 class AscentResource(ModelResource):
@@ -246,49 +245,32 @@ class AscentResource(ModelResource):
         orm_filters['mine'] = False
 
     return orm_filters
-
 api.register(AscentResource())
 
-class StatObject:
-  def __init__(self, gym, stats):
-    self.pk = gym.id 
-    self.gym = gym
-    self.data = []
+class FullGym:
+  def __init__(self, gym, walls, routes):
+    self.pk     = gym.id
+    self.gym    = gym
+    self.walls  = walls
+    self.routes = routes
 
-    inDict = {}
+class FullGymResource(Resource):
+  gym    = fields.ForeignKey(GymResource,    'gym', full = True)
+  walls  = fields.ToManyField(WallResource,  'walls', full = True)
+  routes = fields.ToManyField(RouteResource, 'routes', full = True)
 
-    for x in stats:
-      outcome = x['outcome']
-      if not outcome in inDict:
-        inDict[outcome] = len(self.data)
-        self.data.append({
-          "key": outcome,
-          "values": []
-        })
-      self.data[inDict[outcome]]["values"].append(x)
-
-    test = map(lambda array: set(map(lambda v: v['date'], array['values'])), self.data)
-    test = list(test)
-    
-    for testArrayA in test:
-      for testArrayB in test:
-        print(testArrayA - testArrayB)
-
-class UserAscentStatisticsResource(Resource):
-  gym  = fields.ForeignKey(GymResource, 'gym')
-  data = fields.DictField()
   class Meta:
-    resource_name = 'ascent_summary'
+    resource_name = 'full_gym'
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     allowed_methods = ['get']
 
   def obj_get(self, bundle, **kwargs):
     gym  = Gym.objects.get(id = kwargs['pk'])
-    data = Ascent.objects.filter(user = bundle.request.user, route__wall__gym = gym).values('date', 'user', 'outcome', 'route__difficulty').annotate(Count("id"))
-    return StatObject(gym, data)
+    walls = Wall.objects.filter(gym_id = gym.id)
+    routes = Route.objects.filter(wall__gym_id = gym.id)
 
-  def dehydrate_data(self, bundle):
-    return bundle.obj.data 
-api.register(UserAscentStatisticsResource())
+    return FullGym(gym, walls, routes)
+
+api.register(FullGymResource())
 
 apiUrls = api.urls
