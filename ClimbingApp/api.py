@@ -255,9 +255,9 @@ class FullGym:
     self.routes = routes
 
 class FullGymResource(Resource):
-  gym    = fields.ForeignKey(GymResource,    'gym', full = True)
-  walls  = fields.ToManyField(WallResource,  'walls', full = True)
-  routes = fields.ToManyField(RouteResource, 'routes', full = True)
+  gym    = fields.ForeignKey(GymResource,    'gym',    full = True)
+  walls  = fields.ToManyField(WallResource,  'walls',  full = True, null=True)
+  routes = fields.ToManyField(RouteResource, 'routes', full = True, null=True)
 
   class Meta:
     resource_name = 'full_gym'
@@ -267,7 +267,7 @@ class FullGymResource(Resource):
   def obj_get(self, bundle, **kwargs):
     gym  = Gym.objects.get(id = kwargs['pk'])
     walls = Wall.objects.filter(gym_id = gym.id)
-    routes = Route.objects.filter(wall__gym_id = gym.id)
+    routes = Route.activeRoutes.filter(wall__gym_id = gym.id)
 
     return FullGym(gym, walls, routes)
 
