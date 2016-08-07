@@ -9,7 +9,6 @@ require.config({
     ngMessages:   '/static/bower_components/angular-messages/angular-messages',
     ngStorage:    '/static/bower_components/ngstorage/ngStorage',
     ngResource:   '/static/bower_components/angular-resource/angular-resource',
-    ngTastypie:   '/static/bower_components/angular-resource-tastypie/src/angular-resource-tastypie',
     stateRouter:  '/static/bower_components/angular-ui-router/release/angular-ui-router',
     stateHelper:  '/static/bower_components/angular-ui-router.stateHelper/statehelper',
 
@@ -31,7 +30,6 @@ require.config({
     'ngMaterial':   ['angular'],
     'ngMessages':   ['angular'],
     'ngResource':   ['angular'],
-    'ngTastypie':   ['angular', 'ngResource'],
     'ngNvd3':       ['angular', 'nvd3'],
     'nvd3':         ['d3'],
   },
@@ -44,7 +42,7 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = 'NG_DEFER_BOOTSTRAP!';
 
-define('app', ['angular', 'stateRouter', 'ngAria', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngResource', 'ngStorage', 'ngTastypie', 'underscore'],
+define('app', ['angular', 'stateRouter', 'ngAria', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngResource', 'ngStorage', 'underscore'],
 function(angular) {
   'use strict';
   var myApp = angular.module('ClimbingApp', 
@@ -54,7 +52,6 @@ function(angular) {
       'ngMessages',
       'ui.router',
       'ui.router.stateHelper',
-      'ngResourceTastypie',
       'nvd3',
     ]);
 
@@ -126,7 +123,7 @@ function(angular) {
 
   myApp.constant('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
 
-  myApp.run(['$rootScope', '$state', '$localStorage', '$tastypie', function($rootScope, $state, $localStorage, $tastypie) {
+  myApp.run(['$rootScope', '$state', '$localStorage', function($rootScope, $state, $localStorage) {
     $rootScope.$on('$stateChangeError', 
     function(event, toState, toParams, fromState, fromParams, error){ 
       if (error.status == 401) {
@@ -138,7 +135,7 @@ function(angular) {
     });
 
     if ($localStorage.apiKey) {
-      $tastypie.setAuth($localStorage.username, $localStorage.apiKey);
+      // TODO - add login?
     }
   }]);
   

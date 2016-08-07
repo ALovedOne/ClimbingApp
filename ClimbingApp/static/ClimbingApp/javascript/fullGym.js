@@ -15,7 +15,6 @@ function(app, baseView) {
 
   controllerFunc.prototype.loadWalls = function(filters) {
     this.FullGymResource.$get(this.gym.id).then(function(walls) {
-      console.log(walls);
       this.wallList = walls.walls;
     }.bind(this));
   };
