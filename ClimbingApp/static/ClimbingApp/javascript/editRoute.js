@@ -2,8 +2,8 @@ define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
-  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route'];
-  var controllerFn = function($scope, $state, $mdDialog, GymResource, DifficultyResource, ColorResource, gym, wall, route) {
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'RouteResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route'];
+  var controllerFn = function($scope, $state, $mdDialog, GymResource, RouteResource, DifficultyResource, ColorResource, gym, wall, route) {
     baseView.call(this, controllerParams, arguments);
 
     this.setDateObj =    this.date2Object(route.setDate);
@@ -24,12 +24,11 @@ function(app, baseView) {
     this.route.wall       = this.wall.resource_uri;
     this.route.color      = this.route.color.resource_uri;
     this.route.difficulty = this.route.difficulty.resource_uri;
+    // TODO - convert dates in service
     this.route.setDate    = this.object2Date(this.setDateObj);
     this.route.removeDate = this.object2Date(this.removeDateObj);
-    
-    this.route.$save().then(function(newRoute) {
-      newRoute.color = this.route.color;
-      newRoute.difficulty = this.route.difficulty;
+
+    this.RouteResource.$save(this.route).then(function(newRoute) {
       this.$mdDialog.hide(newRoute);
     }.bind(this));
   }
@@ -42,8 +41,8 @@ function(app, baseView) {
     if (this.difficulties && this.difficulties.length != 1) {
       return this.difficulties;
     } else {
-     return this.DifficultyResource.objects.$find().then(function(difficultyList) {
-        this.difficulties = difficultyList.objects;
+     return this.DifficultyResource.$find().then(function(difficultyList) {
+        this.difficulties = difficultyList;
       }.bind(this));
     }
   }
@@ -52,8 +51,8 @@ function(app, baseView) {
     if (this.colors && this.colors.length != 1) {
       return this.colors;
     } else {
-      return this.ColorResource.objects.$find().then(function(colorList) {
-        this.colors = colorList.objects;
+      return this.ColorResource.$find().then(function(colorList) {
+        this.colors = colorList;
       }.bind(this));
     }
   }

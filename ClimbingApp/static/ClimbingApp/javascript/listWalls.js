@@ -6,8 +6,8 @@ function(app, baseView) {
   var controllerFn = function($scope, $state, $stateParams, $mdDialog, gym, WallResource) {
     baseView.call(this, controllerParams, arguments);
 
-    WallResource.objects.$find({gym: gym.id}).then(function(walls) {
-      this.wallList = walls.objects;
+    WallResource.$find({gym: gym.id}).then(function(walls) {
+      this.wallList = walls;
     }.bind(this));
   }
 
@@ -43,7 +43,7 @@ function(app, baseView) {
 
   controllerFn.prototype.addWall = function ClimbingApp$listWalls$addWall($event) {
     $event.originalEvent.cancelBubble = true;
-    var blankWall = this.WallResource.objects.$create();
+    var blankWall = this.WallResource.$create();
     blankWall.gym = this.gym.resource_uri;
 
     this.editWallPriv($event, blankWall).then(function(newWall) {

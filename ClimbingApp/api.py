@@ -56,6 +56,7 @@ class UserResource(ModelResource):
     excludes = ['email', 'password', 'is_superuser']
 
   def obj_get(self, bundle, **kwargs):
+    print("kwargs: ", kwargs)
     if kwargs['pk'] != 'me':
       return super(ModelResource, self).obj_get(bundle, **kwargs)
     if not bundle.request.user.is_authenticated():

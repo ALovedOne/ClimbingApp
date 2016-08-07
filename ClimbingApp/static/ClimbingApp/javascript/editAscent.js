@@ -2,8 +2,8 @@ define(['app', 'baseModalView'],
 function(app, baseView) {
   'use strict';
 
-  var controllerParams = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'RouteResource', 'ascent', 'route', 'wall', 'gym'];
-  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, ascent, route, wall, gym) {
+  var controllerParams = ['$scope', '$mdDialog', 'UserResource', 'OutcomeResource', 'RouteResource', 'AscentResource', 'ascent', 'route', 'wall', 'gym'];
+  var controllerFn = function ClimbingApp$EditAscent$Ctrl($scope, $mdDialog, UserResource, OutcomeResource, RouteResource, AscentResource, ascent, route, wall, gym) {
     baseView.call(this, controllerParams, arguments);
 
     this.users =       [ascent.user];
@@ -23,7 +23,8 @@ function(app, baseView) {
       
       this.ascent.date        = this.object2Date(new Date());
      
-      this.ascent.$save().then(function(newAscent) {
+      this.AscentResource.$save(this.ascent).then(function(newAscent) {
+      //this.ascent.$save().then(function(newAscent) {
         this.$mdDialog.hide(newAscent);
       }.bind(this));
     }
@@ -41,8 +42,8 @@ function(app, baseView) {
     if (this.outcomes.length != 1) {
       return this.outcomes;
     } else {
-      return this.OutcomeResource.objects.$find().then(function(outcomeList) {
-        this.outcomes = outcomeList.objects;
+      return this.OutcomeResource.$find().then(function(outcomeList) {
+        this.outcomes = outcomeList;
       }.bind(this));
     }
   };
@@ -51,17 +52,17 @@ function(app, baseView) {
     if (this.users.length != 1) {
       return this.users;
     } else {
-      return this.UserResource.objects.$find().then(function(userList) {
-        this.users = userList.objects;
+      return this.UserResource.$find().then(function(userList) {
+        this.users = userList;
       }.bind(this));
     }
   };
 
   controllerFn.prototype.loadRoutes = function() {
-    return this.RouteResource.objects.$find({
+    return this.RouteResource.$find({
       'gym': this.gym.id,
       'active': true}).then(function(routes) {
-        this.routes = routes.objects; 
+        this.routes = routes; 
       }.bind(this));
   };
 

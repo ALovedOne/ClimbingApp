@@ -1,9 +1,12 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$GymService($http, baseAddr) {
+  var serviceParams = ['$http', 'ClimbingApp$BaseAddr', 'GymResource', 'WallResource', 'RouteResource'];
+  var serviceFn = function ClimbingApp$GymService($http, baseAddr, GymResource, WallResource, RouteResource) {
     console.log("FullGymService initialize");
     this.$http = $http;
     this.baseAddr = baseAddr;
+    this.GymResource = GymResource;
+    this.WallResource = WallResource;
+    this.RouteResource = RouteResource;
     this.resAddr  = baseAddr + '/api/v1/full_gym/';
   }
 
@@ -44,18 +47,18 @@ define(['app'], function(app) {
         }
       });
 
-      var wallMap = new Map();
       wallArray.forEach(function(wall) {
-        wall.routeList = new Array();
-        wallMap.set(wall.resource_uri, wall.routeList);
-      });
+        wall.routeList = jsonObj.routes.filter(function(route) {
+          return route.wall == wall.resource_uri;
+        }.bind(this)).map(function(route) {
+          return this.RouteResource.__makeObjFromJson(route);
+        }.bind(this)); 
+      }.bind(this));
 
-      jsonObj.routes.forEach(function(route) {
-        var wall = wallMap.get(route.wall);
-        wall.push(route);
-      });
-
-      return wallArray;
+      return {
+        gym: this.GymResource.__makeObjFromJson(jsonObj.gym),
+        walls: wallArray
+      };
     },
   };
 

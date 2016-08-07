@@ -26,8 +26,8 @@
 
     <div class="md-list-item-text" layout="column">
       <h3>{{ route.color.name }} {{ route.difficulty.name }}</h3>
-      <p>Set Date: {{ route.setDate}}</p>
-      <p>Remove Date: {{ route.removeDate }}</p>
+      <p>Set Date: {{ route.setDate | date: 'mediumDate'}}</p>
+      <p>Remove Date: {{ route.removeDate | date: 'mediumDate' }}</p>
     </div>
 
     <md-button class="md-icon-button" ng-click="ctrl.removeRoute($event, route)">

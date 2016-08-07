@@ -18,43 +18,4 @@ define(['app'], function(app) {
       return (r + g + b) > 104? "black": "white";
     };
   }
-
-  app.config(['$tastypieProvider', function($tastypieProvider) {
-    $tastypieProvider.setResourceUrl('/api/v1/');
-    //$tastypieProvider.setAuth('ALovedOne', '0ad8fc2eca980937a55a1e3f41baff012b37539e');
-  }]);
-  
-
-  app.factory(
-    'WallResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('walls');
-  }]);
-  app.factory(
-    'RouteResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('routes');
-  }]);
-  app.factory(
-    'AscentResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('ascents');
-  }]);
-  app.factory(
-    'ColorResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('colors');
-  }]);
-  app.factory(
-    'DifficultyResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('difficulties');
-  }]);
-  app.factory(
-    'OutcomeResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('ascent_outcomes');
-  }]);
-  app.factory(
-    'UserResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('users');
-  }]);
-  app.factory(
-    'UserGymStatsResource', ['$tastypieResource', function($tastypieResource) {
-      return new $tastypieResource('ascent_summary');
-  }]);
 });

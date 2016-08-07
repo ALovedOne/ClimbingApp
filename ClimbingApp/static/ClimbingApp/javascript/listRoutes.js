@@ -6,8 +6,8 @@ function(app, baseView) {
   var controllerFn = function($scope, $mdDialog, routes, wall, gym, RouteResource) {
     baseView.call(this, controllerParams, arguments);
 
-    RouteResource.objects.$find({wall: wall.id, active: true}).then(function(routes) {
-      this.routeList = routes.objects;
+    RouteResource.$find({wall: wall.id, active: true}).then(function(routes) {
+      this.routeList = routes;
     }.bind(this));
   }
 
@@ -43,7 +43,7 @@ function(app, baseView) {
 
   controllerFn.prototype.addRoute = function($event) {
     $event.cancelBubble = true;
-    var newRoute = this.RouteResource.objects.$create();
+    var newRoute = this.RouteResource.$create();
     newRoute.wall = this.wall.resource_uri;
 
     this.editRoutePriv($event, newRoute, this.wall, this.gym).then(function(newRoute) {

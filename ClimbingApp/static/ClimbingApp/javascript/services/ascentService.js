@@ -3,7 +3,7 @@ define(['app'], function(app) {
   var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
     this.$http = $http;
     this.baseAddr = baseAddr;
-    this.resAddr = baseAddr + '/api/v1/routes';
+    this.resAddr = baseAddr + '/api/v1/ascents';
   };
 
   serviceFn.prototype = { 
@@ -13,25 +13,25 @@ define(['app'], function(app) {
       }.bind(this));
     },
 
-    $get: function ClimbingApp$RouteService$Get(routeId) {
-      return this.$http.get(this.resAddr + '/' + routeId + '/').then(function(data) {
+    $get: function ClimbingApp$RouteService$Get(ascentId) {
+      return this.$http.get(this.resAddr + '/' + ascentId + '/').then(function(data) {
         return this.__makeObjFromJson(data.data);
       }.bind(this));
     },
 
-    $save: function ClimbingApp$RouteService$Save(route) {
-      if (route.resource_uri) {
-        return this.$http.put(this.baseAddr + route.resource_uri, route).then(function(data) {
+    $save: function ClimbingApp$RouteService$Save(ascent) {
+      if (ascent.resource_uri) {
+        return this.$http.put(this.baseAddr + ascent.resource_uri, ascent).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       } else {
-        return this.$http.post(this.resAddr + '/', route).then(function(data) {
+        return this.$http.post(this.resAddr + '/', ascent).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       }
     },
 
-    $delete: function ClimbingApp$RouteService$Delete(route) {
+    $delete: function ClimbingApp$RouteService$Delete(ascent) {
 
     },
 
@@ -47,13 +47,13 @@ define(['app'], function(app) {
       }
     },
 
-    ColorResource: {
-      __makeObjFromJson: function (jsonObj) {
+    OutcomeResource: {
+      __makeObjFromJson: function(jsonObj) {
         return jsonObj;
       },
     },
 
-    DifficultyResource: {
+    UserResource: {
       __makeObjFromJson: function(jsonObj) {
         return jsonObj;
       },
@@ -63,12 +63,16 @@ define(['app'], function(app) {
       return {
         id: jsonObj.id,
         resource_uri: jsonObj.resource_uri,
+        date:         this.__jsonDate2Obj(jsonObj.date),
+        outcome:      this.OutcomeResource.__makeObjFromJson(jsonObj.outcome),
+        route_uri:    jsonObj.route.resource_uri,
+        user:         this.UserResource.__makeObjFromJson(jsonObj.user),
+        comment:      this.comment,
+        /*
         removeDate: this.__jsonDate2Obj(jsonObj.removeDate),
         setDate:    this.__jsonDate2Obj(jsonObj.setDate),
         wall_uri:     jsonObj.wall,
-
-        color:      this.ColorResource.__makeObjFromJson(jsonObj.color),
-        difficulty: this.DifficultyResource.__makeObjFromJson(jsonObj.difficulty)
+        */
       }
     },
 
@@ -88,6 +92,6 @@ define(['app'], function(app) {
     },
   };
 
-  app.service('RouteResource', serviceParams.concat([serviceFn]));
+  app.service('AscentResource', serviceParams.concat([serviceFn]));
   return serviceFn;
 })

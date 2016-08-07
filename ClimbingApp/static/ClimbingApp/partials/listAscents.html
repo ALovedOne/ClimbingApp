@@ -4,7 +4,7 @@
 
     <div class="md-list-item-text" layout="column">
       <h3>{{ ascent.user.username }}</h3>
-      <p>{{ ascent.date }}</p>
+      <p>{{ ascent.date | date: 'mediumDate' }}</p>
       <p>{{ ascent.comments }}</p>
     </div>
 

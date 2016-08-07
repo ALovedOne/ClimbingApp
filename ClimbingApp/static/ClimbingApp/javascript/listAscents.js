@@ -6,8 +6,8 @@ function(app, baseView) {
   var controllerFn = function($scope, $mdDialog, route, wall, gym, AscentResource) {
     baseView.call(this, controllerParams, arguments);
 
-    AscentResource.objects.$find({route: route.id}).then(function(ascents) {
-      this.ascentList = ascents.objects;
+    AscentResource.$find({route: route.id}).then(function(ascents) {
+      this.ascentList = ascents;
     }.bind(this));
   }
 
@@ -34,7 +34,7 @@ function(app, baseView) {
 
   controllerFn.prototype.addAscent = function ClimbingApp$EditAscent$addAscent($event) {
     $event.cancelBubble = true;
-    var newAscent = this.AscentResource.objects.$create();
+    var newAscent = this.AscentResource.$create();
     newAscent.route = this.route;
 
     this.editAscentPriv($event, newAscent).then(function(newAscent) {

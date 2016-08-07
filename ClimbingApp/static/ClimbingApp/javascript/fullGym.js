@@ -3,7 +3,7 @@ function(app, baseView) {
   'use strict';
 
   var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'FullGymResource', 'WallResource', 'RouteResource'];
-  var controllerFunc = function($scope, $mdDialog, gym, user, FullGymResource, RouteResource) {
+  var controllerFunc = function($scope, $mdDialog, gym, user, FullGymResource, WallResource, RouteResource) {
     baseView.call(this, controllerParams, arguments);
 
     this.wallList = [];
@@ -15,7 +15,8 @@ function(app, baseView) {
 
   controllerFunc.prototype.loadWalls = function(filters) {
     this.FullGymResource.$get(this.gym.id).then(function(walls) {
-      this.wallList = walls;
+      console.log(walls);
+      this.wallList = walls.walls;
     }.bind(this));
   };
 
@@ -29,7 +30,7 @@ function(app, baseView) {
   }
 
   controllerFunc.prototype.addRoute = function($event, wall) {
-    var newRoute = this.RouteResource.objects.$create();
+    var newRoute = this.RouteResource.$create();
 
     this.editRoutePriv($event, newRoute, wall).then(function(savedRoute) {
       wall.routeList.push(savedRoute); 
@@ -37,7 +38,6 @@ function(app, baseView) {
   }
 
   controllerFunc.prototype.removeRoute = function($event, route) {
-    var newRoute = this.RouteResource.objects.$create(route);
 
     var confirm = this.$mdDialog.confirm()
       .title("Take down this route?")
@@ -46,9 +46,9 @@ function(app, baseView) {
       .cancel("Don't do it");
 
     this.$mdDialog.show(confirm).then(function() {
-      newRoute.removeDate = this.object2Date(new Date());
-      newRoute.$save().then(function(newRoute) {
-        this.removeRoutePriv(newRoute);
+      route.removeDate = this.object2Date(new Date());
+      this.RouteResource.$save(route).then(function(route2) {
+        this.removeRoutePriv(route2);
       }.bind(this));
     }.bind(this));
   }
@@ -69,12 +69,11 @@ function(app, baseView) {
 
   controllerFunc.prototype.removeRoutePriv = function ClimbingApp$FullGym$RemoveRoutePriv(route) {
     var wall = this.wallList.find(function(wall) {
-      return wall.resource_uri == route.wall;
+      return wall.resource_uri == route.wall_uri;
     });
     wall.routeList = wall.routeList.filter(function(r) {
       return r.resource_uri != route.resource_uri;
     });
-    console.log(wall);
   }
 
   var controller = controllerParams.concat([controllerFunc]);

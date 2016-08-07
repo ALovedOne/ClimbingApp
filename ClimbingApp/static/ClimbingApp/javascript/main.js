@@ -169,7 +169,7 @@ function(angular) {
       },
       resolve: {
         user: ['UserResource', function(UserResource) {
-          return UserResource.objects.$get({id: 'me'});
+          return UserResource.$get('me');
         }],
       },
     })
@@ -186,7 +186,7 @@ function(angular) {
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
     .state('mainApp.gym.listWalls', stateResolver.resolve('listWalls', '/walls', {
       walls: ['gym', 'WallResource', function(gym, WallResource) {
-        return WallResource.objects.$find({gym: gym.id});
+        return WallResource.$find({gym: gym.id});
       }],
     }))
 
@@ -197,28 +197,26 @@ function(angular) {
     /*  */
     .state('mainApp.gym.wall', stateResolver.resolveAbstract('wall', '/walls/:wallId', {
       wall: ['$stateParams', 'WallResource', function($stateParams, WallResource) {
-        var wallId = $stateParams.wallId;
-        return WallResource.objects.$get({'id': wallId});
+        return WallResource.$get($stateParams.wallId);
       }],
     }))
     .state('mainApp.gym.wall.editWall',   stateResolver.resolveModal('editWall', '/edit', '^.^.listWalls', ['gym', 'wall']))
     .state('mainApp.gym.wall.listRoutes', stateResolver.resolve('listRoutes', '/routes', {
       routes: ['wall', 'RouteResource', function(wall, RouteResource) {
-        return RouteResource.objects.$find({wall: wall.id, active: true});
+        return RouteResource.$find({wall: wall.id, active: true});
       }],
     }))
 
     /*  */
     .state('mainApp.gym.wall.route', stateResolver.resolveAbstract('route', '/routes/:routeId', {
       route: ['$stateParams', 'RouteResource', function($stateParams, RouteResource) {
-        var routeId = $stateParams.routeId;
-        return RouteResource.objects.$get({'id': routeId});
+        return RouteResource.$get($stateParams.routeId);
       }],
     }))
     .state('mainApp.gym.wall.route.editRoute',   stateResolver.resolveModal('editRoute', '/edit', '^.^.listRoutes', ['gym', 'wall', 'route']))
     .state('mainApp.gym.wall.route.listAscents', stateResolver.resolve('listAscents', '/ascents', {
       ascents: ['route', 'AscentResource', function(route, AscentResource) {
-        return AscentResource.objects.$find({route: route.id});
+        return AscentResource.$find({route: route.id});
       }],
     }))
 
@@ -266,13 +264,22 @@ function(angular) {
   return myApp;
 });
 
-require(['angular', 'app', 'services', 'mainApp', 'ngNvd3', 'services/gymService',
+require(['angular', 'app', 'mainApp', 'ngNvd3', 
       'listGyms',    'editGym',
       'listWalls',   'editWall',
       'listRoutes',  'editRoute',
       'listAscents', 'editAscent',
       'climbing', 
-      'fullGym', 'services/fullGymService', 'services/routeService'], 
+      'fullGym', 
+      'services/userService',
+      'services/colorService',
+      'services/difficultyService',
+      'services/outcomeService',
+      'services/gymService',
+      'services/wallService',
+      'services/routeService',
+      'services/ascentService',
+      'services/fullGymService', ], 
 function(angular, app) {
   'use strict';
   
