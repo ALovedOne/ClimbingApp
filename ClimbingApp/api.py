@@ -22,41 +22,48 @@ api = Api(api_name = 'v1')
 
 class LoginCanEditAuth(Authorization):
   def read_list(self, obj_list, bundle):
+    print('read_list')
     return obj_list
 
   def read_detail(self, obj_list, bundle):
+    print('read_detail')
     return True
 
   def create_list(self, obj_list, bundle):
+    print('create_list')
     return obj_list
 
   def create_detail(self, obj_list, bundle):
-    return bundle.obj.user.isAuthenticated()
+    print('create_detail')
+    return bundle.request.user.is_authenticated()
 
   def update_list(self, obj_list, bundle):
+    print('update_list')
     return obj_list
 
   def update_detail(self, obj_list, bundle):
-    return bundle.obj.user.isAuthenticated()
+    print('update_detail')
+    print(bundle.request.user)
+    return bundle.request.user.is_authenticated()
 
   def delete_list(self, obj_list, bundle):
+    print('delete_list')
     return obj_list
 
   def delete_detail(self, obj_list, bundle):
-    return bundle.obj.user.isAuthenticated()
+    print('delete_detail')
+    return bundle.request.user.is_authenticated()
     
 class UserResource(ModelResource):
   class Meta:
     queryset = User.objects.all()
     resource_name = "users"
-    #authentication = ApiKeyAuthentication()
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
     excludes = ['email', 'password', 'is_superuser']
 
   def obj_get(self, bundle, **kwargs):
-    print("kwargs: ", kwargs)
     if kwargs['pk'] != 'me':
       return super(ModelResource, self).obj_get(bundle, **kwargs)
     if not bundle.request.user.is_authenticated():
@@ -106,7 +113,7 @@ class ColorResource(ModelResource):
     queryset = Color.objects.all().order_by('name')
     resource_name = "colors"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
 api.register(ColorResource())
 
@@ -115,7 +122,7 @@ class DifficultyResource(ModelResource):
     queryset = Difficulty.objects.all()
     resource_name = "difficulties"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
 api.register(DifficultyResource())
 
@@ -124,7 +131,7 @@ class AscentOutcomeResource(ModelResource):
     queryset = AscentOutcome.objects.all()
     resource_name = "ascent_outcomes"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
 api.register(AscentOutcomeResource())
 
@@ -133,7 +140,7 @@ class GymResource(ModelResource):
     queryset = Gym.objects.all().order_by('sort_name')
     resource_name = "gyms"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
     filtering = {
       'name': ALL,
@@ -146,7 +153,7 @@ class WallResource(ModelResource):
     queryset = Wall.objects.all().order_by('sort_name')
     resource_name = "walls"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
     filtering = {
       'name': ALL,
@@ -161,7 +168,7 @@ class RouteResource(ModelResource):
     queryset = Route.activeRoutes.order_by('-setDate')
     resource_name = "routes"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
     filtering = {
       'wall':  'exact',
@@ -207,7 +214,7 @@ class AscentResource(ModelResource):
     queryset = Ascent.objects.all()
     resource_name = "ascents"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = Authorization()
+    authorization = LoginCanEditAuth()
     always_return_data = True
     filtering = {
       'route': 'exact',

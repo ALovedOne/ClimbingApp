@@ -123,7 +123,8 @@ function(angular) {
 
   myApp.constant('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
 
-  myApp.run(['$rootScope', '$state', '$localStorage', function($rootScope, $state, $localStorage) {
+  myApp.run(['$rootScope', '$state', '$localStorage', 'AuthService', function($rootScope, $state, $localStorage, AuthService) {
+  
     $rootScope.$on('$stateChangeError', 
     function(event, toState, toParams, fromState, fromParams, error){ 
       if (error.status == 401) {
@@ -131,11 +132,15 @@ function(angular) {
           nextState: toState,
           nextStateParams: toParams
         });
-      }
+        return;
+      } 
+
+      console.error(error);
     });
 
     if ($localStorage.apiKey) {
       // TODO - add login?
+      AuthService.setAuth($localStorage.username, $localStorage.apiKey);
     }
   }]);
   
@@ -269,6 +274,7 @@ require(['angular', 'app', 'mainApp', 'ngNvd3',
       'climbing', 
       'fullGym', 
       'services/authService',
+      'services/authenticatedHttp',
       'services/userService',
       'services/colorService',
       'services/difficultyService',

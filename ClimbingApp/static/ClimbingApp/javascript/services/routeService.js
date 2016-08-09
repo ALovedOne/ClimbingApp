@@ -1,9 +1,9 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr'];
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
     this.$http = $http;
     this.baseAddr = baseAddr;
-    this.resAddr = baseAddr + '/api/v1/routes';
+    this.resAddr = baseAddr + '/api/v1/routes/';
   };
 
   serviceFn.prototype = { 
@@ -14,7 +14,7 @@ define(['app'], function(app) {
     },
 
     $get: function ClimbingApp$RouteService$Get(routeId) {
-      return this.$http.get(this.resAddr + '/' + routeId + '/').then(function(data) {
+      return this.$http.get(this.resAddr + routeId + '/').then(function(data) {
         return this.__makeObjFromJson(data.data);
       }.bind(this));
     },
@@ -25,7 +25,7 @@ define(['app'], function(app) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       } else {
-        return this.$http.post(this.resAddr + '/', route).then(function(data) {
+        return this.$http.post(this.resAddr, route).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       }

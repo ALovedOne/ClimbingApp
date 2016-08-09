@@ -1,5 +1,5 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr', 'GymResource', 'WallResource', 'RouteResource'];
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr', 'GymResource', 'WallResource', 'RouteResource'];
   var serviceFn = function ClimbingApp$GymService($http, baseAddr, GymResource, WallResource, RouteResource) {
     console.log("FullGymService initialize");
     this.$http = $http;

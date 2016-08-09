@@ -21,10 +21,9 @@ function(app, baseView) {
       this.ascent.user        = this.ascent.user.resource_uri;
       this.ascent.outcome     = this.ascent.outcome.resource_uri;
       
-      this.ascent.date        = this.object2Date(new Date());
+      this.ascent.date        = new Date();
      
       this.AscentResource.$save(this.ascent).then(function(newAscent) {
-      //this.ascent.$save().then(function(newAscent) {
         this.$mdDialog.hide(newAscent);
       }.bind(this));
     }

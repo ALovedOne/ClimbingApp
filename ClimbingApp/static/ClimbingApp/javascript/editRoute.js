@@ -6,9 +6,6 @@ function(app, baseView) {
   var controllerFn = function($scope, $state, $mdDialog, GymResource, RouteResource, DifficultyResource, ColorResource, gym, wall, route) {
     baseView.call(this, controllerParams, arguments);
 
-    this.setDateObj =    this.date2Object(route.setDate);
-    this.removeDateObj = this.date2Object(route.removeDate, true);
-
     if (route.difficulty) {
       this.difficulties = [route.difficulty];
     }
@@ -25,8 +22,6 @@ function(app, baseView) {
     this.route.color      = this.route.color.resource_uri;
     this.route.difficulty = this.route.difficulty.resource_uri;
     // TODO - convert dates in service
-    this.route.setDate    = this.object2Date(this.setDateObj);
-    this.route.removeDate = this.object2Date(this.removeDateObj);
 
     this.RouteResource.$save(this.route).then(function(newRoute) {
       this.$mdDialog.hide(newRoute);

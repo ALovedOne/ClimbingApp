@@ -1,5 +1,5 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr'];
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$OutcomeService($http, baseAddr) {
     console.log("OutcomeService initialize");
     this.$http = $http;

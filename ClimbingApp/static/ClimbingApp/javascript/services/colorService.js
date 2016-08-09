@@ -1,5 +1,5 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr'];
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$ColorService($http, baseAddr) {
     console.log("ColorService initialize");
     this.$http = $http;

@@ -1,5 +1,5 @@
 define(['app'], function(app) {
-  var serviceParams = ['$http', 'ClimbingApp$BaseAddr'];
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$UserService($http, baseAddr) {
     console.log("UserService initialize");
     this.$http = $http;
@@ -46,7 +46,7 @@ define(['app'], function(app) {
     __makeObjFromJson(jsonObj) {
       return { 
         id:           jsonObj.id,
-        name:         jsonObj.name,
+        username:     jsonObj.username,
         sort:         jsonObj.sort,
         resource_uri: jsonObj.resource_uri,
 
