@@ -3,7 +3,7 @@ define(['app'], function(app) {
   var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
     this.$http = $http;
     this.baseAddr = baseAddr;
-    this.resAddr = baseAddr + '/api/v1/ascents';
+    this.resAddr = baseAddr + '/api/v1/ascents/';
   };
 
   serviceFn.prototype = { 
@@ -14,7 +14,7 @@ define(['app'], function(app) {
     },
 
     $get: function ClimbingApp$RouteService$Get(ascentId) {
-      return this.$http.get(this.resAddr + '/' + ascentId + '/').then(function(data) {
+      return this.$http.get(this.resAddr + ascentId + '/').then(function(data) {
         return this.__makeObjFromJson(data.data);
       }.bind(this));
     },
@@ -25,7 +25,7 @@ define(['app'], function(app) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       } else {
-        return this.$http.post(this.resAddr + '/', ascent).then(function(data) {
+        return this.$http.post(this.resAddr, ascent).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       }
