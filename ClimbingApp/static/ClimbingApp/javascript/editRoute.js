@@ -21,7 +21,6 @@ function(app, baseView) {
     this.route.wall       = this.wall.resource_uri;
     this.route.color      = this.route.color.resource_uri;
     this.route.difficulty = this.route.difficulty.resource_uri;
-    // TODO - convert dates in service
 
     this.RouteResource.$save(this.route).then(function(newRoute) {
       this.$mdDialog.hide(newRoute);

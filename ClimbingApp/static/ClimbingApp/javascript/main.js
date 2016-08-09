@@ -139,7 +139,6 @@ function(angular) {
     });
 
     if ($localStorage.apiKey) {
-      // TODO - add login?
       AuthService.setAuth($localStorage.username, $localStorage.apiKey);
     }
   }]);

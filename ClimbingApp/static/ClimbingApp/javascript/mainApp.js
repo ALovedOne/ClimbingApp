@@ -17,10 +17,12 @@ function(app) {
       ).then(function(resp) {
         var username = resp.data.username;
         var apiKey   = resp.data.apiKey;
-        // TODO - set auth
+
         AuthService.setAuth(username, apiKey);
+
         $localStorage.username = username;
         $localStorage.apiKey   = apiKey;
+
         if ($stateParams.nextState) {
           $state.go($stateParams.nextState, $stateParams.nextStateParams);
         } else {

@@ -22,38 +22,29 @@ api = Api(api_name = 'v1')
 
 class LoginCanEditAuth(Authorization):
   def read_list(self, obj_list, bundle):
-    print('read_list')
     return obj_list
 
   def read_detail(self, obj_list, bundle):
-    print('read_detail')
     return True
 
   def create_list(self, obj_list, bundle):
-    print('create_list')
     return obj_list
 
   def create_detail(self, obj_list, bundle):
-    print('create_detail')
     return bundle.request.user.is_authenticated()
 
   def update_list(self, obj_list, bundle):
-    print('update_list')
     return obj_list
 
   def update_detail(self, obj_list, bundle):
-    print('update_detail')
-    print(bundle.request.user)
     return bundle.request.user.is_authenticated()
 
   def delete_list(self, obj_list, bundle):
-    print('delete_list')
     return obj_list
 
   def delete_detail(self, obj_list, bundle):
-    print('delete_detail')
     return bundle.request.user.is_authenticated()
-    
+
 class UserResource(ModelResource):
   class Meta:
     queryset = User.objects.all()
