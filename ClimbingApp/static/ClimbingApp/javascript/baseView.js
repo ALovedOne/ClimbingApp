@@ -12,9 +12,10 @@ function() {
       var argName = argsNames[idx];
       this[argName] = args[idx];
     }
-  }
+  };
 
   baseView.prototype = {
+  /*
     date2Object: function ClimbingApp$BaseView$Date2Object(date, allowNull) {
       if (date) {
         return new Date(date);
@@ -32,6 +33,7 @@ function() {
         return null;
       }
     },
+    */
   }
 
   return baseView;

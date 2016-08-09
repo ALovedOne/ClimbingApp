@@ -5,8 +5,8 @@ function(app) {
     $scope.LoggedInUser = user;
   }];
 
-  var loginController = ['$scope', '$state', '$stateParams', '$http', '$tastypie', '$localStorage',
-  function($scope, $state, $stateParams, $http, $tastypie, $localStorage) {
+  var loginController = ['$scope', '$state', '$stateParams', '$http', '$localStorage', 'AuthService',
+  function($scope, $state, $stateParams, $http, $localStorage, AuthService) {
     $scope.login = function($event) {
       var username = $scope.username;
       var password = $scope.password;
@@ -17,7 +17,8 @@ function(app) {
       ).then(function(resp) {
         var username = resp.data.username;
         var apiKey   = resp.data.apiKey;
-        $tastypie.setAuth(username, apiKey);
+        // TODO - set auth
+        AuthService.setAuth(username, apiKey);
         $localStorage.username = username;
         $localStorage.apiKey   = apiKey;
         if ($stateParams.nextState) {
