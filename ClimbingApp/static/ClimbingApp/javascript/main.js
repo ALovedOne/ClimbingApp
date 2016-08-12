@@ -265,13 +265,20 @@ function(angular) {
   return myApp;
 });
 
-require(['angular', 'app', 'mainApp', 'ngNvd3', 
-      'listGyms',    'editGym',
-      'listWalls',   'editWall',
-      'listRoutes',  'editRoute',
-      'listAscents', 'editAscent',
-      'climbing', 
-      'fullGym', 
+require(['angular', 'app', 'ngNvd3', 
+
+      'views/mainApp',
+      'views/listGyms',    
+      'views/editGym',
+      'views/listWalls',   
+      'views/editWall',
+      'views/listRoutes',  
+      'views/editRoute',
+      'views/listAscents', 
+      'views/editAscent',
+      'views/climbing', 
+      'views/fullGym', 
+
       'services/authService',
       'services/authenticatedHttp',
       'services/userService',

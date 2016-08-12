@@ -1,4 +1,4 @@
-define(['app', 'baseModalView'],
+define(['app', 'views/baseModalView'],
 function(app, baseView) {
   'use strict';
 

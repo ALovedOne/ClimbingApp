@@ -1,4 +1,4 @@
-define(['app', 'baseListView'],
+define(['app', 'views/baseListView'],
 function(app, baseView) {
   'use strict';
 
