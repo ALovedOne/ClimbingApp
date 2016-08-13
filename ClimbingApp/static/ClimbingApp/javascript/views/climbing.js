@@ -1,5 +1,5 @@
-define(['app', 'views/baseView'],
-function(app, baseView) {
+define(['app', 'views/baseView', 'utils'],
+function(app, baseView, utils) {
   'use strict';
 
   var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'AscentResource'];
@@ -15,7 +15,7 @@ function(app, baseView) {
   controllerFunc.prototype = Object.create(baseView.prototype);
 
   controllerFunc.prototype.loadAscents = function(filters) {
-    this.AscentResource.objects.$find(this.filters).then(function(ascents) {
+    this.AscentResource.$find(this.filters).then(function(ascents) {
       this.ascentList = ascents.objects;
     }.bind(this));
   };
@@ -23,7 +23,7 @@ function(app, baseView) {
   controllerFunc.prototype.changeFilter = function ClimbingApp$Climbing$changeFilters(filter, value) {
     if (filter == "today") {
       if (value) {
-        this.filters['date'] = this.object2Date(new Date());
+        this.filters['date'] = utils.object2Date(new Date());
       } else {
         delete this.filters['date'];
       } 

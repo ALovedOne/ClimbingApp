@@ -2,7 +2,7 @@ define(['app', 'views/baseListView'],
 function(app, baseView) {
   'use strict';
 
-  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource']; //, 'UserGymStatsResource'];
+  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource'];
   var controllerFn = function($scope, $state, $mdDialog, GymResource, GymStatsResource) {
     baseView.call(this, controllerParams, arguments);
 

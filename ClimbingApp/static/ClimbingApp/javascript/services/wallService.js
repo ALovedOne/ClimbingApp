@@ -1,4 +1,4 @@
-define(['app'], function(app) {
+define(['app', 'utils'], function(app, utils) {
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
     this.$http = $http;
@@ -37,14 +37,6 @@ define(['app'], function(app) {
 
     $create: function ClimbingApp$WallService$Create() {
       return this.__makeNewObj();
-    },
-
-    __jsonDate2Obj: function ClimbingApp$BaseService$__jsonDate2Obj(jsonDate) {
-      if (jsonDate == '' || jsonDate == null) {
-        return null;
-      } else {
-        return new Date(jsonDate);
-      }
     },
 
     __makeObjFromJson: function ClimbingApp$WallService$__makeObjFromJson(jsonObj) {

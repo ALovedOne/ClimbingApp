@@ -1,4 +1,4 @@
-define(['app'], function(app) {
+define(['app', 'utils'], function(app, utils) {
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
     this.$http = $http;
@@ -39,14 +39,6 @@ define(['app'], function(app) {
       return this.__makeNewObj();
     },
 
-    __jsonDate2Obj: function ClimbingApp$BaseService$__jsonDate2Obj(jsonDate) {
-      if (jsonDate == '' || jsonDate == null) {
-        return null;
-      } else {
-        return new Date(jsonDate);
-      }
-    },
-
     ColorResource: {
       __makeObjFromJson: function (jsonObj) {
         return jsonObj;
@@ -63,8 +55,8 @@ define(['app'], function(app) {
       return {
         id: jsonObj.id,
         resource_uri: jsonObj.resource_uri,
-        removeDate: this.__jsonDate2Obj(jsonObj.removeDate),
-        setDate:    this.__jsonDate2Obj(jsonObj.setDate),
+        removeDate:   utils.date2Obj(jsonObj.removeDate),
+        setDate:      utils.date2Obj(jsonObj.setDate),
         wall_uri:     jsonObj.wall,
 
         color:      this.ColorResource.__makeObjFromJson(jsonObj.color),
