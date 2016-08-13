@@ -14,7 +14,6 @@ function(app, baseView) {
   controllerFn.prototype = Object.create(baseView.prototype);
 
   controllerFn.prototype.editAscentPriv = function ClimbingApp$EditAscent$editAscent($event, ascent) {
-    var childScope = this.$scope.$new();
     return this.$mdDialog.show({
       templateUrl: '/static/ClimbingApp/partials/editAscent.html',
       locals: {
@@ -25,10 +24,6 @@ function(app, baseView) {
       },
       controller: 'ClimbingAppEditAscent as editAscent',
       targetEvent: $event,
-      scope: childScope,
-      onRemoving: function() {
-        childScope.$destroy();
-      }
     });
   }
 

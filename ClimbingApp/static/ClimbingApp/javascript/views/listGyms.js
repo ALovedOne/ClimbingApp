@@ -14,19 +14,6 @@ function(app, baseView) {
   controllerFn.prototype = Object.create(baseView.prototype);
 
   controllerFn.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
-    var childScope = this.$scope.$new();
-    childScope.gym = gym;
-    
-    childScope.acceptDialog = function($event) {
-      gym.save().then(function(newGym) {
-        $mdDialog.hide(newGym)
-      });
-    }
- 
-    childScope.cancelDialog = function($event) {
-      $mdDialog.cancel(false);
-    }
-    
     return this.$mdDialog.show({
       templateUrl: '/static/ClimbingApp/partials/editGym.html',
       controller: 'ClimbingAppEditGym',
@@ -35,10 +22,6 @@ function(app, baseView) {
         gym: gym,
       },
       targetEvent: $event,
-      scope: childScope,
-      onRemoving: function() {
-        childScope.$destroy();
-      }
     });
   }
 

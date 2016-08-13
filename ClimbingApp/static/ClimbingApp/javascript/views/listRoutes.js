@@ -14,7 +14,6 @@ function(app, baseView) {
   controllerFn.prototype = Object.create(baseView.prototype);
 
   controllerFn.prototype.editRoutePriv = function editRoute($event, route, wall, gym) {
-    var childScope = this.$scope.$new();
     return this.$mdDialog.show({
       templateUrl: '/static/ClimbingApp/partials/editRoute.html',
       locals: {
@@ -25,10 +24,6 @@ function(app, baseView) {
       controller: 'ClimbingAppEditRoute',
       controllerAs: 'ctrl',
       targetEvent: $event,
-      scope: childScope,
-      onRemoving: function() {
-        childScope.$destroy();
-      }
     });
   }
 
