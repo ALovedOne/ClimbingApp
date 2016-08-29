@@ -18,6 +18,8 @@ from django.db.models import signals, Count, Q
 
 from .models import *
 
+import time
+
 api = Api(api_name = 'v1')
 
 class LoginCanEditAuth(Authorization):
@@ -156,7 +158,7 @@ api.register(WallResource())
 
 class RouteResource(ModelResource):
   class Meta:
-    queryset = Route.activeRoutes.order_by('-setDate')
+    queryset = Route.objects.all().order_by('-setDate')
     resource_name = "routes"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = LoginCanEditAuth()
@@ -171,16 +173,19 @@ class RouteResource(ModelResource):
   difficulty = fields.ForeignKey(DifficultyResource, 'difficulty', full = True)
 
   def apply_filters(self, request, filters, **kwargs):
-    active = True
+    active = None
 
     if 'active' in filters:
       active = filters.pop('active')
 
     qs = super(RouteResource, self).apply_filters(request, filters, **kwargs)
 
-    if active: 
+    if active == True: 
       today = datetime.date.today()
       qs = qs.filter(Q(removeDate__gt = today) | Q(removeDate = None))
+    if active == False:
+      today = datetime.date.today()
+      qs = qs.filter(removeDate__lt = today)
 
     return qs
 
@@ -196,8 +201,11 @@ class RouteResource(ModelResource):
     if 'active' in filters:
       if filters['active'] == 'false':
         orm_filters['active'] = False
+      if filters['active'] == 'true':
+        orm_filters['active'] = True
 
     return orm_filters
+
 api.register(RouteResource())
 
 class AscentResource(ModelResource):
@@ -245,31 +253,5 @@ class AscentResource(ModelResource):
 
     return orm_filters
 api.register(AscentResource())
-
-class FullGym:
-  def __init__(self, gym, walls, routes):
-    self.pk     = gym.id
-    self.gym    = gym
-    self.walls  = walls
-    self.routes = routes
-
-class FullGymResource(Resource):
-  gym    = fields.ForeignKey(GymResource,    'gym',    full = True)
-  walls  = fields.ToManyField(WallResource,  'walls',  full = True, null=True)
-  routes = fields.ToManyField(RouteResource, 'routes', full = True, null=True)
-
-  class Meta:
-    resource_name = 'full_gym'
-    authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    allowed_methods = ['get']
-
-  def obj_get(self, bundle, **kwargs):
-    gym  = Gym.objects.get(id = kwargs['pk'])
-    walls = Wall.objects.filter(gym_id = gym.id)
-    routes = Route.activeRoutes.filter(wall__gym_id = gym.id)
-
-    return FullGym(gym, walls, routes)
-
-api.register(FullGymResource())
 
 apiUrls = api.urls

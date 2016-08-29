@@ -1,22 +1,31 @@
-define(['app', 'views/baseView'],
-function(app, baseView) {
+define(['angular', 'app', 'views/baseView'],
+function(angular, app, baseView) {
   'use strict';
 
-  var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'FullGymResource', 'WallResource', 'RouteResource'];
-  var controllerFunc = function($scope, $mdDialog, gym, user, FullGymResource, WallResource, RouteResource) {
+  var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'WallResource', 'RouteResource'];
+  var controllerFunc = function($scope, $mdDialog, gym, user, WallResource, RouteResource) {
     baseView.call(this, controllerParams, arguments);
 
     this.wallList = [];
 
-    this.loadWalls(this.filters);
+    this.load(this.filters);
   };
 
-  controllerFunc.prototype = Object.create(baseView.prototype);
+  controllerFunc.prototype = angular.extend({}, baseView.prototype);
 
-  controllerFunc.prototype.loadWalls = function(filters) {
-    this.FullGymResource.$get(this.gym.id).then(function(walls) {
-      this.wallList = walls.walls;
-    }.bind(this));
+  controllerFunc.prototype.load = function(filters) {
+    var wallsPromise = this.WallResource.$findAll({ gym: this.gym.id });
+    var routesPromise = this.RouteResource.$findAll({ gym: this.gym.id, active: true });
+    wallsPromise.then(function(walls) {
+      routesPromise.then(function(routes) {
+        this.wallList = walls.map(function(wall) {
+          wall.routeList = routes.filter(function(route) {
+            return route.wall_uri == wall.resource_uri;
+          }.bind(this));
+          return wall;
+        }.bind(this));
+      }.bind(this));
+    }.bind(this))
   };
 
   controllerFunc.prototype.contrastColorValue = function(color) {

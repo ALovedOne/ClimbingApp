@@ -1,55 +1,15 @@
-define(['app', 'utils'], function(app, utils) {
-  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
+define(['angular', 'app', 'utils', 'services/baseService'], 
+function(angular, app, utils, baseService) {
+  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr', 'DifficultyResource', 'ColorResource'];
+  var serviceFn = function ClimbingApp$RouteResource($http, baseAddr, DifficultyResource, ColorResource) {
+    baseService.call(this, serviceParams, arguments);
+
     this.$http = $http;
     this.baseAddr = baseAddr;
     this.resAddr = baseAddr + '/api/v1/routes/';
   };
 
   serviceFn.prototype = { 
-    $find: function ClimbingApp$RouteService$Find(params) {
-      return this.$http.get(this.resAddr, { params: params}).then(function(data) {
-        return data.data.objects.map(this.__makeObjFromJson.bind(this));
-      }.bind(this));
-    },
-
-    $get: function ClimbingApp$RouteService$Get(routeId) {
-      return this.$http.get(this.resAddr + routeId + '/').then(function(data) {
-        return this.__makeObjFromJson(data.data);
-      }.bind(this));
-    },
-
-    $save: function ClimbingApp$RouteService$Save(route) {
-      if (route.resource_uri) {
-        return this.$http.put(this.baseAddr + route.resource_uri, route).then(function(data) {
-          return this.__makeObjFromJson(data.data);
-        }.bind(this));
-      } else {
-        return this.$http.post(this.resAddr, route).then(function(data) {
-          return this.__makeObjFromJson(data.data);
-        }.bind(this));
-      }
-    },
-
-    $delete: function ClimbingApp$RouteService$Delete(route) {
-
-    },
-
-    $create: function ClimbingApp$RouteService$Create() {
-      return this.__makeNewObj();
-    },
-
-    ColorResource: {
-      __makeObjFromJson: function (jsonObj) {
-        return jsonObj;
-      },
-    },
-
-    DifficultyResource: {
-      __makeObjFromJson: function(jsonObj) {
-        return jsonObj;
-      },
-    },
 
     __makeObjFromJson: function ClimbingApp$RouteService$__makeObjFromJson(jsonObj) {
       return {
@@ -79,6 +39,8 @@ define(['app', 'utils'], function(app, utils) {
       };
     },
   };
+
+  angular.extend(serviceFn.prototype, baseService.prototype);
 
   app.service('RouteResource', serviceParams.concat([serviceFn]));
   return serviceFn;

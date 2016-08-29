@@ -13,6 +13,10 @@ define(['app', 'utils'], function(app, utils) {
       }.bind(this));
     },
 
+    $findAll: function ClimbingApp$WallServices$FindAll(params) {
+      return this.$find(params);
+    },
+
     $get: function ClimbingApp$WallService$Get(wallId) {
       return this.$http.get(this.resAddr + wallId + '/').then(function(data) {
         return this.__makeObjFromJson(data.data);

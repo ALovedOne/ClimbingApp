@@ -5,7 +5,7 @@ require.config({
     underscore:   '/static/bower_components/underscore/underscore',
     ngAria:       '/static/bower_components/angular-aria/angular-aria',
     ngAnimate:    '/static/bower_components/angular-animate/angular-animate',
-    ngMaterial:   '/static/bower_components/angular-material/angular-material.min',
+    ngMaterial:   '/static/bower_components/angular-material/angular-material',
     ngMessages:   '/static/bower_components/angular-messages/angular-messages',
     ngStorage:    '/static/bower_components/ngstorage/ngStorage',
     ngResource:   '/static/bower_components/angular-resource/angular-resource',
@@ -289,7 +289,7 @@ require(['angular', 'app', 'ngNvd3',
       'services/wallService',
       'services/routeService',
       'services/ascentService',
-      'services/fullGymService', ], 
+    ], 
 function(angular, app) {
   'use strict';
   
