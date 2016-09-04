@@ -11,7 +11,7 @@ function() {
       }
     },
 
-    object2Date: function ClimbingApp$Utils$Obj2Date(dateObj) {
+    obj2Date: function ClimbingApp$Utils$Obj2Date(dateObj) {
       return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
     },
   }

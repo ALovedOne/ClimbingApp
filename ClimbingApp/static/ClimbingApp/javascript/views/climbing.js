@@ -23,7 +23,7 @@ function(app, baseView, utils) {
   controllerFunc.prototype.changeFilter = function ClimbingApp$Climbing$changeFilters(filter, value) {
     if (filter == "today") {
       if (value) {
-        this.filters['date'] = utils.object2Date(new Date());
+        this.filters['date'] = utils.obj2Date(new Date());
       } else {
         delete this.filters['date'];
       } 

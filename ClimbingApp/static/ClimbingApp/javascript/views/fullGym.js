@@ -54,7 +54,7 @@ function(angular, app, baseView) {
       .cancel("Don't do it");
 
     this.$mdDialog.show(confirm).then(function() {
-      route.removeDate = this.object2Date(new Date());
+      route.removeDate = new Date();
       this.RouteResource.$save(route).then(function(route2) {
         this.removeRoutePriv(route2);
       }.bind(this));

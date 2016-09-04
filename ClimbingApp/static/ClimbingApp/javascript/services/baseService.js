@@ -28,12 +28,13 @@ function() {
     },
 
     $save: function ClimbingApp$RouteService$Save(route) {
+      var jsonObj = this.__makeJsonFromObj(route);
       if (route.resource_uri) {
-        return this.$http.put(this.baseAddr + route.resource_uri, route).then(function(data) {
+        return this.$http.put(this.baseAddr + route.resource_uri, jsonObj).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       } else {
-        return this.$http.post(this.resAddr, route).then(function(data) {
+        return this.$http.post(this.resAddr, jsonObj).then(function(data) {
           return this.__makeObjFromJson(data.data);
         }.bind(this));
       }

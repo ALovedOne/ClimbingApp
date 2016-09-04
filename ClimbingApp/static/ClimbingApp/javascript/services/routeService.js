@@ -10,6 +10,19 @@ function(angular, app, utils, baseService) {
   };
 
   serviceFn.prototype = { 
+    
+
+    __makeJsonFromObj: function ClimbingApp$RouteService$__makeJsonFromObj(obj) {
+      return {
+        id: obj.id,
+        resource_uri: obj.resource_uri,
+        removeDate:   utils.obj2Date(obj.removeDate),
+        setDate:      utils.obj2Date(obj.setDate),
+        wall:         obj.wall_uri,
+        color:        obj.color.resource_uri,
+        difficulty:   obj.difficulty.resource_uri
+      }
+    },
 
     __makeObjFromJson: function ClimbingApp$RouteService$__makeObjFromJson(jsonObj) {
       return {
