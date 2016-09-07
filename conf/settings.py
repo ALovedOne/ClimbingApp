@@ -10,19 +10,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'climbingapp_django',
-        # The following settings are not used with sqlite3:
-        #'USER': 'climbingapp_django',
-        #'PASSWORD': 'Eequueshuel6ietahjah6fooCheezo',
-        'USER': 'mike',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'climbingapp_django',
+#        'USER': 'mike',
+#        'PASSWORD': '',
+#        'HOST': '',
+#        'PORT': '',
+#    }
+#}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
