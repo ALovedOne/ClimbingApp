@@ -121,7 +121,7 @@ function(angular) {
     }    
   }]);
 
-  myApp.constant('ClimbingApp$BaseAddr', 'https://climbingapp.from-ring-zero.com');
+  myApp.constant('ClimbingApp$BaseAddr', '');
 
   myApp.run(['$rootScope', '$state', '$localStorage', 'AuthService', function($rootScope, $state, $localStorage, AuthService) {
   
