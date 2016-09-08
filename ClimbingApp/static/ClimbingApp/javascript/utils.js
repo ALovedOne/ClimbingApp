@@ -12,7 +12,11 @@ function() {
     },
 
     obj2Date: function ClimbingApp$Utils$Obj2Date(dateObj) {
-      return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+      if (dateObj) {
+        return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+      } else {
+        return null;
+      }
     },
   }
 });
