@@ -18,9 +18,6 @@ function(app, baseView) {
     }
 
     if (this.ascent.user && this.ascent.outcome) {
-      this.ascent.user        = this.ascent.user.resource_uri;
-      this.ascent.outcome     = this.ascent.outcome.resource_uri;
-      
       this.ascent.date        = new Date();
      
       this.AscentResource.$save(this.ascent).then(function(newAscent) {
