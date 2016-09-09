@@ -18,9 +18,7 @@ function(app, baseView) {
 
     
   controllerFn.prototype.acceptDialog = function($event) {
-    this.route.wall       = this.wall.resource_uri;
-    this.route.color      = this.route.color.resource_uri;
-    this.route.difficulty = this.route.difficulty.resource_uri;
+    this.route.wall       = this.wall;
 
     this.RouteResource.$save(this.route).then(function(newRoute) {
       this.$mdDialog.hide(newRoute);
