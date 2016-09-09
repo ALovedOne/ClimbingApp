@@ -14,10 +14,10 @@ function(angular, app, utils, baseService) {
     __makeObjFromJson(jsonObj) {
       return { 
         id:           jsonObj.id,
+        resource_uri: jsonObj.resource_uri,
         name:         jsonObj.name,
         sort:         jsonObj.sort,
-        resource_uri: jsonObj.resource_uri,
-
+        image:        jsonObj.image,
       };
     },
 
@@ -26,7 +26,7 @@ function(angular, app, utils, baseService) {
         id: undefined,
         name: '',
         sort: '',
-        resource_uri: undefined
+        resource_uri: undefined,
       };
     },
   };
