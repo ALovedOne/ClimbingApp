@@ -1,7 +1,7 @@
 define(['angular', 'app', 'utils', 'services/baseService'], 
 function(angular, app, utils, baseService) {
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
+  var serviceFn = function ClimbingApp$AscentService($http, baseAddr) {
     baseService.call(this, serviceParams, arguments);
 
     this.$http = $http;
@@ -22,7 +22,7 @@ function(angular, app, utils, baseService) {
       },
     },
 
-    __makeObjFromJson: function ClimbingApp$RouteService$__makeObjFromJson(jsonObj) {
+    __makeObjFromJson: function ClimbingApp$AscentService$__makeObjFromJson(jsonObj) {
       return {
         id: jsonObj.id,
         resource_uri: jsonObj.resource_uri,

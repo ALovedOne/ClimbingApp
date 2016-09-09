@@ -11,23 +11,23 @@ function() {
   };
 
   baseService.prototype = {
-    $find: function ClimbingApp$RouteService$Find(params) {
+    $find: function ClimbingApp$BaseService$Find(params) {
       return this.$http.get(this.resAddr, { params: params}).then(function(data) {
         return data.data.objects.map(this.__makeObjFromJson.bind(this));
       }.bind(this));
     },
 
-    $findAll: function ClimbingApp$RouteServices$FindAll(params) {
+    $findAll: function ClimbingApp$BaseServices$FindAll(params) {
       return this.$find(params);
     },
 
-    $get: function ClimbingApp$RouteService$Get(routeId) {
+    $get: function ClimbingApp$BaseService$Get(routeId) {
       return this.$http.get(this.resAddr + routeId + '/').then(function(data) {
         return this.__makeObjFromJson(data.data);
       }.bind(this));
     },
 
-    $save: function ClimbingApp$RouteService$Save(route) {
+    $save: function ClimbingApp$BaseService$Save(route) {
       var jsonObj = this.__makeJsonFromObj(route);
       if (route.resource_uri) {
         return this.$http.put(this.baseAddr + route.resource_uri, jsonObj).then(function(data) {
@@ -40,11 +40,11 @@ function() {
       }
     },
 
-    $delete: function ClimbingApp$RouteService$Delete(route) {
+    $delete: function ClimbingApp$BaseService$Delete(route) {
 
     },
 
-    $create: function ClimbingApp$RouteService$Create() {
+    $create: function ClimbingApp$BaseService$Create() {
       return this.__makeNewObj();
     },
   }

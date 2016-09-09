@@ -1,6 +1,6 @@
 define(['app', 'utils'], function(app, utils) {
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$RouteResource($http, baseAddr) {
+  var serviceFn = function ClimbingApp$WallResource($http, baseAddr) {
     this.$http = $http;
     this.baseAddr = baseAddr;
     this.resAddr = baseAddr + '/api/v1/walls/';
