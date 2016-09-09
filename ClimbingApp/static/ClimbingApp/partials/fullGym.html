@@ -14,6 +14,7 @@
                 ng-init="routeStyle = { 'background-image': 'url(' + route.color.image + ')',
                                         'color': ctrl.contrastColorValue(route.color),
                                       }"
+                ui-sref="^.wall.route.listAscents({ gymId: ctrl.gym.id, wallId: wall.id, routeId: route.id})"
                 ng-click="$event.stopPropagation()"
                 class="md-3-line route">
     <div class="md-avatar" ng-style="routeStyle" >
