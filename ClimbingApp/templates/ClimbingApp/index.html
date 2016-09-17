@@ -35,10 +35,7 @@
   <script src="{% static 'ClimbingApp/javascript/views/baseListView.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/baseModalView.js' %}"></script>
 
-  <script src="{% static 'ClimbingApp/javascript/views/mainApp.js' %}"></script>
-
   <!-- Lists -->
-  <script src="{% static 'ClimbingApp/javascript/views/listGyms.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/listWalls.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/listRoutes.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/listAscents.js' %}"></script>
@@ -50,6 +47,11 @@
   <script src="{% static 'ClimbingApp/javascript/views/editWall.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/editRoute.js' %}"></script>
   <script src="{% static 'ClimbingApp/javascript/views/editAscent.js' %}"></script>
+  
+  <!-- Begin components -->
+  <script src="{% static 'ClimbingApp/javascript/components/login/login.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/components/mainApp/mainApp.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/components/listGyms/listGyms.js' %}"></script>
 
   <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
   <link rel="stylesheet" href="{% static 'bower_components/nvd3/build/nv.d3.css' %}" />
@@ -62,6 +64,5 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
   <meta name="mobile-web-app-capable" content="yes">
 </head>
-<body ui-view>
-</body>
+<body ui-view></body>
 </html>

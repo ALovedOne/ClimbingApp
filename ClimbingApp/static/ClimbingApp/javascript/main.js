@@ -94,7 +94,6 @@
 
     $stateProvider
 
-    /*
     .state({name:     'login',
             url:      '/login',
             component:'login',
@@ -104,7 +103,6 @@
             },
     })
     .state({name:     'mainApp',
-            url:      '/home',
             component:'mainApp',
             resolve: {
               user: ['UserResource', function(UserResource) {
@@ -112,35 +110,10 @@
               }],
             },
     })
-    */
-    .state('login', {
-      views: {
-        '': {
-          templateUrl: 'static/ClimbingApp/partials/login.html',
-          controller:  'ClimbingAppLogin',
-        },
-      },
-      url: '/login',
-      params: {
-        nextState: null,
-        nextStateParams: null,
-      },
+    .state({name:       'mainApp.listGyms', 
+            url:        '/gyms',
+            component:  'listGyms',
     })
-    .state('mainApp', {
-      views: {
-        '': {
-          templateUrl: 'static/ClimbingApp/partials/mainApp.html',
-          controller:  'ClimbingAppMainApp',
-        },
-      },
-      resolve: {
-        user: ['UserResource', function(UserResource) {
-          return UserResource.$get('me');
-        }],
-      },
-    })
-
-    .state('mainApp.listGyms', stateResolver.resolve('listGyms', '/gyms'))
 
     /*  */
     .state('mainApp.gym', stateResolver.resolveAbstract('gym', '/gyms/:gymId', {
@@ -197,7 +170,7 @@
       url: '/admin/colors',
     })
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/gyms');
   }]);
 
   myApp.config(['$mdThemingProvider', function($mdThemingProvider) {
@@ -210,21 +183,3 @@
     */
       ;
   }]);
-
-  myApp.controller('ClimbingAppGymHeader', ['$scope', 'gym',
-    function($scope, gym) {
-        $scope.gym = gym;
-    }]);
-
-  myApp.controller('ClimbingAppWallHeader', ['$scope', 'gym', 'wall',
-    function($scope, gym, wall) {
-      $scope.gym = gym;
-      $scope.wall = wall;
-    }]);
-
-  myApp.controller('ClimbingAppRouteHeader', ['$scope', 'gym', 'wall', 'route',
-    function($scope, gym, wall, route) {
-      $scope.gym = gym;
-      $scope.wall = wall;
-      $scope.route = route;
-    }]);

@@ -1,22 +1,18 @@
 'use strict';
+(function(baseView) {
+  var listGymsParams = ['$scope', 'GymResource'];
+  var listGymsCtrl = function ClimbingApp$ListGyms() {
+    baseView.call(this, listGymsParams, arguments);
 
-var ClimbingApp = ClimbingApp || {};
-ClimbingApp.views = ClimbingApp.views || {};
-
-ClimbingApp.views.ListGym = (function(baseView) {
-
-  var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource'];
-  var controllerFn = function($scope, $state, $mdDialog, GymResource, GymStatsResource) {
-    baseView.call(this, controllerParams, arguments);
-
-    GymResource.$find().then(function(gyms) {
+    this.gymList = [];
+    this.GymResource.$find().then(function(gyms) {
       this.gymList = gyms;
     }.bind(this));
   }
 
-  controllerFn.prototype = Object.create(baseView.prototype);
+  listGymsCtrl.prototype = Object.create(baseView.prototype);
 
-  controllerFn.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
+  listGymsCtrl.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
     return this.$mdDialog.show({
       templateUrl: '/static/ClimbingApp/partials/editGym.html',
       controller: 'ClimbingAppEditGym',
@@ -28,14 +24,14 @@ ClimbingApp.views.ListGym = (function(baseView) {
     });
   }
 
-  controllerFn.prototype.addGym = function ClimbingApp$listGyms$addGym($event) {
+  listGymsCtrl.prototype.addGym = function ClimbingApp$listGyms$addGym($event) {
     $event.originalEvent.cancelBubble = true;
     this.editGymPriv($event, this.GymResource.$create()).then(function(newGym) {
       this.gymList.push(newGym);
     }.bind(this));
   }
 
-  controllerFn.prototype.deleteGym = function ClimbingApp$listGyms$deleteGym($event, gym) {
+  listGymsCtrl.prototype.deleteGym = function ClimbingApp$listGyms$deleteGym($event, gym) {
     $event.originalEvent.cancelBubble = true;
     var confirm = this.$mdDialog.confirm()
       .title("Delete this Gym?")
@@ -50,7 +46,11 @@ ClimbingApp.views.ListGym = (function(baseView) {
     }.bind(this));
   }
 
-  var controller = controllerParams.concat([controllerFn]);
-  myApp.controller('ClimbingAppListGyms', controller);
+  angular.module('ClimbingApp').component('listGyms', {
+    templateUrl: '/static/ClimbingApp/javascript/components/listGyms/listGyms.html',
+    controller:  listGymsParams.concat(listGymsCtrl),
+    bindings: {
 
+    },
+  });
 })(ClimbingApp.views.BaseListView);

@@ -1,5 +1,5 @@
 <div id="body">
-  <md-toolbar class="md-primary body-header" ui-view="header">
+  <md-toolbar class="md-primary body-header">
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button" aria-label="Settings">
         <md-icon md-svg-icon="/static/ClimbingApp/images/favicon.svg"></md-icon>
@@ -8,9 +8,9 @@
         <span>Climbing Log</span>
       </h2>
       <span flex></span>
-      {{ LoggedInUser.username }}
+      {{ $ctrl.user.username }}
     </div>
   </md-toolbar>
-  <md-content class="body-content" flex ui-view="body">
+  <md-content class="body-content" flex ui-view>
   </md-content>
 </div>

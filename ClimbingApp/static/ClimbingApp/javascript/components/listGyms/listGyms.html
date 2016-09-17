@@ -1,6 +1,6 @@
 <nvd3 options='options' data='data'></nvd3>
 
-<md-card ng-repeat="gym in ctrl.gymList" ui-sref="^.gym.fullGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">
+<md-card ng-repeat="gym in $ctrl.gymList" ui-sref="^.gym.fullGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">
