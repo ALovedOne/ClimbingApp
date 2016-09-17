@@ -1,4 +1,9 @@
-define(['angular', 'app', 'services/baseService'], function(angular, app, baseService) {
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.services = ClimbingApp.services || {};
+
+ClimbingApp.services.UserService = (function(baseService){
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$ColorService($http, baseAddr) {
     baseService.call(this, serviceParams, arguments);
@@ -37,6 +42,5 @@ define(['angular', 'app', 'services/baseService'], function(angular, app, baseSe
 
   angular.extend(serviceFn.prototype, baseService.prototype);
 
-  app.service('ColorResource', serviceParams.concat([serviceFn]));
-  return serviceFn;
-});
+  myApp.service('ColorResource', serviceParams.concat([serviceFn]));
+})(ClimbingApp.services.BaseService);

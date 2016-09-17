@@ -3,7 +3,53 @@
 <head>
   {% load staticfiles %}
   <title>ClimbingApp</title>
-  <script data-main="{% static 'ClimbingApp/javascript/main' %}" src="{% static 'bower_components/requirejs/require.js' %}"></script>
+
+  <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+  <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'bower_components/angular-aria/angular-aria.js' %}"></script>
+  <script src="{% static 'bower_components/angular-animate/angular-animate.js' %}"></script>
+  <script src="{% static 'bower_components/angular-material/angular-material.js' %}"></script>
+  <script src="{% static 'bower_components/ngstorage/ngStorage.js' %}"></script>
+  <script src="{% static 'bower_components/angular-messages/angular-messages.js' %}"></script>
+  <script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
+
+  <script src="{% static 'ClimbingApp/javascript/utils.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/main.js' %}"></script>
+
+  <script src="{% static 'ClimbingApp/javascript/services/baseService.js' %}"></script>
+
+  <script src="{% static 'ClimbingApp/javascript/services/authenticatedHttp.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/authService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/userService.js' %}"></script>
+
+  <script src="{% static 'ClimbingApp/javascript/services/gymService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/wallService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/routeService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/ascentService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/difficultyService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/colorService.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/services/outcomeService.js' %}"></script>
+
+  <!-- Begin Views --> 
+  <script src="{% static 'ClimbingApp/javascript/views/baseView.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/baseListView.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/baseModalView.js' %}"></script>
+
+  <script src="{% static 'ClimbingApp/javascript/views/mainApp.js' %}"></script>
+
+  <!-- Lists -->
+  <script src="{% static 'ClimbingApp/javascript/views/listGyms.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/listWalls.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/listRoutes.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/listAscents.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/fullGym.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/climbing.js' %}"></script>
+
+  <!-- Edit Controls -->
+  <script src="{% static 'ClimbingApp/javascript/views/editGym.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/editWall.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/editRoute.js' %}"></script>
+  <script src="{% static 'ClimbingApp/javascript/views/editAscent.js' %}"></script>
 
   <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
   <link rel="stylesheet" href="{% static 'bower_components/nvd3/build/nv.d3.css' %}" />

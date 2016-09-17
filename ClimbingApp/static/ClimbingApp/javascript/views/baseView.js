@@ -1,7 +1,9 @@
-define(
-function() {
-  'option explicit';
+'use strict';
 
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.views = ClimbingApp.views || {};
+
+ClimbingApp.views.BaseView = (function() {
   var baseView = function ClimbingApp$BaseView(argsNames, args) {
     console.assert(argsNames, "Must pass the controller param names");
     console.assert(argsNames.indexOf('$scope') >= 0, '$scope must be included');
@@ -18,4 +20,4 @@ function() {
   }
 
   return baseView;
-});
+})();

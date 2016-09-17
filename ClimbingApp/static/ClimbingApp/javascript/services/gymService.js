@@ -1,5 +1,9 @@
-define(['angular', 'app', 'utils', 'services/baseService'],
-function(angular, app, utils, baseService) {
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.services = ClimbingApp.services || {};
+
+ClimbingApp.services.GymService = (function(baseService){
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$GymService($http, baseAddr) {
     baseService.call(this, serviceParams, arguments);
@@ -29,10 +33,18 @@ function(angular, app, utils, baseService) {
         resource_uri: undefined
       };
     },
+
+    __makeJsonFromObj(obj) {
+      return {
+        id:           obj.id,
+        name:         obj.name,
+        sort:         obj.sort,
+        resource_uri: obj.resource_uri,
+      };
+    },
   };
 
   angular.extend(serviceFn.prototype, baseService.prototype);
 
-  app.service('GymResource', serviceParams.concat([serviceFn]));
-  return serviceFn;
-});
+  myApp.service('GymResource', serviceParams.concat([serviceFn]));
+})(ClimbingApp.services.BaseService);

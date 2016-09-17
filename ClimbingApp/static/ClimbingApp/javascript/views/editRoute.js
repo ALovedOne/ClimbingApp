@@ -1,6 +1,9 @@
-define(['app', 'views/baseModalView'],
-function(app, baseView) {
-  'use strict';
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.views = ClimbingApp.views || {};
+
+ClimbingApp.views.EditAscent = (function(app, baseView) {
 
   var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'RouteResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route'];
   var controllerFn = function($scope, $state, $mdDialog, GymResource, RouteResource, DifficultyResource, ColorResource, gym, wall, route) {
@@ -56,4 +59,5 @@ function(app, baseView) {
   var controller = controllerParams.concat([controllerFn]);
   app.controller('ClimbingAppEditRoute', controller);
   return controller;
-});
+
+})(myApp, ClimbingApp.views.BaseModalView);

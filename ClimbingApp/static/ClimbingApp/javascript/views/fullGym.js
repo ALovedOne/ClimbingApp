@@ -1,7 +1,9 @@
-define(['angular', 'app', 'views/baseView'],
-function(angular, app, baseView) {
-  'use strict';
+'use strict';
 
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.views = ClimbingApp.views || {};
+
+ClimbingApp.views.ListGym = (function(baseView) {
   var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'WallResource', 'RouteResource'];
   var controllerFunc = function($scope, $mdDialog, gym, user, WallResource, RouteResource) {
     baseView.call(this, controllerParams, arguments);
@@ -85,6 +87,6 @@ function(angular, app, baseView) {
   }
 
   var controller = controllerParams.concat([controllerFunc]);
-  app.controller('ClimbingAppFullGym', controller);
-  return controller;
-});
+  myApp.controller('ClimbingAppFullGym', controller);
+
+})(ClimbingApp.views.BaseListView);

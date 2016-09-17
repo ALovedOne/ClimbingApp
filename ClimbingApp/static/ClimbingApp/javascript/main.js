@@ -1,59 +1,6 @@
-require.config({
-  paths: {
-    angular:      '/static/bower_components/angular/angular.min',
-    jquery:       '/static/bower_components/jquery/dist/jquery.min',
-    underscore:   '/static/bower_components/underscore/underscore',
-    ngAria:       '/static/bower_components/angular-aria/angular-aria',
-    ngAnimate:    '/static/bower_components/angular-animate/angular-animate',
-    ngMaterial:   '/static/bower_components/angular-material/angular-material',
-    ngMessages:   '/static/bower_components/angular-messages/angular-messages',
-    ngStorage:    '/static/bower_components/ngstorage/ngStorage',
-    ngResource:   '/static/bower_components/angular-resource/angular-resource',
-    stateRouter:  '/static/bower_components/angular-ui-router/release/angular-ui-router',
-    stateHelper:  '/static/bower_components/angular-ui-router.stateHelper/statehelper',
+'use strict';
 
-    ngNvd3:       '/static/bower_components/angular-nvd3/dist/angular-nvd3',
-    nvd3:         '/static/bower_components/nvd3/build/nv.d3',
-    d3:           '/static/bower_components/d3/d3',
-    },
-  
-  //Dependencies defined below
-  shim: {
-    'angular' : {
-      'exports' : 'angular',
-      'deps': ['jquery']
-    },
-    'stateRouter':  ['angular', 'stateHelper'],
-    'stateHelper':  ['angular'],
-    'ngAria':       ['angular'],
-    'ngAnimate':    ['angular'],
-    'ngMaterial':   ['angular'],
-    'ngMessages':   ['angular'],
-    'ngResource':   ['angular'],
-    'ngNvd3':       ['angular', 'nvd3'],
-    'nvd3':         ['d3'],
-  },
-  //Not sure about the significance of this piece below
-  priority: [
-    'angular'
-  ]
-});
-
-//http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
-window.name = 'NG_DEFER_BOOTSTRAP!';
-
-define('app', ['angular', 'stateRouter', 'ngAria', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngResource', 'ngStorage', 'underscore'],
-function(angular) {
-  'use strict';
-  var myApp = angular.module('ClimbingApp', 
-    [ 'ngAria',
-      'ngMaterial',
-      'ngStorage',
-      'ngMessages',
-      'ui.router',
-      'ui.router.stateHelper',
-      'nvd3',
-    ]);
+  var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 'ngMessages', 'ui.router', ]);
 
   myApp.provider('stateResolver', [function() {
     this.resolve = function(name, url, resolves) {
@@ -124,7 +71,7 @@ function(angular) {
   myApp.constant('ClimbingApp$BaseAddr', '');
 
   myApp.run(['$rootScope', '$state', '$localStorage', 'AuthService', function($rootScope, $state, $localStorage, AuthService) {
-  
+
     $rootScope.$on('$stateChangeError', 
     function(event, toState, toParams, fromState, fromParams, error){ 
       if (error.status == 401) {
@@ -142,11 +89,30 @@ function(angular) {
       AuthService.setAuth($localStorage.username, $localStorage.apiKey);
     }
   }]);
-  
+
   myApp.config(['$stateProvider', '$urlRouterProvider', 'stateResolverProvider', function($stateProvider, $urlRouterProvider, stateResolver) {
 
     $stateProvider
 
+    /*
+    .state({name:     'login',
+            url:      '/login',
+            component:'login',
+            params: {
+              nextState: null,
+              nextStateParams: null,
+            },
+    })
+    .state({name:     'mainApp',
+            url:      '/home',
+            component:'mainApp',
+            resolve: {
+              user: ['UserResource', function(UserResource) {
+                return UserResource.$get('me');
+              }],
+            },
+    })
+    */
     .state('login', {
       views: {
         '': {
@@ -160,7 +126,6 @@ function(angular) {
         nextStateParams: null,
       },
     })
-    
     .state('mainApp', {
       views: {
         '': {
@@ -232,15 +197,17 @@ function(angular) {
       url: '/admin/colors',
     })
 
-    $urlRouterProvider.otherwise('/gyms');
+    $urlRouterProvider.otherwise('/login');
   }]);
 
   myApp.config(['$mdThemingProvider', function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-//      .primaryPalette('indigo')
-//      .accentPalette('deep-orange')
-//      .warnPalette('red')
-//      .backgroundPalette('white')
+    /*
+        .primaryPalette('indigo')
+        .accentPalette('deep-orange')
+        .warnPalette('red')
+        .backgroundPalette('white')
+    */
       ;
   }]);
 
@@ -261,40 +228,3 @@ function(angular) {
       $scope.wall = wall;
       $scope.route = route;
     }]);
-
-  return myApp;
-});
-
-require(['angular', 'app', 'ngNvd3', 
-
-      'views/mainApp',
-      'views/listGyms',    
-      'views/editGym',
-      'views/listWalls',   
-      'views/editWall',
-      'views/listRoutes',  
-      'views/editRoute',
-      'views/listAscents', 
-      'views/editAscent',
-      'views/climbing', 
-      'views/fullGym', 
-
-      'services/authService',
-      'services/authenticatedHttp',
-      'services/userService',
-      'services/colorService',
-      'services/difficultyService',
-      'services/outcomeService',
-      'services/gymService',
-      'services/wallService',
-      'services/routeService',
-      'services/ascentService',
-    ], 
-function(angular, app) {
-  'use strict';
-  
-  angular.element().ready(function() {
-    angular.resumeBootstrap([app['name']]);
-  });
-});
-

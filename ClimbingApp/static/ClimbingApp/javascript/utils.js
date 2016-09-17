@@ -1,8 +1,7 @@
-define([], 
-function() {
   'use strict';
 
-  return {
+var utils = 
+  {
     date2Obj: function ClimbingApp$Utils$Date2Obj(date) {
       if (date) {
         return new Date(date);
@@ -19,4 +18,3 @@ function() {
       }
     },
   }
-});

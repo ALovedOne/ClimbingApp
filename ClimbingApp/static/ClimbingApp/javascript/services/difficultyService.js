@@ -1,5 +1,9 @@
-define(['angular', 'app', 'utils', 'services/baseService'],
-function(angular, app, utils, baseService) {
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.services = ClimbingApp.services || {};
+
+ClimbingApp.services.UserService = (function(baseService){
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$DifficultyService($http, baseAddr) {
     baseService.call(this, serviceParams, arguments);
@@ -33,6 +37,5 @@ function(angular, app, utils, baseService) {
 
   angular.extend(serviceFn.prototype, baseService.prototype);
 
-  app.service('DifficultyResource', serviceParams.concat([serviceFn]));
-  return serviceFn;
-});
+  myApp.service('DifficultyResource', serviceParams.concat([serviceFn]));
+})(ClimbingApp.services.BaseService);

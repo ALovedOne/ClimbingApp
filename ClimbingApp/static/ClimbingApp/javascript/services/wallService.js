@@ -1,4 +1,9 @@
-define(['app', 'utils'], function(app, utils) {
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.services = ClimbingApp.services || {};
+
+ClimbingApp.services.UserService = (function(baseService){
   var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
   var serviceFn = function ClimbingApp$WallResource($http, baseAddr) {
     this.$http = $http;
@@ -64,6 +69,5 @@ define(['app', 'utils'], function(app, utils) {
     },
   };
 
-  app.service('WallResource', serviceParams.concat([serviceFn]));
-  return serviceFn;
-})
+  myApp.service('WallResource', serviceParams.concat([serviceFn]));
+})(ClimbingApp.services.BaseService);

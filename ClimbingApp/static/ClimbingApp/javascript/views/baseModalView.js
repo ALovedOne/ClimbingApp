@@ -1,6 +1,9 @@
-define(['app', 'views/baseView'],
-function(app, baseView) {
-  'option explicit';
+'use strict';
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.views = ClimbingApp.views || {};
+
+ClimbingApp.views.BaseModalView = (function(baseView) {
 
   var baseModalView = function ClimbingApp$BaseModalView(argsNames, args) {
     console.assert(argsNames, "Must pass the controller param names");
@@ -16,4 +19,4 @@ function(app, baseView) {
   baseModalView.prototype = Object.create(baseView.prototype);
 
   return baseModalView;
-});
+})(ClimbingApp.views.BaseView);
