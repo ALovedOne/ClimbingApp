@@ -17,6 +17,10 @@ body {
   overflow-y: scroll;
 }
 
+md-content > md-list {
+  padding: 0px;
+}
+
 .navbar-brand > img {
   display: inline-block;
 }
@@ -45,7 +49,6 @@ body {
   opacity: 0.75;
   font-weight: 500;
 }
-
 
 .fixed-bottom-right {
   position: fixed;

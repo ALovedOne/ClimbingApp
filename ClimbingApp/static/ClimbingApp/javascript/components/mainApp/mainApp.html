@@ -4,13 +4,13 @@
       <md-button class="md-icon-button" aria-label="Settings">
         <md-icon md-svg-icon="/static/ClimbingApp/images/favicon.svg"></md-icon>
       </md-button>
-      <h2>
+      <h1>
         <span>Climbing Log</span>
-      </h2>
+      </h1>
+      {{ $ctrl.$state.$current.name }}
       <span flex></span>
       {{ $ctrl.user.username }}
     </div>
   </md-toolbar>
-  <md-content class="body-content" flex ui-view>
-  </md-content>
+  <ui-view class="body-content" flex></ui-view>
 </div>

@@ -1,21 +1,17 @@
 'use strict';
-
-var ClimbingApp = ClimbingApp || {};
-ClimbingApp.views = ClimbingApp.views || {};
-
-ClimbingApp.views.ListGym = (function(baseView) {
-  var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'WallResource', 'RouteResource'];
-  var controllerFunc = function($scope, $mdDialog, gym, user, WallResource, RouteResource) {
-    baseView.call(this, controllerParams, arguments);
+(function(baseView) {
+  var fullGymParams = ['$scope', '$mdDialog', 'WallResource', 'RouteResource'];
+  var fullGymCtrl = function($scope, $mdDialog, gym, user, WallResource, RouteResource) {
+    baseView.call(this, fullGymParams, arguments);
 
     this.wallList = [];
 
     this.load(this.filters);
   };
 
-  controllerFunc.prototype = angular.extend({}, baseView.prototype);
+  fullGymCtrl.prototype = angular.extend({}, baseView.prototype);
 
-  controllerFunc.prototype.load = function(filters) {
+  fullGymCtrl.prototype.load = function(filters) {
     var wallsPromise = this.WallResource.$findAll({ gym: this.gym.id });
     var routesPromise = this.RouteResource.$findAll({ gym: this.gym.id, active: true });
     wallsPromise.then(function(walls) {
@@ -30,7 +26,7 @@ ClimbingApp.views.ListGym = (function(baseView) {
     }.bind(this))
   };
 
-  controllerFunc.prototype.contrastColorValue = function(color) {
+  fullGymCtrl.prototype.contrastColorValue = function(color) {
     var x = color.inner_r * 0.299 + color.inner_g * 0.587 + color.inner_b * 0.114;
     if (x < 186) {
       return 'white';
@@ -39,7 +35,7 @@ ClimbingApp.views.ListGym = (function(baseView) {
     }
   }
 
-  controllerFunc.prototype.addRoute = function($event, wall) {
+  fullGymCtrl.prototype.addRoute = function($event, wall) {
     var newRoute = this.RouteResource.$create();
 
     this.editRoutePriv($event, newRoute, wall).then(function(savedRoute) {
@@ -47,7 +43,7 @@ ClimbingApp.views.ListGym = (function(baseView) {
     }.bind(this));
   }
 
-  controllerFunc.prototype.removeRoute = function($event, route) {
+  fullGymCtrl.prototype.removeRoute = function($event, route) {
 
     var confirm = this.$mdDialog.confirm()
       .title("Take down this route?")
@@ -63,7 +59,7 @@ ClimbingApp.views.ListGym = (function(baseView) {
     }.bind(this));
   }
 
-  controllerFunc.prototype.editRoutePriv = function ClimbingApp$FullGym$EditRoutePriv($event, route, wall, gym) {
+  fullGymCtrl.prototype.editRoutePriv = function ClimbingApp$FullGym$EditRoutePriv($event, route, wall, gym) {
     return this.$mdDialog.show({
       templateUrl: '/static/ClimbingApp/partials/editRoute.html',
       locals: {
@@ -77,7 +73,7 @@ ClimbingApp.views.ListGym = (function(baseView) {
     });
   }
 
-  controllerFunc.prototype.removeRoutePriv = function ClimbingApp$FullGym$RemoveRoutePriv(route) {
+  fullGymCtrl.prototype.removeRoutePriv = function ClimbingApp$FullGym$RemoveRoutePriv(route) {
     var wall = this.wallList.find(function(wall) {
       return wall.resource_uri == route.wall_uri;
     });
@@ -86,7 +82,12 @@ ClimbingApp.views.ListGym = (function(baseView) {
     });
   }
 
-  var controller = controllerParams.concat([controllerFunc]);
-  myApp.controller('ClimbingAppFullGym', controller);
-
+  angular.module('ClimbingApp').component('fullGym', {
+    templateUrl: '/static/ClimbingApp/javascript/components/fullGym/fullGym.html',
+    controller: fullGymParams.concat(fullGymCtrl),
+    bindings: {
+      gym: '<',
+      user: '<',
+    },
+  });
 })(ClimbingApp.views.BaseListView);

@@ -10,11 +10,9 @@
         url:        url,
         resolve:    resolves,
         views: {
-          'body@mainApp': {
-            templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
-            controller: 'ClimbingApp' + capitalName,
-            controllerAs: 'ctrl'
-          },
+          templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
+          controller: 'ClimbingApp' + capitalName,
+          controllerAs: 'ctrl'
         }
       }
     }
@@ -54,12 +52,7 @@
         abstract: true,
         url: url,
         resolve: resolve,
-        views: {
-          'header@mainApp': {
-            templateUrl: 'static/ClimbingApp/partials/header' + capitalName + '.html',
-            controller:  'ClimbingApp' + capitalName + 'Header'
-          },
-        }
+        template: '<ui-view><ui-view/>',
       }
     }
     
@@ -112,16 +105,29 @@
     })
     .state({name:       'mainApp.listGyms', 
             url:        '/gyms',
-            component:  'listGyms',
+            views: {
+              '@mainApp': {
+                component:  'listGyms',
+              }
+            }
     })
 
-    /*  */
     .state('mainApp.gym', stateResolver.resolveAbstract('gym', '/gyms/:gymId', {
       gym: ['$stateParams', 'GymResource', function($stateParams, GymResource) {
         var gymId = $stateParams.gymId;
         return GymResource.$get(gymId);
       }],
     }))
+    .state({name:       'mainApp.gym.fullGym',
+            url:        '/full',
+            views: {
+              '@mainApp': {
+                component:  'fullGym',
+              }
+            }
+    })
+
+    /*  */
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
     .state('mainApp.gym.listWalls', stateResolver.resolve('listWalls', '/walls', {
       walls: ['gym', 'WallResource', function(gym, WallResource) {
@@ -130,7 +136,6 @@
     }))
 
     .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {}))
-    .state('mainApp.gym.fullGym',  stateResolver.resolve('fullGym', '/full', {}))
 
 
     /*  */
