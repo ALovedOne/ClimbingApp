@@ -1,13 +1,12 @@
 <div id="body">
   <md-toolbar class="md-primary body-header">
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" aria-label="Settings">
+      <md-button class="md-icon-button" ui-sref='mainApp.listGyms' aria-label="home">
         <md-icon md-svg-icon="/static/ClimbingApp/images/favicon.svg"></md-icon>
       </md-button>
       <h1>
         <span>Climbing Log</span>
       </h1>
-      {{ $ctrl.$state.$current.name }}
       <span flex></span>
       {{ $ctrl.user.username }}
     </div>

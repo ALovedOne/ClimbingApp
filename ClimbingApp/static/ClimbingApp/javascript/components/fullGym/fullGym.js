@@ -1,7 +1,7 @@
 'use strict';
 (function(baseView) {
   var fullGymParams = ['$scope', '$mdDialog', 'WallResource', 'RouteResource'];
-  var fullGymCtrl = function($scope, $mdDialog, gym, user, WallResource, RouteResource) {
+  var fullGymCtrl = function() {
     baseView.call(this, fullGymParams, arguments);
 
     this.wallList = [];

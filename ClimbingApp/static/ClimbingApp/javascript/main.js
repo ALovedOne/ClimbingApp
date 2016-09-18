@@ -119,7 +119,7 @@
       }],
     }))
     .state({name:       'mainApp.gym.fullGym',
-            url:        '/full',
+            url:        '/view',
             views: {
               '@mainApp': {
                 component:  'fullGym',
@@ -129,11 +129,6 @@
 
     /*  */
     .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
-    .state('mainApp.gym.listWalls', stateResolver.resolve('listWalls', '/walls', {
-      walls: ['gym', 'WallResource', function(gym, WallResource) {
-        return WallResource.$find({gym: gym.id});
-      }],
-    }))
 
     .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {}))
 
@@ -145,11 +140,6 @@
       }],
     }))
     .state('mainApp.gym.wall.editWall',   stateResolver.resolveModal('editWall', '/edit', '^.^.listWalls', ['gym', 'wall']))
-    .state('mainApp.gym.wall.listRoutes', stateResolver.resolve('listRoutes', '/routes', {
-      routes: ['wall', 'RouteResource', function(wall, RouteResource) {
-        return RouteResource.$find({wall: wall.id, active: true});
-      }],
-    }))
 
     /*  */
     .state('mainApp.gym.wall.route', stateResolver.resolveAbstract('route', '/routes/:routeId', {
@@ -158,21 +148,18 @@
       }],
     }))
     .state('mainApp.gym.wall.route.editRoute',   stateResolver.resolveModal('editRoute', '/edit', '^.^.listRoutes', ['gym', 'wall', 'route']))
-    .state('mainApp.gym.wall.route.listAscents', stateResolver.resolve('listAscents', '/ascents', {
-      ascents: ['route', 'AscentResource', function(route, AscentResource) {
-        return AscentResource.$find({route: route.id});
-      }],
-    }))
-
-    .state('mainApp.colors', {
-      templateUrl: 'static/ClimbingApp/partials/listColors.html',
-      controller: 'ClimbingAppViewColors',
-      resolve: {
-        colors: ['ColorResource', function(ColorResource) {
-          return ColorResource.objects.$find();
-        }],
-      },
-      url: '/admin/colors',
+    .state({name:     'mainApp.gym.wall.route.listAscents', 
+            url:      '/ascents',
+            views: {
+              '@mainApp': {
+                component: 'listAscents',
+              }
+            },
+            resolve: {
+              ascents: ['route', 'AscentResource', function(route, AscentResource) {
+                return AscentResource.$find({route: route.id});
+              }],
+            }
     })
 
     $urlRouterProvider.otherwise('/gyms');
