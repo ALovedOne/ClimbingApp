@@ -60,3 +60,4 @@ target/
 *secret_settings.py
 
 bower_components
+static/libs/
