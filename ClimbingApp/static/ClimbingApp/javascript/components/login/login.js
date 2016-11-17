@@ -1,6 +1,6 @@
 'use strict';
 (function(baseView) {  
-  var loginCtrlParams = ['$scope', '$state', '$stateParams', '$http', '$localStorage', 'AuthService'];
+  var loginCtrlParams = ['$scope', '$state', '$stateParams', '$http', '$localStorage', '$mdDialog', 'AuthService'];
   var loginCtrl = function ClimbingApp$LoginController() {
     baseView.call(this, loginCtrlParams, arguments);
   }
@@ -10,25 +10,8 @@
       var username = this.$scope.username;
       var password = this.$scope.password;
 
-      this.$http.post('/api/v1/users/login/',
-        { username: username,
-          password: password}
-      ).then(function(resp) {
-        var username = resp.data.username;
-        var apiKey   = resp.data.apiKey;
-
-        this.AuthService.setAuth(username, apiKey);
-
-        this.$localStorage.username = username;
-        this.$localStorage.apiKey   = apiKey;
-
-        if (this.$stateParams.nextState) {
-          this.$state.go(this.$stateParams.nextState, this.$stateParams.nextStateParams);
-        } else {
-          this.$state.go('mainApp.listGyms');
-        }
-      }.bind(this), function(reason) {
-        console.log(reason);
+      this.AuthService.authenticate(username, password).then(function() {
+        this.$mdDialog.hide();
       }.bind(this));
   }
   

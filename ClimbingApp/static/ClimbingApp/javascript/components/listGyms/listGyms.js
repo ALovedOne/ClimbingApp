@@ -1,6 +1,6 @@
 'use strict';
 (function(baseView) {
-  var listGymsParams = ['$scope', 'GymResource'];
+  var listGymsParams = ['$scope', 'GymResource', 'AuthService'];
   var listGymsCtrl = function ClimbingApp$ListGyms() {
     baseView.call(this, listGymsParams, arguments);
 

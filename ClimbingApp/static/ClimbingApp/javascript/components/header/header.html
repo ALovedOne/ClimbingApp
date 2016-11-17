@@ -1,0 +1,26 @@
+<md-toolbar class="md-primary body-header">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" ui-sref='mainApp.listGyms' aria-label="home">
+      <md-icon md-svg-icon="/static/ClimbingApp/images/favicon.svg"></md-icon>
+    </md-button>
+    <h1>
+      <span>Climbing Log</span>
+    </h1>
+    <span flex></span>
+    <span ng-if='$ctrl.AuthService.isLoggedIn()'>
+      {{ $ctrl.user.username }}
+      <md-menu md-position-mode="target-right target" md-offset="32 0">
+        <md-button class="md-icon-button" aria-label="Open account menu" ng-click="$mdOpenMenu($event)">
+          <span class="material-icons">menu</span>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-click='$ctrl.AuthService.logout()'>Logout</md-button>
+          </md-menu-item>
+        </md-menu-content>
+    </span>
+    <span ng-if='!$ctrl.AuthService.isLoggedIn()'>
+      <md-button ng-click='$ctrl.AuthService.login()'>Login</md-button>
+    </span>
+  </div>
+</md-toolbar>

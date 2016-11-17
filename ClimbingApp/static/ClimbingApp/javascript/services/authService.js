@@ -4,29 +4,105 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.UserService = (function(baseService){
-  var serviceParams = ['ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$AuthService(baseAddr) {
-    console.log("AuthService initialized");
-  
+  var serviceParams = ['ClimbingApp$BaseAddr', '$mdDialog', '$localStorage', 'UserResource', 'AuthenticatedHttp', '$http'];
+  var serviceFn = function ClimbingApp$AuthService(baseAddr, $mdDialog, $localStorage, UserResource, AuthHttp, $http) {
     this.baseAddr = baseAddr;
+    this.$mdDialog = $mdDialog; 
+    this.$localStorage = $localStorage;
+    this.UserResource = UserResource;
+    this.AuthenticatedHttp = AuthHttp;
+    this.$http = $http;
+
+    this.__user = null;
+    this.__permissions = [];
+    this.__listeners = [];
+
+    if (this.$localStorage.apiKey && this.$localStorage.username) {
+      this.$http.get('/api/v1/users/me/',
+        {
+          params: {
+            apiKey: $localStorage.apiKey,
+            username: $localStorage.username,
+          }
+        }).then(
+          this.__handleAuthResponse.bind(this),
+          function(err) {
+            this.__clearStorage();
+          }.bind(this));
+    } else {
+      this.__clearStorage();
+    }
   }
   
   serviceFn.prototype = {
-    setAuth: function ClimbingApp$AuthService$SetAuth(userName, apiKey) {
-      this.userName = userName;
-      this.apiKey = apiKey;
-    },
-  
+    authenticate: function (username, password) {
+      return this.$http.post('/api/v1/users/login/',
+        { username: username,
+          password: password}
+      ).then(
+        this.__handleAuthResponse.bind(this)
+      );
+    }, 
+
     isLoggedIn: function ClimbingApp$AuthService$IsLoggedIn() {
-      return this.apiKey && this.apiKey != "";
+      return this.__user != null;
+    },
+
+    hasPermission: function (permission) {
+      if (this.__permissions) {
+        return this.__permissions.find(function (x) { return x == permission});
+      }
+      return false;
+    },
+
+    get user() {
+      return this.__user;
     },
   
-    getUsername: function() {
-      return this.userName;
+    login: function() {
+      return this.$mdDialog.show({
+        template: "<login></login>",
+      });
     },
-  
-    getApiKey: function() {
-      return this.apiKey;
+
+    logout: function () {
+      this.__setUser(null);
+      this.__clearStorage();
+    },
+
+    registerUserAuthListener: function (listener) {
+      if (this.__user != null) {
+        listener(this.__user);
+      };
+
+      this.__listeners = this.__listeners.filter(function(x) { return x !== listner; }).concat(listener);
+    },
+
+    __setUser: function(user, apiKey, permissions) {
+      // TODO - assert this._user == null
+      this.__user = user;
+      this.__permissions = permissions || [];
+      if (user) {
+        this.AuthenticatedHttp.setUser(user.username, apiKey);
+      } else {
+        this.AuthenticatedHttp.clearUser()
+      }
+      this.__listeners.forEach(function (fn) { fn(user) });
+    },
+
+    __clearStorage: function() {
+      delete this.$localStorage.apiKey;
+      delete this.$localStorage.username;
+    },
+
+    __handleAuthResponse: function (resp) {
+      var apiKey = resp.data.apiKey;
+      var user = this.UserResource.__makeObjFromJson(resp.data.user);
+
+      this.$localStorage.username = user.username;
+      this.$localStorage.apiKey   = apiKey;
+
+      this.__setUser(user, apiKey, resp.data.permissions);
     },
   };
   

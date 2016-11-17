@@ -3,7 +3,7 @@ import datetime
 from tastypie import fields
 from tastypie.api import Api
 from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.constants import ALL
 from tastypie.exceptions import *
 from tastypie import http 
@@ -22,30 +22,12 @@ import time
 
 api = Api(api_name = 'v1')
 
-class LoginCanEditAuth(Authorization):
+class LoginCanEditAuth(DjangoAuthorization):
   def read_list(self, obj_list, bundle):
     return obj_list
 
   def read_detail(self, obj_list, bundle):
     return True
-
-  def create_list(self, obj_list, bundle):
-    return obj_list
-
-  def create_detail(self, obj_list, bundle):
-    return bundle.request.user.is_authenticated()
-
-  def update_list(self, obj_list, bundle):
-    return obj_list
-
-  def update_detail(self, obj_list, bundle):
-    return bundle.request.user.is_authenticated()
-
-  def delete_list(self, obj_list, bundle):
-    return obj_list
-
-  def delete_detail(self, obj_list, bundle):
-    return bundle.request.user.is_authenticated()
 
 class UserResource(ModelResource):
   class Meta:
@@ -57,8 +39,6 @@ class UserResource(ModelResource):
     excludes = ['email', 'password', 'is_superuser']
 
   def obj_get(self, bundle, **kwargs):
-    if kwargs['pk'] != 'me':
-      return super(ModelResource, self).obj_get(bundle, **kwargs)
     if not bundle.request.user.is_authenticated():
       raise ImmediateHttpResponse(response = http.HttpUnauthorized("User not logged in"))
     return bundle.request.user
@@ -74,15 +54,26 @@ class UserResource(ModelResource):
     user = authenticate(username=username, password=password)
     if user:
       apiKey = self.get_or_create_apikey(user)
-      return self.create_response(request , {
-        'success': True,
-        'apiKey': apiKey.key,
-        'username': user.username,
-      })
+      return self.__makeAuthResponse(request, user, apiKey.key)
     return self.create_response(request, {
       'success': False
     }, http.HttpUnauthorized)
 
+  def me(self, request, **kwargs):
+    username = request.GET.get("username", "")
+    apiKey   = request.GET.get("apiKey", "")
+
+    key = ApiKey.objects.get(key = apiKey, user__username = username)
+    return self.__makeAuthResponse(request, key.user, key.key)
+
+  def __makeAuthResponse(self, request, user, apiKey):
+    bundle = self.build_bundle(obj = user, request = request)
+    return self.create_response(request, {
+        'success':  True,
+        'apiKey':   apiKey,
+        'user':     self.full_dehydrate(bundle),
+        'permissions': list(user.get_all_permissions()),
+    })
 
   def get_or_create_apikey(self, userInstance):
     key = ApiKey.objects.get(user = userInstance)
@@ -94,9 +85,9 @@ class UserResource(ModelResource):
   def prepend_urls(self):
     return [
       url(r"^(?P<resource_name>%s)/login/$" % self._meta.resource_name, self.wrap_view('login')),
+      url(r"^(?P<resource_name>%s)/me/$" % self._meta.resource_name, self.wrap_view('me')),
     ]
 api.register(UserResource())
-
 
 signals.post_save.connect(create_api_key, sender=User)
 

@@ -14,16 +14,18 @@
 -->
   </md-card-content>
   <md-card-action layout="row" layout-align="end center">
-    <md-button class="md-icon-button" ui-sref="^.gym.editGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">
+    <md-button class="md-icon-button" 
+      ng-if="$ctrl.AuthService.hasPermission('ClimbingApp.change_gym')" 
+      ui-sref="^.gym.editGym({ gymId: gym.id })" ng-click="$event.stopPropagation()">
       <span class="material-icons right">mode_edit</span>
     </md-button>
-    <md-button class="md-icon-button">
-      <span class="material-icons right" ng-click="ctrl.deleteGym($event,gym)">delete</span>
+    <md-button class="md-icon-button" ng-if="$ctrl.AuthService.hasPermission('ClimbingApp.delete_gym')">
+      <span class="material-icons right" ng-click="$ctrl.deleteGym($event,gym)">delete</span>
     </md-button>
   </md-card-action>
 </md-card>
 
-<div class="fixed-bottom-right">
+<div class="fixed-bottom-right" ng-if="$ctrl.AuthService.hasPermission('ClimbingApp.add_gym')">
   <md-button class="md-fab md-mini" ng-click="ctrl.addGym($event)">
     <md-icon md-font-set="material-icons">add</md-icon>
   </md-button>
