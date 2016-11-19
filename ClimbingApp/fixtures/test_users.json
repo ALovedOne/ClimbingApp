@@ -1,0 +1,56 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$24000$T31lulYsPL4J$prgIadN9/q+jyp56D7U7lVANv6L4YvS7kg3J7YDAuFI=",
+        "last_login": "2016-11-19T17:24:20.274Z",
+        "is_superuser": true,
+        "username": "super",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-11-19T17:19:55.492Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$24000$T31lulYsPL4J$prgIadN9/q+jyp56D7U7lVANv6L4YvS7kg3J7YDAuFI=",
+        "last_login": "2016-11-19T17:24:20.274Z",
+        "is_superuser": false,
+        "username": "other",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-11-19T17:19:55.492Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tastypie.apikey",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "key": "46b8b54f3155b51393b61d95580e588ddd47e77d",
+        "created": "2016-11-19T17:19:55.556Z"
+    }
+},
+{
+    "model": "tastypie.apikey",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "key": "46b8b54f3155b51393b61d95580e588ddd47e77d",
+        "created": "2016-11-19T17:19:55.556Z"
+    }
+}
+]

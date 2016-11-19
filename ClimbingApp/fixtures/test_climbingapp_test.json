@@ -1,0 +1,36 @@
+[
+{
+    "model": "ClimbingApp.gym",
+    "pk": 1,
+    "fields": {
+        "name": "Gym 1",
+        "sort_name": "GYM_1"
+    }
+},
+{
+    "model": "ClimbingApp.gym",
+    "pk": 2,
+    "fields": {
+        "name": "Gym 2",
+        "sort_name": "GYM_2"
+    }
+},
+{
+    "model": "ClimbingApp.wall",
+    "pk": 1,
+    "fields": {
+        "name": "Gym 1 - Wall 1",
+        "sort_name": "GYM_1_-_WALL_1",
+        "gym": 1
+    }
+},
+{
+    "model": "ClimbingApp.wall",
+    "pk": 2,
+    "fields": {
+        "name": "Gym 1 - Wall 2",
+        "sort_name": "GYM_1_-_WALL_2",
+        "gym": 1
+    }
+}
+]

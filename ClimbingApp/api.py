@@ -3,18 +3,17 @@ import datetime
 from tastypie import fields
 from tastypie.api import Api
 from tastypie.authentication import Authentication, ApiKeyAuthentication, MultiAuthentication
-from tastypie.authorization import Authorization, DjangoAuthorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
-from tastypie.exceptions import *
+from tastypie import exceptions
 from tastypie import http 
 from tastypie.models import create_api_key, ApiKey
-from tastypie.resources import ModelResource, Resource
-from tastypie.utils import trailing_slash
+from tastypie.resources import ModelResource
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from django.db.models import signals, Count, Q
+from django.db.models import signals, Q
 
 from .models import *
 
@@ -29,18 +28,40 @@ class LoginCanEditAuth(DjangoAuthorization):
   def read_detail(self, obj_list, bundle):
     return True
 
+class UserCanEditSelfAuth(DjangoAuthorization):
+
+  def read_list(self, object_list, bundle):
+    return object_list
+
+  def read_detail(self, object_list, bundle):
+    return True
+
+  # def create_list(self, object_list, bundle):
+
+  def create_detail(self, object_list, bundle):
+    raise exceptions.ImmediateHttpResponse(response = http.HttpNotImplemented())
+
+  #def update_list(self, object_list, bundle):
+
+  def update_detail(self, object_list, bundle):
+    return bundle.obj == bundle.request.user
+
+  # def delete_list(self, object_list, bundle):
+
+  # def delete_detail(self, object_list, bundle):
+
 class UserResource(ModelResource):
   class Meta:
     queryset = User.objects.all()
     resource_name = "users"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
-    authorization = LoginCanEditAuth()
+    authorization = UserCanEditSelfAuth()
     always_return_data = True
     excludes = ['email', 'password', 'is_superuser']
 
   def obj_get(self, bundle, **kwargs):
     if not bundle.request.user.is_authenticated():
-      raise ImmediateHttpResponse(response = http.HttpUnauthorized("User not logged in"))
+      raise exceptions.ImmediateHttpResponse(response = http.HttpUnauthorized("User not logged in"))
     return bundle.request.user
 
   def login(self, request, **kwargs):
@@ -120,6 +141,8 @@ class AscentOutcomeResource(ModelResource):
 api.register(AscentOutcomeResource())
 
 class GymResource(ModelResource):
+  sort_name = fields.CharField('sort_name', readonly = True)
+
   class Meta:
     queryset = Gym.objects.all().order_by('sort_name')
     resource_name = "gyms"
@@ -129,7 +152,12 @@ class GymResource(ModelResource):
     filtering = {
       'name': ALL,
     }
-    ordering = "name"
+    ordering = "sort_name"
+
+  def hydrate(self, bundle):
+    bundle.obj.sort_name = slugify(bundle.data['name'].replace(' ', '_')).upper()
+    return bundle
+
 api.register(GymResource())
 
 class WallResource(ModelResource):
