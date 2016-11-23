@@ -1,6 +1,6 @@
 [
 {
-    "model": "ClimbingApp.gym",
+    "model": "climbingApp.gym",
     "pk": 1,
     "fields": {
         "name": "Gym 1",
@@ -8,7 +8,7 @@
     }
 },
 {
-    "model": "ClimbingApp.gym",
+    "model": "climbingApp.gym",
     "pk": 2,
     "fields": {
         "name": "Gym 2",
@@ -16,7 +16,7 @@
     }
 },
 {
-    "model": "ClimbingApp.wall",
+    "model": "climbingApp.wall",
     "pk": 1,
     "fields": {
         "name": "Gym 1 - Wall 1",
@@ -25,7 +25,7 @@
     }
 },
 {
-    "model": "ClimbingApp.wall",
+    "model": "climbingApp.wall",
     "pk": 2,
     "fields": {
         "name": "Gym 1 - Wall 2",

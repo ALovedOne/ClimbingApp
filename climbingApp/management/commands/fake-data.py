@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
 from django.db.models import Q
-from ClimbingApp.models import *
+from climbingApp.models import *
 from django.contrib.auth.models import User
 
 import random

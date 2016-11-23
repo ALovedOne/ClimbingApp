@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from ClimbingApp.models import Color
+from climbingApp.models import Color
 
 class Command(BaseCommand):
   help = 'Rebuilds stuff'

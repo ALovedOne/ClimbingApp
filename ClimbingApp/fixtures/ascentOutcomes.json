@@ -1,1 +1,0 @@
-[{"model": "ClimbingApp.ascentoutcome", "pk": 1, "fields": {"name": "Flashed", "image": "ascent_outcome/Flash.png"}}, {"model": "ClimbingApp.ascentoutcome", "pk": 2, "fields": {"name": "Topped", "image": "ascent_outcome/Topped.png"}}, {"model": "ClimbingApp.ascentoutcome", "pk": 3, "fields": {"name": "Attempted", "image": "ascent_outcome/Attempted.png"}}]

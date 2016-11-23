@@ -1,6 +1,6 @@
 [
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 1,
     "fields": {
       "name": "Red",
@@ -14,7 +14,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 2,
     "fields": {
       "name": "Amber",
@@ -28,7 +28,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 3,
     "fields": {
       "name": "Blue",
@@ -43,7 +43,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 4,
     "fields": {
       "name": "Blue Grey",
@@ -58,7 +58,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 5,
     "fields": {
       "name": "Brown",
@@ -73,7 +73,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 6,
     "fields": {
       "name": "Cyan",
@@ -88,7 +88,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 7,
     "fields": {
       "name": "Deep Orange",
@@ -103,7 +103,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 8,
     "fields": {
       "name": "Deep Purple",
@@ -118,7 +118,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 9,
     "fields": {
       "name": "Green",
@@ -133,7 +133,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 10,
     "fields": {
       "name": "Grey",
@@ -148,7 +148,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 11,
     "fields": {
       "name": "Indigo",
@@ -163,7 +163,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 12,
     "fields": {
       "name": "Light Blue",
@@ -178,7 +178,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 13,
     "fields": {
       "name": "Light Green",
@@ -193,7 +193,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 14,
     "fields": {
       "name": "Lime",
@@ -208,7 +208,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 15,
     "fields": {
       "name": "Orange",
@@ -223,7 +223,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 16,
     "fields": {
       "name": "Pink",
@@ -238,7 +238,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 17,
     "fields": {
       "name": "Purple",
@@ -253,7 +253,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 18,
     "fields": {
       "name": "Teal",
@@ -268,7 +268,7 @@
     }
   },
   {
-    "model": "ClimbingApp.color",
+    "model": "climbingApp.color",
     "pk": 19,
     "fields": {
       "name": "Yellow",
