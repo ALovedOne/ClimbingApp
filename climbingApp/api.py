@@ -124,11 +124,12 @@ api.register(ColorResource())
 
 class DifficultyResource(ModelResource):
   class Meta:
-    queryset = Difficulty.objects.all()
+    queryset = Difficulty.objects.all().order_by('sort_name')
     resource_name = "difficulties"
     authentication = MultiAuthentication(ApiKeyAuthentication(), Authentication())
     authorization = LoginCanEditAuth()
     always_return_data = True
+    ordering = 'sort_name'
 api.register(DifficultyResource())
 
 class AscentOutcomeResource(ModelResource):

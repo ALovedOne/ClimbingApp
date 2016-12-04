@@ -72,26 +72,19 @@ myApp.run(['$rootScope', '$state', 'AuthService', '$transitions', function($root
       }
     },
     function (trans) {
-      if (!AuthService.isLoggedIn()) {
-        return AuthService.login().catch(function() {
-          return $state.target('mainApp.listGyms');
-        });
-      }
+      AuthService.waitForLoggedIn().then(function (isLoggedIn) {
+        if (!isLoggedIn) {
+          return AuthService.login().catch(function() {
+            return $state.target('mainApp.listGyms');
+          });
+        }
+      });
     }
   );
   
   $state.defaultErrorHandler(
-  function(error) {
-    if (error.status == 401) {
-      $state.go('login'
-      /*,{
-        nextState: toState,
-        nextStateParams: toParams
-      }*/
-      );
-    } else { 
+    function(error) {
       console.error(error);
-    }
   });
 
 }]);

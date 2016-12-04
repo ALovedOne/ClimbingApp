@@ -4,21 +4,23 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.UserService = (function(baseService){
-  var serviceParams = ['ClimbingApp$BaseAddr', '$mdDialog', '$localStorage', 'UserResource', 'AuthenticatedHttp', '$http'];
-  var serviceFn = function ClimbingApp$AuthService(baseAddr, $mdDialog, $localStorage, UserResource, AuthHttp, $http) {
+  var serviceParams = ['ClimbingApp$BaseAddr', '$mdDialog', '$localStorage', 'UserResource', 'AuthenticatedHttp', '$http', '$q'];
+  var serviceFn = function ClimbingApp$AuthService(baseAddr, $mdDialog, $localStorage, UserResource, AuthHttp, $http, $q) {
     this.baseAddr = baseAddr;
     this.$mdDialog = $mdDialog; 
     this.$localStorage = $localStorage;
     this.UserResource = UserResource;
     this.AuthenticatedHttp = AuthHttp;
     this.$http = $http;
+    this.$q = $q;
 
     this.__user = null;
     this.__permissions = [];
     this.__listeners = [];
+    this.__loggingIn = null;
 
     if (this.$localStorage.apiKey && this.$localStorage.username) {
-      this.$http.get('/api/v1/users/me/',
+      this.__loggingIn = this.$http.get('/api/v1/users/me/',
         {
           params: {
             apiKey: $localStorage.apiKey,
@@ -28,6 +30,8 @@ ClimbingApp.services.UserService = (function(baseService){
           this.__handleAuthResponse.bind(this),
           function(err) {
             this.__clearStorage();
+          }.bind(this)).finally(function () {
+            this.__loggingIn = null; 
           }.bind(this));
     } else {
       this.__clearStorage();
@@ -46,6 +50,17 @@ ClimbingApp.services.UserService = (function(baseService){
 
     isLoggedIn: function ClimbingApp$AuthService$IsLoggedIn() {
       return this.__user != null;
+    },
+
+    waitForLoggedIn: function () {
+      if (this.__loggingIn) {
+        return this.__loggingIn.then(function() {
+          return this.isLoggedIn();  
+        }.bind(this));
+      }
+      var q = this.$q.defer();
+      q.resolve(this.isLoggedIn());
+      return q.promise;
     },
 
     hasPermission: function (permission) {

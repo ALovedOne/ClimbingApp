@@ -37,8 +37,9 @@
 
   fullGymCtrl.prototype.addRoute = function($event, wall) {
     var newRoute = this.RouteResource.$create();
+    newRoute.setDate = new Date();
 
-    this.editRoutePriv($event, newRoute, wall).then(function(savedRoute) {
+    this.editRoutePriv($event, newRoute, wall, this.gym).then(function(savedRoute) {
       wall.routeList.push(savedRoute); 
     }.bind(this));
   }
