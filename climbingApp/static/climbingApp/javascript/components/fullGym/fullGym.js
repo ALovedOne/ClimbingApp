@@ -1,15 +1,14 @@
 'use strict';
 (function(baseView) {
-  var fullGymParams = ['$scope', '$mdDialog', 'WallResource', 'RouteResource'];
-  var fullGymCtrl = function() {
-    baseView.call(this, fullGymParams, arguments);
 
+  var fullGymCtrl = function() {
     this.wallList = [];
 
     this.load(this.filters);
   };
+  fullGymCtrl.$inject = ['$scope', '$mdDialog', 'WallResource', 'RouteResource'];
 
-  fullGymCtrl.prototype = angular.extend({}, baseView.prototype);
+  fullGymCtrl.prototype = {};
 
   fullGymCtrl.prototype.load = function(filters) {
     var wallsPromise = this.WallResource.$findAll({ gym: this.gym.id });
@@ -62,7 +61,7 @@
 
   fullGymCtrl.prototype.editRoutePriv = function ClimbingApp$FullGym$EditRoutePriv($event, route, wall, gym) {
     return this.$mdDialog.show({
-      templateUrl: '/static/ClimbingApp/partials/editRoute.html',
+      templateUrl: '/static/climbingApp/partials/editRoute.html',
       locals: {
         route: route,
         wall: wall,
@@ -84,8 +83,8 @@
   }
 
   angular.module('ClimbingApp').component('fullGym', {
-    templateUrl: '/static/ClimbingApp/javascript/components/fullGym/fullGym.html',
-    controller: fullGymParams.concat(fullGymCtrl),
+    templateUrl: '/static/climbingApp/javascript/components/fullGym/fullGym.html',
+    controller: ClimbingApp.utils.extendCtrl(fullGymCtrl, baseView),
     bindings: {
       gym: '<',
       user: '<',

@@ -2,7 +2,7 @@
 (function(baseView) {  
   var loginCtrlParams = ['$scope', '$state', '$stateParams', '$http', '$localStorage', '$mdDialog', 'AuthService'];
   var loginCtrl = function ClimbingApp$LoginController() {
-    baseView.call(this, loginCtrlParams, arguments);
+
   }
   
   loginCtrl.prototype =  Object.create(baseView.prototype);
@@ -14,10 +14,11 @@
         this.$mdDialog.hide();
       }.bind(this));
   }
+  loginCtrl.$inject = loginCtrlParams;
   
   angular.module('ClimbingApp').component('login', {
-    templateUrl: '/static/ClimbingApp/javascript/components/login/login.html',
-    controller: loginCtrlParams.concat(loginCtrl),
+    templateUrl: '/static/climbingApp/javascript/components/login/login.html',
+    controller: ClimbingApp.utils.extendCtrl(loginCtrl, baseView),
     bindings: {
       nextState: '<',
       nextStateParams: '<',

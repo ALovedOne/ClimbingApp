@@ -6,8 +6,7 @@ ClimbingApp.views = ClimbingApp.views || {};
 ClimbingApp.views.EditAscent = (function(app, baseView) {
 
   var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'WallResource', 'gym', 'wall'];
-  var controllerFn = function($scope, $state, $mdDialog, GymResource, WallResource, gym, wall) {
-    baseView.call(this, controllerParams, arguments);
+  var controllerFn = function() {
   };
 
   controllerFn.prototype = Object.create(baseView);
@@ -27,7 +26,8 @@ ClimbingApp.views.EditAscent = (function(app, baseView) {
     return $scope.gyms;
   }
 
-  var controller = controllerParams.concat([controllerFn]);
+  controllerFn.$inject = controllerParams;
+  var controller = ClimbingApp.utils.extendCtrl(controllerFn, baseView);
   app.controller('ClimbingAppEditWall', controller);
   return controller;
 })(myApp, ClimbingApp.views.BaseModalView);

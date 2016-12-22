@@ -6,15 +6,14 @@ ClimbingApp.views = ClimbingApp.views || {};
 ClimbingApp.views.EditAscent = (function(app, baseView) {
 
   var controllerParams = ['$scope', '$state', '$mdDialog', 'GymResource', 'RouteResource', 'DifficultyResource', 'ColorResource', 'gym', 'wall', 'route'];
-  var controllerFn = function($scope, $state, $mdDialog, GymResource, RouteResource, DifficultyResource, ColorResource, gym, wall, route) {
-    baseView.call(this, controllerParams, arguments);
+  var controllerFn = function() {
 
-    if (route.difficulty) {
-      this.difficulties = [route.difficulty];
+    if (this.route.difficulty) {
+      this.difficulties = [this.route.difficulty];
     }
 
-    if (route.color) {
-      this.colors =       [route.color];
+    if (this.route.color) {
+      this.colors =       [this.route.color];
     }
   };
   controllerFn.prototype = Object.create(baseView.prototype);
@@ -56,7 +55,8 @@ ClimbingApp.views.EditAscent = (function(app, baseView) {
     return 'rgb(' + color.inner_r + ',' + color.inner_g + ',' + color.inner_b + ')';
   }
 
-  var controller = controllerParams.concat([controllerFn]);
+  controllerFn.$inject = controllerParams;
+  var controller = ClimbingApp.utils.extendCtrl(controllerFn, baseView);
   app.controller('ClimbingAppEditRoute', controller);
   return controller;
 

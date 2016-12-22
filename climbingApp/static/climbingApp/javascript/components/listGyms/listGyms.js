@@ -2,7 +2,6 @@
 (function(baseView) {
   var listGymsParams = ['$scope', 'GymResource', 'AuthService'];
   var listGymsCtrl = function ClimbingApp$ListGyms() {
-    baseView.call(this, listGymsParams, arguments);
 
     this.gymList = [];
     this.GymResource.$find().then(function(gyms) {
@@ -14,7 +13,7 @@
 
   listGymsCtrl.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
     return this.$mdDialog.show({
-      templateUrl: '/static/ClimbingApp/partials/editGym.html',
+      templateUrl: '/static/climbingApp/partials/editGym.html',
       controller: 'ClimbingAppEditGym',
       controllerAs: 'ctrl',
       locals: {
@@ -46,9 +45,10 @@
     }.bind(this));
   }
 
+  listGymsCtrl.$inject = listGymsParams;
   angular.module('ClimbingApp').component('listGyms', {
-    templateUrl: '/static/ClimbingApp/javascript/components/listGyms/listGyms.html',
-    controller:  listGymsParams.concat(listGymsCtrl),
+    templateUrl: '/static/climbingApp/javascript/components/listGyms/listGyms.html',
+    controller:  ClimbingApp.utils.extendCtrl(listGymsCtrl, baseView),
     bindings: {
 
     },

@@ -6,12 +6,11 @@ ClimbingApp.views = ClimbingApp.views || {};
 ClimbingApp.views.ListGym = (function(app, baseView) {
 
   var controllerParams = ['$scope', '$mdDialog', 'gym', 'user', 'AscentResource'];
-  var controllerFunc = function($scope, $mdDialog, gym, user, AscentResource) {
-    baseView.call(this, controllerParams, arguments);
+  var controllerFunc = function() {
 
     this.ascentList = [];
 
-    this.filters = { gym: gym.id }
+    this.filters = { gym: this.gym.id }
     this.loadAscents(this.filters);
   };
 
@@ -68,7 +67,9 @@ ClimbingApp.views.ListGym = (function(app, baseView) {
     });
   };
 
-  var controller = controllerParams.concat([controllerFunc]);
+  controllerFunc.$inject = controllerParams;
+
+  var controller = ClimbingApp.utils.extendCtrl(controllerFunc, baseView);
   app.controller('ClimbingAppClimbing', controller);
   return controller;
 })(myApp, ClimbingApp.views.BaseListView);

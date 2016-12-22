@@ -3,14 +3,13 @@
 
   var listAscentsParams = ['$scope', '$mdDialog', 'AscentResource'];
   var listAscentsCtrl = function() {
-    baseView.call(this, listAscentsParams, arguments);
   }
 
   listAscentsCtrl.prototype = Object.create(baseView.prototype);
 
   listAscentsCtrl.prototype.editAscentPriv = function ClimbingApp$EditAscent$editAscent($event, ascent) {
     return this.$mdDialog.show({
-      templateUrl: '/static/ClimbingApp/partials/editAscent.html',
+      templateUrl: '/static/climbingApp/partials/editAscent.html',
       locals: {
         ascent: ascent,
         route: this.route,
@@ -56,8 +55,8 @@
   }
 
   angular.module('ClimbingApp').component('listAscents', {
-    templateUrl: '/static/ClimbingApp/javascript/components/listAscents/listAscents.html',
-    controller: listAscentsParams.concat(listAscentsCtrl),
+    templateUrl: '/static/climbingApp/javascript/components/listAscents/listAscents.html',
+    controller: ClimbingApp.utils.extendCtrl(listAscentsCtrl, baseView),
     bindings: {
       gym:      '<',
       wall:     '<',

@@ -5,10 +5,9 @@ ClimbingApp.views = ClimbingApp.views || {};
 
 ClimbingApp.views.ListGym = (function(app, baseView) {
   var controllerParams = ['$scope', '$mdDialog', 'routes', 'wall', 'gym', 'RouteResource'];
-  var controllerFn = function($scope, $mdDialog, routes, wall, gym, RouteResource) {
-    baseView.call(this, controllerParams, arguments);
+  var controllerFn = function() {
 
-    RouteResource.$find({wall: wall.id, active: true}).then(function(routes) {
+    RouteResource.$find({wall: this.wall.id, active: true}).then(function(routes) {
       this.routeList = routes;
     }.bind(this));
   }
@@ -63,7 +62,8 @@ ClimbingApp.views.ListGym = (function(app, baseView) {
     });
   }
 
-  var controller = controllerParams.concat([controllerFn]);
+  controllerFn.$inject = controllerParams;
+  var controller = ClimbingApp.utils.extendCtrl(controllerFn, baseView);
   app.controller('ClimbingAppListRoutes', controller);
   return controller;
 })(myApp, ClimbingApp.views.BaseListView);

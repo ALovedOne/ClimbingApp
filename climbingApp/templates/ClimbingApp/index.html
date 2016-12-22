@@ -2,7 +2,7 @@
 <html ng-app="ClimbingApp">
 <head>
   {% load staticfiles %}
-  <title>ClimbingApp</title>
+  <title>climbingApp</title>
 
   <script src="{% static 'libs/angular/angular.min.js' %}"></script>
   <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
@@ -12,50 +12,51 @@
   <script src="{% static 'libs/ngstorage/ngStorage.min.js' %}"></script>
   <script src="{% static 'libs/angular-messages/angular-messages.min.js' %}"></script>
   <script src="{% static 'libs/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+  <script src="{% static 'libs/angular-ui-router/release/stateEvents.js' %}"></script>
 
-  <script src="{% static 'ClimbingApp/javascript/utils.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/main.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/utils.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/main.js' %}"></script>
 
-  <script src="{% static 'ClimbingApp/javascript/services/baseService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/baseService.js' %}"></script>
 
-  <script src="{% static 'ClimbingApp/javascript/services/authenticatedHttp.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/authService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/userService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/authenticatedHttp.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/authService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/userService.js' %}"></script>
 
-  <script src="{% static 'ClimbingApp/javascript/services/gymService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/wallService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/routeService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/ascentService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/difficultyService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/colorService.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/services/outcomeService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/gymService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/wallService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/routeService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/ascentService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/difficultyService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/colorService.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/services/outcomeService.js' %}"></script>
 
   <!-- Begin Views --> 
-  <script src="{% static 'ClimbingApp/javascript/views/baseView.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/views/baseListView.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/views/baseModalView.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/baseView.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/baseListView.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/baseModalView.js' %}"></script>
 
   <!-- Edit Controls -->
-  <script src="{% static 'ClimbingApp/javascript/views/editGym.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/views/editWall.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/views/editRoute.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/views/editAscent.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/editGym.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/editWall.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/editRoute.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/views/editAscent.js' %}"></script>
   
   <!-- Begin components -->
-  <script src="{% static 'ClimbingApp/javascript/components/login/login.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/components/mainApp/mainApp.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/components/header/header.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/components/listGyms/listGyms.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/components/fullGym/fullGym.js' %}"></script>
-  <script src="{% static 'ClimbingApp/javascript/components/listAscents/listAscents.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/login/login.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/mainApp/mainApp.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/header/header.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/listGyms/listGyms.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/fullGym/fullGym.js' %}"></script>
+  <script src="{% static 'climbingApp/javascript/components/listAscents/listAscents.js' %}"></script>
 
   <link rel="stylesheet" href="{% static 'libs/angular-material/angular-material.min.css' %}" />
   <link rel="stylesheet" href="{% static 'libs/nvd3/build/nv.d3.css' %}" />
-  <link rel="stylesheet" href="{% static 'ClimbingApp/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'climbingApp/main.css' %}" />
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-  <link rel="shortcut icon" href="{% static 'ClimbingApp/images/favicon.png' %}" />
+  <link rel="shortcut icon" href="{% static 'climbingApp/images/favicon.png' %}" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
   <meta name="mobile-web-app-capable" content="yes">

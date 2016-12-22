@@ -1,6 +1,39 @@
 'use strict';
 
-var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 'ngMessages', 'ui.router', ]);
+var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 'ngMessages', 
+'ui.router', 'ui.router.state.events', ]);
+
+var ClimbingApp = ClimbingApp || {};
+ClimbingApp.utils = ClimbingApp.utils || {};
+
+ClimbingApp.utils.extendCtrl = function(childCtrl, parentCtrl) {
+  var $inject = parentCtrl.$inject;
+  if (childCtrl.$inject) {
+    $inject = $inject.concat(childCtrl.$inject);
+  }
+
+  var fn = function() {
+    var idx;
+
+    console.log(childCtrl.name);
+
+    for (idx = 0; idx < $inject.length; idx++) {
+      var argName = $inject[idx];
+      this[argName] = arguments[idx];
+    }
+
+    parentCtrl.apply(this, arguments);
+    childCtrl.apply(this, arguments);
+  }
+  fn.$inject = $inject;
+  fn.prototype = Object.create(parentCtrl.prototype);
+
+  for (var idx in childCtrl.prototype) {
+    fn.prototype[idx] = childCtrl.prototype[idx];
+  }
+
+  return fn;
+}
 
 myApp.provider('stateResolver', [function() {
   this.resolve = function(name, url, resolves) {
@@ -10,7 +43,7 @@ myApp.provider('stateResolver', [function() {
       url:        url,
       resolve:    resolves,
       views: {
-        templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
+        templateUrl: 'static/climbingApp/partials/' + name + '.html',
         controller: 'ClimbingApp' + capitalName,
         controllerAs: 'ctrl'
       }
@@ -32,7 +65,7 @@ myApp.provider('stateResolver', [function() {
           }
 
           $mdDialog.show({
-            templateUrl: 'static/ClimbingApp/partials/' + name + '.html',
+            templateUrl: 'static/climbingApp/partials/' + name + '.html',
             controller:  'ClimbingApp' + capitalName,
             controllerAs: 'ctrl',
             locals: locals,
