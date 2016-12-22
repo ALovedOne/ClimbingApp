@@ -1,17 +1,17 @@
-<md-switch ng-model="showAllClimbers" ng-change="ctrl.changeFilter('mine', !showAllClimbers)">
+<md-switch ng-model="showAllClimbers" ng-change="$ctrl.changeFilter('mine', !showAllClimbers)">
   All climbers
 </md-switch>
-<md-switch ng-model="showOnlyToday" ng-change="ctrl.changeFilter('today', showOnlyToday)">
+<md-switch ng-model="showOnlyToday" ng-change="$ctrl.changeFilter('today', showOnlyToday)">
   Only today
 </md-switch>
 
 <md-list>
-  <md-list-item ng-repeat="ascent in ctrl.ascentList" class="md-3-line">
+  <md-list-item ng-repeat="ascent in $ctrl.ascentList" class="md-3-line">
     <img ng-src="{{ ascent.outcome.image }}" class="md-avatar" alt="{{ ascent.outcome.name }}"></img>
 
     <div class="md-list-item-text" layout="column">
       <h3>{{ ascent.user.username }}</h3>
-      <p>{{ ascent.date }}</p>
+      <p>{{ ascent.date | date: 'mediumDate'}}</p>
       <p>{{ ascent.comments }}</p>
     </div>
 
@@ -19,7 +19,7 @@
 </md-list>
 
 <div class="fixed-bottom-right">
-  <md-button class="md-fab md-mini" ng-click="ctrl.addAscent($event)">
+  <md-button class="md-fab md-mini" ng-click="$ctrl.addAscent($event)">
     <md-icon md-icon-set="material-icons">add</md-icon>
   </md-button>
 </div>

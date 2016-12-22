@@ -6,8 +6,6 @@ ClimbingApp.services = ClimbingApp.services || {};
 ClimbingApp.services.UserService = (function(baseService){
   var serviceParams = ['$http'];
   var serviceFn = function ClimbingApp$AuthenticatedHttp($http) {
-    console.log("AuthenticatedHttp initialize");
-  
     this.$http = $http;
     this.__apiKey = '';
     this.__username = '';

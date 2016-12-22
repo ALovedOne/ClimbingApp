@@ -1,7 +1,6 @@
 'use strict';
 
-var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 'ngMessages', 
-'ui.router', 'ui.router.state.events', ]);
+var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 'ngMessages', 'ui.router', 'ui.router.state.events', ]);
 
 var ClimbingApp = ClimbingApp || {};
 ClimbingApp.utils = ClimbingApp.utils || {};
@@ -56,12 +55,12 @@ myApp.provider('stateResolver', [function() {
     return {
       url:      url,
       resolve:  resolve,
-      onEnter: ['$stateParams', '$state', '$mdDialog'].concat(additional, [ 
-        function($stateParams, $state, $mdDialog) {
+      onEnter: ['$state', '$mdDialog'].concat(additional, [ 
+        function($state, $mdDialog) {
           var idx;
           var locals = {};
           for (idx = 0; idx < additional.length; idx++) {
-            locals[additional[idx]] = arguments[3 + idx]; 
+            locals[additional[idx]] = arguments[2 + idx]; 
           }
 
           $mdDialog.show({
@@ -162,8 +161,13 @@ myApp.config(['$stateProvider', '$urlRouterProvider', 'stateResolverProvider', f
   /*  */
   .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
 
-  .state('mainApp.gym.climbing', stateResolver.resolve('climbing', '/climbing', {}))
-
+  .state({name:       'mainApp.gym.climbing', 
+          url:        '/climbing',
+          component:  'climbing',
+          data: {
+            authRequired: true,
+          },
+  })
 
   /*  */
   .state('mainApp.gym.wall', stateResolver.resolveAbstract('wall', '/walls/:wallId', {
