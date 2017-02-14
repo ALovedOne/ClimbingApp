@@ -11,44 +11,34 @@
 
   listGymsCtrl.prototype = Object.create(baseView.prototype);
 
-  listGymsCtrl.prototype.editGymPriv = function ClimbingApp$listGyms$editGym($event, gym) {
-    return this.$mdDialog.show({
-      templateUrl: '/static/climbingApp/partials/editGym.html',
-      controller: 'ClimbingAppEditGym',
-      controllerAs: 'ctrl',
-      locals: {
-        gym: gym,
-      },
-      targetEvent: $event,
-    });
-  }
-
   listGymsCtrl.prototype.addGym = function ClimbingApp$listGyms$addGym($event) {
-    $event.originalEvent.cancelBubble = true;
-    this.editGymPriv($event, this.GymResource.$create()).then(function(newGym) {
-      this.gymList.push(newGym);
-    }.bind(this));
+    $event.cancelBubble = true;
+
+    var newGym = this.GymResource.$create();
+    this.gymList.unshift(newGym);
   }
 
-  listGymsCtrl.prototype.deleteGym = function ClimbingApp$listGyms$deleteGym($event, gym) {
-    $event.originalEvent.cancelBubble = true;
-    var confirm = this.$mdDialog.confirm()
-      .title("Delete this Gym?")
-      .targetEvent($event)
-      .ok("Delete it")
-      .cancel("Don't do it");
-
-    this.$mdDialog.show(confirm).then(function() {
-      this.GymResource.$delete(gym).then(function() {
-        this.gymList = _.without(this.gymList, gym);
-      }.bind(this));
+  listGymsCtrl.prototype.gymDeleted = function ClimbingApp$listGyms$gymDeleted(gym) {
+    this.GymResource.$delete(gym).then(function () {
+      this.gymList = this.gymList.filter(function(g) { return g.resource_uri != gym.resource_uri; });
     }.bind(this));
-  }
+  };
+
+  listGymsCtrl.prototype.gymUpdated = function (gym) {
+    this.GymResource.$save(gym).then(function (newGym) {
+      var idx = this.gymList.findIndex(function (g) { return g.resource_uri == newGym.resource_uri; });
+      if (idx >= 0) {
+        this.gymList[idx] = newGym;
+      } else {
+        this.gymList.push(newGym);
+      };
+    }.bind(this));
+  };
 
   listGymsCtrl.$inject = listGymsParams;
   angular.module('ClimbingApp').component('listGyms', {
     templateUrl: '/static/climbingApp/javascript/components/listGyms/listGyms.html',
-    controller:  ClimbingApp.utils.extendCtrl(listGymsCtrl, baseView),
+    controller:  ClimbingApp.utils.extendClass(listGymsCtrl, baseView),
     bindings: {
 
     },

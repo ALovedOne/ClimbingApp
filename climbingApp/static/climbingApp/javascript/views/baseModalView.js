@@ -16,5 +16,5 @@ ClimbingApp.views.BaseModalView = (function(baseView) {
  
   baseModalView.$inject = ['$rootScope'];
 
-  return ClimbingApp.utils.extendCtrl(baseModalView, baseView);
+  return ClimbingApp.utils.extendClass(baseModalView, baseView);
 })(ClimbingApp.views.BaseView);

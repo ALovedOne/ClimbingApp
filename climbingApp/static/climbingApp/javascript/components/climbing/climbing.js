@@ -64,7 +64,7 @@
   climbingCtrl.$inject = climbingParams;
   angular.module('ClimbingApp').component('climbing', {
     templateUrl: '/static/climbingApp/javascript/components/climbing/climbing.html',
-    controller:  ClimbingApp.utils.extendCtrl(climbingCtrl, baseView),
+    controller:  ClimbingApp.utils.extendClass(climbingCtrl, baseView),
     bindings: {
       gym: '<',
       user: '<',

@@ -5,49 +5,63 @@ var myApp = angular.module('ClimbingApp', ['ngAria', 'ngMaterial', 'ngStorage', 
 var ClimbingApp = ClimbingApp || {};
 ClimbingApp.utils = ClimbingApp.utils || {};
 
-ClimbingApp.utils.extendCtrl = function(childCtrl, parentCtrl) {
-  var $inject = parentCtrl.$inject;
-  if (childCtrl.$inject) {
-    $inject = $inject.concat(childCtrl.$inject);
+ClimbingApp.utils.snake_case = function snake_case(name, separator) {
+  var SNAKE_CASE_REGEXP = /[A-Z]/g;
+  separator = separator || '_';
+  return name.replace(SNAKE_CASE_REGEXP, function(letter, pos) {
+    return (pos ? separator : '') + letter.toLowerCase();
+  });
+}
+
+ClimbingApp.utils.extendClass = function(childObj, parentObj) {
+  var $inject = parentObj.$inject;
+  if (childObj.$inject) {
+    $inject = $inject.concat(childObj.$inject);
   }
 
   var fn = function() {
     var idx;
-
-    console.log(childCtrl.name);
 
     for (idx = 0; idx < $inject.length; idx++) {
       var argName = $inject[idx];
       this[argName] = arguments[idx];
     }
 
-    parentCtrl.apply(this, arguments);
-    childCtrl.apply(this, arguments);
+    parentObj.apply(this, arguments);
+    childObj.apply(this, arguments);
   }
-  fn.$inject = $inject;
-  fn.prototype = Object.create(parentCtrl.prototype);
 
-  for (var idx in childCtrl.prototype) {
-    fn.prototype[idx] = childCtrl.prototype[idx];
-  }
+  fn.$inject = $inject;
+  fn.prototype = Object.create(parentObj.prototype);
+
+  var props = Object.getOwnPropertyNames(childObj.prototype);
+  props.forEach(function (key) {
+    var desc = Object.getOwnPropertyDescriptor(childObj.prototype, key);
+    Object.defineProperty(fn.prototype, key, desc);
+  });
 
   return fn;
 }
 
 myApp.provider('stateResolver', [function() {
-  this.resolve = function(name, url, resolves) {
-    var capitalName = name.charAt(0).toUpperCase() + name.substr(1);
+  this.resolveModal2 = function(name, url, returnState) {
+    var name = ClimbingApp.utils.snake_case(name, '-');
+    var x = {
+      url: url,
+      onEnter: ['$state', '$mdDialog', function ($state, $mdDialog) {
+        console.log(name);
+        $mdDialog.show({
+          template: "<" + name + " gym=\"gym\"></" + name + ">",
+        }).then(function() {
+            $state.go(returnState);
+          }, function() {
+            $state.go(returnState);
+        });
+      }],
+    };
 
-    return {
-      url:        url,
-      resolve:    resolves,
-      views: {
-        templateUrl: 'static/climbingApp/partials/' + name + '.html',
-        controller: 'ClimbingApp' + capitalName,
-        controllerAs: 'ctrl'
-      }
-    }
-  }
+    return x;
+  };
 
   this.resolveModal = function(name, url, returnState, additional, resolve) {
     var capitalName = name.charAt(0).toUpperCase() + name.substr(1);
@@ -74,7 +88,7 @@ myApp.provider('stateResolver', [function() {
             $state.go(returnState);
           });
         }]),
-    }
+    };
   }
 
   this.resolveAbstract = function(name, url, resolve) {
@@ -158,9 +172,6 @@ myApp.config(['$stateProvider', '$urlRouterProvider', 'stateResolverProvider', f
           },
   })
   
-  /*  */
-  .state('mainApp.gym.editGym',   stateResolver.resolveModal('editGym', '/edit', '^.^.listGyms', ['gym']))
-
   .state({name:       'mainApp.gym.climbing', 
           url:        '/climbing',
           component:  'climbing',

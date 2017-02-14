@@ -14,7 +14,7 @@
 
   angular.module('ClimbingApp').component('header', {
     templateUrl: '/static/climbingApp/javascript/components/header/header.html',
-    controller:  ClimbingApp.utils.extendCtrl(headerCtrl, baseView),
+    controller:  ClimbingApp.utils.extendClass(headerCtrl, baseView),
     bindings: {
       user: '=',
     },

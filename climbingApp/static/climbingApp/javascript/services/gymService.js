@@ -4,16 +4,12 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.GymService = (function(baseService){
-  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$GymService($http, baseAddr) {
-    baseService.call(this, serviceParams, arguments);
-
-    this.$http = $http;
-    this.baseAddr = baseAddr;
-    this.resAddr  = baseAddr + '/api/v1/gyms/';
+  var serviceFn = function ClimbingApp$GymService() {
   }
 
   serviceFn.prototype = {
+    get ResourceAddress() { return '/api/v1/gyms/'; },
+    get BaseModel() { return null; },
 
     __makeObjFromJson(jsonObj) {
       return { 
@@ -44,7 +40,7 @@ ClimbingApp.services.GymService = (function(baseService){
     },
   };
 
-  angular.extend(serviceFn.prototype, baseService.prototype);
+  serviceFn.$inject = [];
 
-  myApp.service('GymResource', serviceParams.concat([serviceFn]));
+  myApp.service('GymResource', ClimbingApp.utils.extendClass(serviceFn, baseService));
 })(ClimbingApp.services.BaseService);

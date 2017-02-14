@@ -84,7 +84,7 @@
 
   angular.module('ClimbingApp').component('fullGym', {
     templateUrl: '/static/climbingApp/javascript/components/fullGym/fullGym.html',
-    controller: ClimbingApp.utils.extendCtrl(fullGymCtrl, baseView),
+    controller: ClimbingApp.utils.extendClass(fullGymCtrl, baseView),
     bindings: {
       gym: '<',
       user: '<',

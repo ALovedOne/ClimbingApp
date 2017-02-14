@@ -4,16 +4,12 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.UserService = (function(baseService){
-  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$OutcomeService($http, baseAddr) {
-    baseService.call(this, serviceParams, arguments);
-
-    this.$http = $http;
-    this.baseAddr = baseAddr;
-    this.resAddr  = baseAddr + '/api/v1/ascent_outcomes/';
+  var serviceFn = function ClimbingApp$OutcomeService() {
   }
 
   serviceFn.prototype = {
+    get ResourceAddress() { return '/api/v1/ascent_outcomes/'; },
+    get BaseModel() { return null; },
 
     __makeObjFromJson(jsonObj) {
       return { 
@@ -35,8 +31,8 @@ ClimbingApp.services.UserService = (function(baseService){
     },
   };
 
-  angular.extend(serviceFn.prototype, baseService.prototype);
+  serviceFn.$inject = [];
 
-  myApp.service('OutcomeResource', serviceParams.concat([serviceFn]));
+  myApp.service('OutcomeResource', ClimbingApp.utils.extendClass(serviceFn, baseService));
   return serviceFn;
 })(ClimbingApp.services.BaseService);

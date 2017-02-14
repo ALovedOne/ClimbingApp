@@ -10,5 +10,5 @@ ClimbingApp.views.BaseListView = (function(baseView) {
 
   baseListView.prototype = Object.create(baseView.prototype);
   
-  return ClimbingApp.utils.extendCtrl(baseListView, baseView);
+  return ClimbingApp.utils.extendClass(baseListView, baseView);
 })(ClimbingApp.views.BaseView);

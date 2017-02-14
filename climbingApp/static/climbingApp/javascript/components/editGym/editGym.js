@@ -1,27 +1,27 @@
 'use strict';
-
-var ClimbingApp = ClimbingApp || {};
-ClimbingApp.views = ClimbingApp.views || {};
-
-ClimbingApp.views.EditAscent = (function(app, baseView) {
-  var controllerParams = ['$scope', '$state', '$mdDialog', 'gym', 'GymResource'];
-  var controllerFn = function() {
-  };
-
-  controllerFn.prototype = Object.create(baseView.prototype);
-
-  controllerFn.prototype.acceptDialog = function($event) {
-    this.GymResource.$save(this.gym).then(function(newGym) {
-      this.$mdDialog.hide(newGym)
-    }.bind(this));
-  };
-
-  controllerFn.prototype.cancelDialog = function($event) {
-    this.$mdDialog.cancel(false);
+(function(baseView) {
+  var editGymParams = ['$scope', '$state', '$mdDialog', 'GymResource'];
+  var editGymCtrl = function ClimbingApp$EditGym() {
   }
 
-  controllerFn.$inject = controllerParams;
-  var controller = ClimbingApp.utils.extendCtrl(controllerFn, baseView);
-  app.controller('ClimbingAppEditGym', controller);
-  return controller;
-})(myApp, ClimbingApp.views.BaseModalView);
+  editGymCtrl.prototype = {
+    acceptDialog: function ClimbingApp$EditGym$acceptDialog($event) {
+      this.GymResource.$save(this.gym).then(function(newGym) {
+        this.$mdDialog.hide(newGym)
+      }.bind(this));
+    },
+
+    cancelDialog: function ClimbingApp$EditGym$cancelDialog($event) {
+      this.$mdDialog.cancel(false);
+    },
+  }
+
+  editGymCtrl.$inject = editGymParams;
+  angular.module('ClimbingApp').component('editGym', {
+    templateUrl:  '/static/climbingApp/javascript/components/editGym/editGym.html',
+    controller:   ClimbingApp.utils.extendClass(editGymCtrl, baseView),
+    bindings: {
+      gym: '<',
+    },
+  });
+})(ClimbingApp.views.BaseModalView);

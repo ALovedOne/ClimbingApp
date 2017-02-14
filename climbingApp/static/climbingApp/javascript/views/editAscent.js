@@ -65,7 +65,7 @@ ClimbingApp.views.EditAscent = (function(baseView) {
   };
 
   controllerFn.$inject = controllerParams;
-  var controller = ClimbingApp.utils.extendCtrl(controllerFn, baseView);
+  var controller = ClimbingApp.utils.extendClass(controllerFn, baseView);
   myApp.controller('ClimbingAppEditAscent', controller);
   return controller;
 })(ClimbingApp.views.BaseModalView);

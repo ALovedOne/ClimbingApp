@@ -6,7 +6,7 @@
 
   angular.module('ClimbingApp').component('mainApp', {
     templateUrl: '/static/climbingApp/javascript/components/mainApp/mainApp.html',
-    controller: ClimbingApp.utils.extendCtrl(mainAppCtrl, baseView),
+    controller: ClimbingApp.utils.extendClass(mainAppCtrl, baseView),
     bindings: {
       user: '<',
     },

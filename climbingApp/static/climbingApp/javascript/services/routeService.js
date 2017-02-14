@@ -4,17 +4,12 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.RouteService = (function(baseService){
-  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr', 'DifficultyResource', 'ColorResource'];
-  var serviceFn = function ClimbingApp$RouteResource($http, baseAddr, DifficultyResource, ColorResource) {
-    baseService.call(this, serviceParams, arguments);
-
-    this.$http = $http;
-    this.baseAddr = baseAddr;
-    this.resAddr = baseAddr + '/api/v1/routes/';
+  var serviceFn = function ClimbingApp$RouteResource() {
   };
 
   serviceFn.prototype = { 
-    
+    get ResourceAddress() { return '/api/v1/routes/'; },    
+    get BaseModel() { return null; },
 
     __makeJsonFromObj: function ClimbingApp$RouteService$__makeJsonFromObj(obj) {
       return {
@@ -57,7 +52,7 @@ ClimbingApp.services.RouteService = (function(baseService){
     },
   };
 
-  angular.extend(serviceFn.prototype, baseService.prototype);
+  serviceFn.$inject = ['ColorResource', 'DifficultyResource'];
 
-  myApp.service('RouteResource', serviceParams.concat([serviceFn]));
+  myApp.service('RouteResource', ClimbingApp.utils.extendClass(serviceFn, baseService));
 })(ClimbingApp.services.BaseService);

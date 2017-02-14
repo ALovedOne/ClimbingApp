@@ -4,16 +4,12 @@ var ClimbingApp = ClimbingApp || {};
 ClimbingApp.services = ClimbingApp.services || {};
 
 ClimbingApp.services.UserService = (function(baseService){
-  var serviceParams = ['AuthenticatedHttp', 'ClimbingApp$BaseAddr'];
-  var serviceFn = function ClimbingApp$ColorService($http, baseAddr) {
-    baseService.call(this, serviceParams, arguments);
-
-    this.$http = $http;
-    this.baseAddr = baseAddr;
-    this.resAddr  = baseAddr + '/api/v1/colors/';
+  var serviceFn = function ClimbingApp$ColorService() {
   }
 
   serviceFn.prototype = {
+    get ResourceAddress() { return '/api/v1/colors/'; },
+    get BaseModel() { return null; },
 
     __makeObjFromJson(jsonObj) {
       return { 
@@ -40,7 +36,7 @@ ClimbingApp.services.UserService = (function(baseService){
     },
   };
 
-  angular.extend(serviceFn.prototype, baseService.prototype);
+  serviceFn.$inject = [];
 
-  myApp.service('ColorResource', serviceParams.concat([serviceFn]));
+  myApp.service('ColorResource', ClimbingApp.utils.extendClass(serviceFn, baseService));
 })(ClimbingApp.services.BaseService);

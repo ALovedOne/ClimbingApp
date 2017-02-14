@@ -1,0 +1,48 @@
+<md-card ui-sref="^.gym.fullGym({ gymId: $ctrl.gym.id })">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">
+        {{ $ctrl.gym.name }}
+      </span>
+    </md-card-title-text>
+  </md-card-title>
+  
+  <md-card-content ng-if="$ctrl.editMode">
+    <form layout="column" class="dialog-form">
+      <md-input-container>
+        <input  type="text"
+                class="form-control" 
+                placeholder="Name"
+                ng-maxlength=24
+                ng-model="$ctrl.editGymObj.name"/>
+      </md-input-container>
+    </form>
+  </md-card-content>
+  <md-card-content ng-if="!$ctrl.editMode">
+    Closed content
+  </md-card-content>
+  <md-card-action layout="row" layout-align="end center">
+    <md-button class="md-icon-button" 
+      ng-if="$ctrl.AuthService.hasPermission('ClimbingApp.change_gym') && !$ctrl.editMode" 
+      ng-click="$ctrl.editGym($event)">
+      <span class="material-icons right">mode_edit</span>
+    </md-button>
+    <md-button class="md-icon-button"
+      ng-if="$ctrl.editMode"
+      ng-click="$ctrl.saveGym($event)">
+      <span class="material-icons right">done</span>
+    </md-button>
+    <md-button class="md-icon-button"
+      ng-if="$ctrl.editMode"
+      ng-click="$ctrl.closeGym($event)">
+      <span class="material-icons right">close</span>
+    </md-button>
+    <md-button class="md-icon-button" 
+      ng-if="$ctrl.AuthService.hasPermission('ClimbingApp.delete_gym')"
+      ng-click="$ctrl.onDelete({ '$event': $event, 'obj': $ctrl.gym})">
+      <span class="material-icons right">delete</span>
+    </md-button>
+  </md-card-action>
+</md-card>
+
+

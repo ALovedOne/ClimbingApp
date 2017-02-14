@@ -18,7 +18,7 @@
   
   angular.module('ClimbingApp').component('login', {
     templateUrl: '/static/climbingApp/javascript/components/login/login.html',
-    controller: ClimbingApp.utils.extendCtrl(loginCtrl, baseView),
+    controller: ClimbingApp.utils.extendClass(loginCtrl, baseView),
     bindings: {
       nextState: '<',
       nextStateParams: '<',

@@ -54,9 +54,10 @@
     });
   }
 
+  listAscentsCtrl.$inject = listAscentsParams;
   angular.module('ClimbingApp').component('listAscents', {
     templateUrl: '/static/climbingApp/javascript/components/listAscents/listAscents.html',
-    controller: ClimbingApp.utils.extendCtrl(listAscentsCtrl, baseView),
+    controller: ClimbingApp.utils.extendClass(listAscentsCtrl, baseView),
     bindings: {
       gym:      '<',
       wall:     '<',

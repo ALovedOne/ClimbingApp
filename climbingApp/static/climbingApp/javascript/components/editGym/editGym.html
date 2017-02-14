@@ -1,28 +1,26 @@
-<md-dialog aria-label="Gym Form" ng-cloak>
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2>Edit Gym</h2>
-    </div>
-  </md-toolbar>
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <h2>Edit Gym</h2>
+  </div>
+</md-toolbar>
 
-  <md-dialog-content>
-    <form layout="column" class="dialog-form">
-      <md-input-container>
-        <input  type="text"
-                class="form-control" 
-                placeholder="Name"
-                ng-maxlength=24
-                ng-model="ctrl.gym.name"/>
-      </md-input-container>
-    </form>
-  </md-dialog-content>
+<md-dialog-content>
+  <form layout="column" class="dialog-form">
+    <md-input-container>
+      <input  type="text"
+              class="form-control" 
+              placeholder="Name"
+              ng-maxlength=24
+              ng-model="ctrl.gym.name"/>
+    </md-input-container>
+  </form>
+</md-dialog-content>
 
-  <md-dialog-actions layout="row">
-    <md-button ng-click="ctrl.acceptDialog($event)" class="md-button">
-      Accept
-    </md-button>
-    <md-button ng-click="ctrl.cancelDialog($event)" class="md-button">
-      Cancel
-    </md-button>
-  </md-dialog-actions>
-</md-dialog>
+<md-dialog-actions layout="row">
+  <md-button ng-click="ctrl.acceptDialog($event)" class="md-button">
+    Accept
+  </md-button>
+  <md-button ng-click="ctrl.cancelDialog($event)" class="md-button">
+    Cancel
+  </md-button>
+</md-dialog-actions>
